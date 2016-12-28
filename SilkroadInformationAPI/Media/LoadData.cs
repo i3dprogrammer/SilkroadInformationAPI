@@ -392,5 +392,249 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading translation files." + ex.Message);
             }
         }
+        public static void LoadShops(Reader reader)
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refshop.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+                        if (vars.Length >= 5)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    int ID = Int32.Parse(vars[2]);
+                                    string StoreName = vars[3];
+                                    var shop = new DataInfo.Shops.Shop(StoreName);
+                                    shop.ShopGroups.AddRange(Data.refmappingshopwithtab[StoreName]);
+                                    Data.MediaShops.Add(shop);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading NPC Shops." + ex.Message);
+            }
+        }
+        public static void LoadRefMappingShopWithTab(Reader reader)
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refmappingshopwithtab.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 3)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    string StoreName = vars[2];
+                                    string GroupName = vars[3];
+                                    var shopgroup = new DataInfo.Shops.ShopGroup(GroupName);
+                                    shopgroup.GroupTabs.AddRange(Data.refshoptab[GroupName]);
+                                    if (!Data.refmappingshopwithtab.ContainsKey(StoreName))
+                                        Data.refmappingshopwithtab.Add(StoreName, new List<DataInfo.Shops.ShopGroup> { shopgroup });
+                                    else
+                                        Data.refmappingshopwithtab[StoreName].Add(shopgroup);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error mapping shops groups to stores." + ex.Message);
+            }
+        }
+        public static void LoadRefShopTabs(Reader reader)
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refshoptab.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 5)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    int ID = Int32.Parse(vars[2]);
+                                    string TabName = vars[3];
+                                    string GroupName = vars[4];
+                                    var shoptab = new DataInfo.Shops.ShopTab(TabName);
+                                    shoptab.TabItems.AddRange(Data.refshopgoods[TabName]);
+                                    if (!Data.refshoptab.ContainsKey(GroupName))
+                                        Data.refshoptab.Add(GroupName, new List<DataInfo.Shops.ShopTab> { shoptab });
+                                    else
+                                        Data.refshoptab[GroupName].Add(shoptab);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error mapping shop tabs to groups." + ex.Message);
+            }
+        }
+        public static void LoadRefShopGoods(Reader reader)
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refshopgoods.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 5)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    string TabName = vars[2];
+                                    string PackageName = vars[3];
+                                    int PackagePosition = Int32.Parse(vars[4]);
+                                    var item = new DataInfo.Shops.ShopItemPackage(PackageName, PackagePosition);
+                                    item.ItemMediaName = Data.refscrapofpackageitem[PackageName];
+                                    if (!Data.refshopgoods.ContainsKey(TabName))
+                                        Data.refshopgoods.Add(TabName, new List<DataInfo.Shops.ShopItemPackage> { item });
+                                    else
+                                        Data.refshopgoods[TabName].Add(item);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading shop tabs goods." + ex.Message);
+            }
+        }
+        public static void LoadRefScrapOfPackageItem(Reader reader)
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refscrapofpackageitem.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 5)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    string PackageName = vars[2];
+                                    string ItemName = vars[3];
+                                    Data.refscrapofpackageitem.Add(PackageName, ItemName);
+                                    //Console.WriteLine(PackageName + " : " + ItemName + " : " + Data.refscrapofpackageitem.Count);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error mapping package items to items." + ex.Message);
+            }
+        }
     }
 }

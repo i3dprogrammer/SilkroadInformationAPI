@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
             Client.BasicInfo.MaxGameLevel = p.ReadInt8(); //Max level
             Client.BasicInfo.CurrentExp = p.ReadInt64(); //Current exp
             p.ReadInt32(); //SP bar
-            Client.BasicInfo.Gold = p.ReadInt64(); //Gold
+            Client.BasicInfo.Gold = p.ReadUInt64(); //Gold
             Client.BasicInfo.SP = p.ReadInt32(); //Skill points
             Client.BasicInfo.StatPoints = p.ReadInt16(); //Stat points
             Client.BasicInfo.Zerk = (p.ReadInt8() == 5)?true:false; //Berserk gauge

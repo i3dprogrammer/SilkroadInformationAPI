@@ -20,6 +20,10 @@ namespace SilkroadInformationAPI
 
         }
 
+        public SroClient(string MediaPath, string blowfish = "169841")
+        {
+            Initialize(MediaPath, blowfish);
+        }
 
         /// <summary>
         /// Opens and reads Silkroad Media.pk2 to load Objects, Skills, Items, etc...
@@ -62,8 +66,18 @@ namespace SilkroadInformationAPI
                 Media.LoadData.LoadItems(reader);
                 Console.WriteLine("Loading skills!");
                 Media.LoadData.LoadSkills(reader);
-                Console.WriteLine("Loading blue options");
+                Console.WriteLine("Loading blue options.");
                 Media.LoadData.LoadMagicOptions(reader);
+                Console.WriteLine("Mapping package items to item data.");
+                Media.LoadData.LoadRefScrapOfPackageItem(reader);
+                Console.WriteLine("Loading shop package items.");
+                Media.LoadData.LoadRefShopGoods(reader);
+                Console.WriteLine("Mapping shop tabs to groups.");
+                Media.LoadData.LoadRefShopTabs(reader);
+                Console.WriteLine("Mapping shop groups to stores.");
+                Media.LoadData.LoadRefMappingShopWithTab(reader);
+                Console.WriteLine("Loading shops.");
+                Media.LoadData.LoadShops(reader);
 
             }
 
@@ -90,7 +104,7 @@ namespace SilkroadInformationAPI
         }
 
         /// <summary>
-        /// Prints out the current inventory items in a nice way, note that it prints the count of the item only.
+        /// #DEBUG# Prints out the current inventory items in a nice way, note that it prints the count of the item only.
         /// </summary>
         public void PrintInventory()
         {
@@ -112,6 +126,29 @@ namespace SilkroadInformationAPI
                     Console.Write("-1, ");
             }
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// #DEBUG# Print all the shops data.
+        /// </summary>
+        public void PrintShops()
+        {
+            foreach(var store in Media.Data.MediaShops)
+            {
+                Console.WriteLine(store.MediaName);
+                foreach(var group in store.ShopGroups)
+                {
+                    Console.WriteLine("\t" + group.GroupName);
+                    foreach (var tab in group.GroupTabs)
+                    {
+                        Console.WriteLine("\t\t" + tab.TabName);
+                        foreach(var item in tab.TabItems)
+                        {
+                            Console.WriteLine("\t\t\t" + item.ItemMediaName);
+                        }
+                    }
+                }
+            }
         }
     }
 }

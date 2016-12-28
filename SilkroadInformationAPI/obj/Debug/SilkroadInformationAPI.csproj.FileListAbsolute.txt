@@ -5,3 +5,9 @@ C:\Users\3DProgrammer\Documents\College\Algorithms\SilkroadInformationAPI\Silkro
 C:\Users\3DProgrammer\Documents\College\Algorithms\SilkroadInformationAPI\SilkroadInformationAPI\obj\Debug\SilkroadInformationAPI.dll
 C:\Users\3DProgrammer\Documents\College\Algorithms\SilkroadInformationAPI\SilkroadInformationAPI\obj\Debug\SilkroadInformationAPI.pdb
 C:\Users\3DProgrammer\Documents\College\Algorithms\SilkroadInformationAPI\SilkroadInformationAPI\bin\Debug\SilkroadSecurityApi.dll
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\obj\Debug\SilkroadInformationAPI.csprojResolveAssemblyReference.cache
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\obj\Debug\SilkroadInformationAPI.dll
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\obj\Debug\SilkroadInformationAPI.pdb
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\bin\Debug\SilkroadInformationAPI.dll
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\bin\Debug\SilkroadInformationAPI.pdb
+C:\Users\3DProgrammer\Source\Repos\SilkroadInformationAPI\SilkroadInformationAPI\bin\Debug\PK2Reader.dll
