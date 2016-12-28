@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B70A0FAF-D077-493E-907A-592B44A040C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SilkroadInformationAPI</RootNamespace>
+    <AssemblyName>SilkroadInformationAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PK2Reader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Programming\Character\Parse items\AutoBot\UPTODATE AutoBot\AutoBot\AutoBot\bin\Debug\PK2Reader.dll</HintPath>
+    </Reference>
+    <Reference Include="SilkroadSecurityApi">
+      <HintPath>..\..\..\..\Visual Studio 2015\Projects\MultipleClients\MultipleClients\bin\Debug\SilkroadSecurityApi.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\Dispatcher.cs" />
+    <Compile Include="Client\Information\BasicInfo.cs" />
+    <Compile Include="Client\Information\Item.cs" />
+    <Compile Include="Client\Packets\Alchemy\ParseInfo.cs" />
+    <Compile Include="Client\Packets\Inventory\GoldUpdated.cs" />
+    <Compile Include="Client\Packets\Inventory\InventoryItemsUpdated.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdated.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemy.cs" />
+    <Compile Include="Client\Packets\Inventory\ParseItem.cs" />
+    <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
+    <Compile Include="Client\Packets\Spawn\Solo.cs" />
+    <Compile Include="Client\Utility.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Media\Data.cs" />
+    <Compile Include="Media\DataInfo\Skill.cs" />
+    <Compile Include="Media\LoadData.cs" />
+    <Compile Include="Media\DataInfo\Base.cs" />
+    <Compile Include="Media\DataInfo\Item.cs" />
+    <Compile Include="Media\DataInfo\Object.cs" />
+    <Compile Include="Media\Utility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

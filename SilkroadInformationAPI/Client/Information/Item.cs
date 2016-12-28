@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace SilkroadInformationAPI.Client.Information
+{
+    [Serializable]
+    public class Item : Media.DataInfo.Item
+    {
+        public int Count;
+        public int PlusValue;
+        public int Slot;
+        public bool HasAdvance;
+        public Dictionary<string, int> Blues;
+        public Dictionary<string, int> Stats;
+
+        public Item(int ID)
+        {
+            var mediaItem = Media.Data.MediaItems[ID];
+
+            MediaName = mediaItem.MediaName;
+            TranslationName = mediaItem.TranslationName;
+            ModelID = ID;
+            Type = mediaItem.Type;
+            Classes = mediaItem.Classes;
+            Degree = mediaItem.Degree;
+            Cooldown = mediaItem.Cooldown;
+            Duration = mediaItem.Duration;
+            MaxStack = mediaItem.MaxStack;
+
+            Count = 1;
+            PlusValue = 0;
+            Slot = 0;
+            HasAdvance = false;
+            Blues = new Dictionary<string, int>();
+            Stats = new Dictionary<string, int>();
+        }
+
+        public Item Clone()
+        {
+            return (Item)this.MemberwiseClone();
+        }
+    }
+}
