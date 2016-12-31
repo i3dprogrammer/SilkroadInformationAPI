@@ -12,5 +12,6 @@ namespace SilkroadInformationAPI.Media.DataInfo
         public long Cooldown;
         public bool Buff;
         public string Description;
+        public string Params;
     }
 }

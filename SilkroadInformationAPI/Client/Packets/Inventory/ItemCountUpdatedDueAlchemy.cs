@@ -30,8 +30,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
         public class ItemCountUpdatedDueAlchemyEventArgs : EventArgs
         {
-            public Information.Item item;
-            public ItemCountUpdatedDueAlchemyEventArgs(Information.Item _Item)
+            public Information.InventoryItem item;
+            public ItemCountUpdatedDueAlchemyEventArgs(Information.InventoryItem _Item)
             {
                 item = _Item;
             }

@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
         {
             int flag = p.ReadInt8();
             if (flag == 0x01)
-                Client.BasicInfo.Gold = p.ReadUInt64();
+                Client.Info.Gold = p.ReadUInt64();
         }
     }
 }

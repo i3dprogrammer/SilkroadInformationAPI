@@ -11,7 +11,31 @@ namespace SilkroadInformationAPI.Media
 {
     class LoadData
     {
-        public static void LoadCharacterData(Reader reader)
+        private static Reader reader;
+
+        public static void InitializeReader(string MediaPath, string blowfish = "169841")
+        {
+            if (!System.IO.File.Exists(MediaPath))
+            {
+                throw new System.IO.FileNotFoundException("Couldn't find the media path, please check it.");
+            }
+
+            try
+            {
+                reader = new Reader(MediaPath, blowfish);
+            }
+            catch
+            {
+                throw new Exception("Error during loading the media, please check the pk2 blowfish.");
+            }
+        }
+
+        public static bool IsInitialized()
+        {
+            return reader is object;
+        }
+
+        public static void LoadCharacterData()
         {
             try
             {
@@ -24,7 +48,7 @@ namespace SilkroadInformationAPI.Media
                         if (dataFile == "")
                             continue;
 
-                        Console.WriteLine(dataFile);
+                        //Console.WriteLine(dataFile);
 
                         using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText(dataFile.ToLower())))
                         {
@@ -80,7 +104,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading models. " + ex.Message);
             } 
         }
-        public static void LoadItems(Reader reader) //TODO: Add extra stats
+        public static void LoadItems() //TODO: Add extra stats
         {
             try
             {
@@ -93,7 +117,7 @@ namespace SilkroadInformationAPI.Media
                         if (dataFile == "")
                             continue;
 
-                        Console.WriteLine(dataFile);
+                        //Console.WriteLine(dataFile);
 
                         using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText(dataFile.ToLower())))
                         {
@@ -158,7 +182,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading Items." + ex.Message);
             }
         }
-        public static void LoadSkills(Reader reader) //TODO: Add extra stats
+        public static void LoadSkills() //TODO: Add extra stats
         {
             try
             {
@@ -171,7 +195,7 @@ namespace SilkroadInformationAPI.Media
                         if (dataFile == "")
                             continue;
 
-                        Console.WriteLine(dataFile);
+                        //Console.WriteLine(dataFile);
 
                         using (System.IO.TextReader streamReader = new System.IO.StringReader(Utility.DecryptSkills(reader.GetFileBytes(dataFile.ToLower()))))
                         {
@@ -186,7 +210,7 @@ namespace SilkroadInformationAPI.Media
 
                                 string[] vars = line.Split('\t');
 
-                                if (vars.Length >= 65)
+                                if (vars.Length >= 70)
                                 {
                                     try
                                     {
@@ -202,12 +226,7 @@ namespace SilkroadInformationAPI.Media
                                             SN = vars[64];
                                             if (Data.Translation.ContainsKey(SN))
                                                 newModel.Description = Data.Translation[SN];
-                                            /*newModel.Classes.A = Int32.Parse(vars[7]);
-                                            newModel.Classes.B = Int32.Parse(vars[8]);
-                                            newModel.Classes.C = Int32.Parse(vars[9]);
-                                            newModel.Classes.D = Int32.Parse(vars[10]);
-                                            newModel.Classes.E = Int32.Parse(vars[11]);
-                                            newModel.Classes.F = Int32.Parse(vars[12]);*/
+                                            newModel.Params = vars[69];
                                             Data.MediaSkills.Add(newModel.ModelID, newModel);
                                         }
                                     }
@@ -230,7 +249,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading skills." + ex.Message);
             }
         }
-        public static void LoadTeleportBuildings(Reader reader)
+        public static void LoadTeleportBuildings()
         {
             try
             {
@@ -286,7 +305,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading teleport buildings." + ex.Message);
             }
         }
-        public static void LoadMagicOptions(Reader reader)
+        public static void LoadMagicOptions()
         {
             try
             {
@@ -331,7 +350,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading magic options." + ex.Message);
             }
         }
-        public static void LoadTranslation(Reader reader)
+        public static void LoadTranslation()
         {
             try
             {
@@ -392,7 +411,8 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading translation files." + ex.Message);
             }
         }
-        public static void LoadShops(Reader reader)
+
+        public static void LoadShops()
         {
             try
             {
@@ -420,12 +440,14 @@ namespace SilkroadInformationAPI.Media
                                     string StoreName = vars[3];
                                     var shop = new DataInfo.Shops.Shop(StoreName);
                                     shop.ShopGroups.AddRange(Data.refmappingshopwithtab[StoreName]);
+                                    shop.StoreGroupName = Data.refmappingshopgroup[StoreName];
+                                    shop.NPCName = Data.refshopgroup[shop.StoreGroupName];
                                     Data.MediaShops.Add(shop);
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
                             }
                         }
 
@@ -438,7 +460,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading NPC Shops." + ex.Message);
             }
         }
-        public static void LoadRefMappingShopWithTab(Reader reader)
+        public static void LoadRefMappingShopWithTab()
         {
             try
             {
@@ -475,7 +497,7 @@ namespace SilkroadInformationAPI.Media
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
                             }
                         }
 
@@ -488,7 +510,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error mapping shops groups to stores." + ex.Message);
             }
         }
-        public static void LoadRefShopTabs(Reader reader)
+        public static void LoadRefShopTabs()
         {
             try
             {
@@ -526,7 +548,7 @@ namespace SilkroadInformationAPI.Media
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
                             }
                         }
 
@@ -539,7 +561,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error mapping shop tabs to groups." + ex.Message);
             }
         }
-        public static void LoadRefShopGoods(Reader reader)
+        public static void LoadRefShopGoods()
         {
             try
             {
@@ -577,7 +599,7 @@ namespace SilkroadInformationAPI.Media
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
                             }
                         }
 
@@ -590,7 +612,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading shop tabs goods." + ex.Message);
             }
         }
-        public static void LoadRefScrapOfPackageItem(Reader reader)
+        public static void LoadRefScrapOfPackageItem()
         {
             try
             {
@@ -623,7 +645,97 @@ namespace SilkroadInformationAPI.Media
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error mapping package items to items." + ex.Message);
+            }
+        }
+        public static void LoadRefShopGroup()
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refshopgroup.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 5)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    string GroupName = vars[3];
+                                    string NPCName = vars[4];
+                                    Data.refshopgroup.Add(GroupName, NPCName);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                //Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error mapping package items to items." + ex.Message);
+            }
+        }
+        public static void LoadRefMappingShopGroup()
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refmappingshopgroup.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 4)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    string GroupName = vars[2];
+                                    string StoreName = vars[3];
+                                    Data.refmappingshopgroup.Add(StoreName, GroupName);
+                                    //Console.WriteLine(PackageName + " : " + ItemName + " : " + Data.refscrapofpackageitem.Count);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                //Console.WriteLine(ex.Message);
                             }
                         }
 

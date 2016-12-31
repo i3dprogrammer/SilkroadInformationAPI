@@ -15,7 +15,10 @@ namespace SilkroadInformationAPI.Client
             {
                 if (p.Opcode == 0x3013)
                 {
-                    Packets.Spawn.Solo.Parse(p);
+                    Packets.CharacterData.Parse(p);
+                } else if(p.Opcode == 0x3015)
+                {
+                    Packets.Spawn.SingleSpawn.Parse(p);
                 }
                 else if (p.Opcode == 0x3040)
                 {

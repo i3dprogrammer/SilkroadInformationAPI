@@ -8,17 +8,38 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
     class ParseItem
     {
-        public static Information.Item Parse(Packet p)
+        public static Information.InventoryItem Parse(Packet p)
         {
             int slot = p.ReadInt8();
-            p.ReadInt32(); //Empty DWORD
+            int rent = p.ReadInt32(); // Rent Type
+
+            if (rent == 1)
+            {
+                p.ReadUInt16(); //  item.RentInfo.CanDelete
+                p.ReadUInt32(); //    item.RentInfo.PeriodBeginTime
+                p.ReadUInt32(); //    item.RentInfo.PeriodEndTime        
+            }
+            else if (rent == 2)
+            {
+                p.ReadUInt16(); //  item.RentInfo.CanDelete
+                p.ReadUInt16(); //  item.RentInfo.CanRecharge
+                p.ReadUInt32(); //    item.RentInfo.MeterRateTime        
+            }
+            else if (rent == 3)
+            {
+                p.ReadUInt16(); //  item.RentInfo.CanDelete
+                p.ReadUInt16(); //  item.RentInfo.CanRecharge
+                p.ReadUInt32(); //    item.RentInfo.PeriodBeginTime
+                p.ReadUInt32(); //    item.RentInfo.PeriodEndTime   
+                p.ReadUInt32(); //    item.RentInfo.PackingTime        
+            }
 
             int itemID = p.ReadInt32();
-            Information.Item item = new Information.Item(itemID);
+            Information.InventoryItem item = new Information.InventoryItem(itemID);
             item.Slot = slot;
 
-            Console.WriteLine(item.MediaName);
-            Console.WriteLine(item.Type);
+            /*Console.WriteLine(item.MediaName);
+            Console.WriteLine(item.Type);*/
 
             if (item.Classes.C == 3 && item.Classes.D == 1)
             { //Armor || Jewlery || Weapon || Shield || Job suites || Devils || Flags
@@ -44,16 +65,16 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int socks = p.ReadInt8(); // Sockets
                 for (int j = 0; j < socks; j++)
                 {
-                    p.ReadInt8(); //Sock number
+                    p.ReadInt8(); //Sock Slot
                     p.ReadInt32(); //Sock ID
                     p.ReadInt32(); //Sock value
                 }
                 p.ReadInt8(); // Can add adv
-                int advCheck = p.ReadInt8(); // Adv count only 1 though, can add more through db only
-                if (advCheck == 0x01)
+                int advCount = p.ReadInt8(); // Adv count only 1 though, can add more through db only
+                for(int i=0;i<advCount;i++)
                 {
                     item.HasAdvance = true;
-                    p.ReadInt8(); //00
+                    p.ReadInt8(); //Slot
                     p.ReadInt32(); //ADV ID
                     p.ReadInt32(); //ADV plus value
                 }
@@ -63,7 +84,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int flagCheck = p.ReadInt8(); //State 1=Not opened yet, 2=Summoned, 3=Not summoned, 04=Expired/Dead
                 if (flagCheck != 1)
                 {
-                    p.ReadInt32(); //UNK
+                    p.ReadInt32(); //Model ID
                     p.ReadAscii(); //PET Name
                     if (item.Type == ItemType.PickupPet)
                     {
@@ -85,10 +106,14 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             else if (item.Type == ItemType.Stones)
             {
                 item.Count = p.ReadInt16(); //count
-                p.ReadInt8(); //AttributeAssimilationProbability
+                if(item.Classes.F == 1 || item.Classes.F == 2)
+                    p.ReadInt8(); //AttributeAssimilationProbability
             }
-            else if (item.Type == ItemType.MagicCube || item.Type == ItemType.MonsterMask)
-            { //Item exchange coupon, Elixirs cube
+            else if (item.Type == ItemType.MagicCube)
+            { 
+                p.ReadInt32(); //Elixirs count
+            } else if(item.Type == ItemType.MonsterMask)
+            {
                 p.ReadInt32(); //Model ID
             }
             else

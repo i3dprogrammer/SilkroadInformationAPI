@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace SilkroadInformationAPI.Client.Information
 {
     [Serializable]
-    public class Item : Media.DataInfo.Item
+    public class InventoryItem : Media.DataInfo.Item
     {
         public int Count;
         public int PlusValue;
@@ -18,7 +18,7 @@ namespace SilkroadInformationAPI.Client.Information
         public Dictionary<string, int> Blues;
         public Dictionary<string, int> Stats;
 
-        public Item(int ID)
+        public InventoryItem(int ID)
         {
             var mediaItem = Media.Data.MediaItems[ID];
 
@@ -40,9 +40,9 @@ namespace SilkroadInformationAPI.Client.Information
             Stats = new Dictionary<string, int>();
         }
 
-        public Item Clone()
+        public InventoryItem Clone()
         {
-            return (Item)this.MemberwiseClone();
+            return (InventoryItem)this.MemberwiseClone();
         }
     }
 }

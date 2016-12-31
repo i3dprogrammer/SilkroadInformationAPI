@@ -45,7 +45,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     if (Client.InventoryItems[newSlot].Count == Client.InventoryItems[newSlot].MaxStack)
                     {
 
-                        Information.Item temp = Client.InventoryItems[newSlot];
+                        Information.InventoryItem temp = Client.InventoryItems[newSlot];
                         temp.Slot = oldSlot;
                         Client.InventoryItems[newSlot] = Client.InventoryItems[oldSlot];
                         Client.InventoryItems[oldSlot] = temp;
@@ -73,7 +73,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 }
                 else if (Client.InventoryItems.ContainsKey(newSlot) && Client.InventoryItems[newSlot].MediaName != Client.InventoryItems[oldSlot].MediaName)
                 {
-                    Information.Item temp = Client.InventoryItems[newSlot];
+                    Information.InventoryItem temp = Client.InventoryItems[newSlot];
                     temp.Slot = oldSlot;
                     Client.InventoryItems[newSlot] = Client.InventoryItems[oldSlot];
                     Client.InventoryItems[oldSlot] = temp;
@@ -84,7 +84,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 else if (!Client.InventoryItems.ContainsKey(newSlot) && count != Client.InventoryItems[oldSlot].Count)
                 {
                     Client.InventoryItems[oldSlot].Count -= count;
-                    Information.Item item = new Information.Item(Client.InventoryItems[oldSlot].ModelID);
+                    Information.InventoryItem item = new Information.InventoryItem(Client.InventoryItems[oldSlot].ModelID);
                     item.Blues = Client.InventoryItems[oldSlot].Blues;
                     item.Count = count;
                     item.Slot = newSlot;
@@ -120,7 +120,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     if (Client.StorageItems[newSlot].Count == Client.StorageItems[newSlot].MaxStack)
                     {
 
-                        Information.Item temp = Client.StorageItems[newSlot];
+                        Information.InventoryItem temp = Client.StorageItems[newSlot];
                         temp.Slot = oldSlot;
                         Client.StorageItems[newSlot] = Client.StorageItems[oldSlot];
                         Client.StorageItems[oldSlot] = temp;
@@ -147,7 +147,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 }
                 else if (Client.StorageItems.ContainsKey(newSlot) && Client.StorageItems[newSlot].MediaName != Client.StorageItems[oldSlot].MediaName)
                 {
-                    Information.Item temp = Client.StorageItems[newSlot];
+                    Information.InventoryItem temp = Client.StorageItems[newSlot];
                     temp.Slot = oldSlot;
                     Client.StorageItems[newSlot] = Client.StorageItems[oldSlot];
                     Client.StorageItems[oldSlot] = temp;
@@ -185,7 +185,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int itemSlotInStorage = p.ReadInt8();
                 int newSlotInInventory = p.ReadInt8();
 
-                Information.Item item = Client.StorageItems[itemSlotInStorage];
+                Information.InventoryItem item = Client.StorageItems[itemSlotInStorage];
                 item.Slot = newSlotInInventory;
 
                 Client.InventoryItems.Add(newSlotInInventory, item);
@@ -201,7 +201,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 if (Client.InventoryItems.ContainsKey(itemSlot)) //Removes the item if it's already in the inventory *If the item stacks*
                     Client.InventoryItems.Remove(itemSlot);
 
-                Information.Item item = ParseItem.Parse(p);
+                Information.InventoryItem item = ParseItem.Parse(p);
 
                 Client.InventoryItems.Add(itemSlot, item); //Re-adds the item with the new info.
 
@@ -280,12 +280,12 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
         public class ItemSlotChangedEventArgs : EventArgs
         {
-            Information.Item item;
-            Information.Item associated;
+            Information.InventoryItem item;
+            Information.InventoryItem associated;
 
             public ChangeType ItemChangeType;
 
-            public ItemSlotChangedEventArgs(Information.Item _item, Information.Item _associated = null)
+            public ItemSlotChangedEventArgs(Information.InventoryItem _item, Information.InventoryItem _associated = null)
             {
                 item = _item;
                 associated = _associated;
@@ -296,7 +296,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             /// The item with the change taking place.
             /// </summary>
             /// <returns></returns>
-            public Information.Item EffectedItem()
+            public Information.InventoryItem EffectedItem()
             {
                 return item;
             }
@@ -305,7 +305,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             /// The item associated with the changes i.e. (if it got swapped with another item, this returns the other item)
             /// </summary>
             /// <returns>The associated SilkroadInformationAPI.Client.Information.Item</returns>
-            public Information.Item AssociatedItem()
+            public Information.InventoryItem AssociatedItem()
             {
                 return associated;
             }

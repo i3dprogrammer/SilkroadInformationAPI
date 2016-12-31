@@ -76,16 +76,14 @@ namespace SilkroadInformationAPI.Media
                 type = ItemType.PickupPet;
             else if (seq == "0 3 2 1 1")
                 type = ItemType.AttackPet;
-            else if (seq == "0 3 3 14 1")
-                type = ItemType.ItemExchangeCoupon;
-            else if (seq == "0 3 2 3 1")
+            else if (seq.StartsWith("0 3 2 2"))
+                type = ItemType.MonsterMask;
+            else if (seq.StartsWith("0 3 2 3"))
                 type = ItemType.MagicCube;
-            else if (seq == "0 3 3 11 3")
-                type = ItemType.Tablets;
-            else if (seq == "0 3 3 11 1")
+            else if (seq == "0 3 3 14") //Not sure whether to add another class? {1, 2}
+                type = ItemType.ItemExchangeCoupon;
+            else if (seq.StartsWith("0 3 3 11"))
                 type = ItemType.Stones;
-            else if (seq == "0 3 3 11 7")
-                type = ItemType.Stones100;
             else
                 type = ItemType.None;
 

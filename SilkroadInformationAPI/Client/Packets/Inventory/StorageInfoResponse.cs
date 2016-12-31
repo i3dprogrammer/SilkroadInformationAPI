@@ -16,7 +16,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             int maxItems = p.ReadInt8();
             int currentItems = p.ReadInt8();
             for (int i = 0; i < currentItems; i++) {
-                Information.Item item = ParseItem.Parse(p);
+                Information.InventoryItem item = ParseItem.Parse(p);
                 Client.StorageItems.Add(item.Slot, item);
             }
         }

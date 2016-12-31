@@ -58,4 +58,13 @@ namespace SilkroadInformationAPI
         Tablets,
         None
     }
+    public enum COS_Type
+    {
+        Riding,
+        AttackPet,
+        PickupPet,
+        Guild,
+        Fortress,
+        None
+    }
 }

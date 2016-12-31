@@ -8,11 +8,13 @@ namespace SilkroadInformationAPI.Media.DataInfo.Shops
 {
     class Shop
     {
-        public string MediaName { get; set; }
+        public string StoreName { get; set; }
+        public string StoreGroupName { get; set; }
+        public string NPCName { get; set; }
         public List<ShopGroup> ShopGroups;
         public Shop(string name)
         {
-            this.MediaName = name;
+            this.StoreName = name;
             ShopGroups = new List<Shops.ShopGroup>();
         }
     }
