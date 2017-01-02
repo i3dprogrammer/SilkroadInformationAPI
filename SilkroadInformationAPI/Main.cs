@@ -183,6 +183,10 @@ namespace SilkroadInformationAPI
 
         /// <summary>
         /// Returns the structures near the main character (Portals, Dimension holes, FW Structs, etc..).
+        /// Check for owner, if there exists it's a dimension hole,
+        /// If it has no HP, it's a portal.
+        /// TODO: Add identification filters.
+        /// 
         /// </summary>
         /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Structure</returns>
         public Dictionary<uint, Client.Information.Objects.Structure> GetSurroundingStructures()

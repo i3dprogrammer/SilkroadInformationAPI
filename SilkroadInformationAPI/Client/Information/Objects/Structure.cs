@@ -14,7 +14,6 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// </summary>
         public uint HP { get; set; }
 
-
         /// <summary>
         /// ???
         /// </summary>
@@ -24,7 +23,6 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// Returns the state of the structure (Burning, destroyed, etc..) *test for values*.
         /// </summary>
         public ushort State { get; set; }
-
 
         /// <summary>
         /// Owner name in case of Dimension holes.
