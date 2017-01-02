@@ -20,12 +20,12 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public byte JobType { get; set; }
         public byte JobLevel { get; set; }
         public byte InteractMode { get; set; }
-        public Character.Stall Stall = new Character.Stall();
+        public CharacterInfo.Stall Stall = new CharacterInfo.Stall();
         public bool WearingMask { get; set; } = false;
-        public Character.Guild Guild = new Character.Guild();
-        public List<Character.CharacterItem> Inventory = new List<Character.CharacterItem>();
-        public List<Character.CharacterItem> AvatarInventory = new List<Character.CharacterItem>();
-        public List<Character.Buff> Buffs = new List<Character.Buff>();
+        public CharacterInfo.Guild Guild = new CharacterInfo.Guild();
+        public List<CharacterInfo.CharacterItem> Inventory = new List<CharacterInfo.CharacterItem>();
+        public List<CharacterInfo.CharacterItem> AvatarInventory = new List<CharacterInfo.CharacterItem>();
+        public List<CharacterInfo.Buff> Buffs = new List<CharacterInfo.Buff>();
         public BasicInfo.Movement Movement = new BasicInfo.Movement();
         public BasicInfo.State State = new BasicInfo.State();
         public byte PVPEquipCooldown { get; set; }
@@ -33,7 +33,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         //COS
         public string PetGuildName;
         public string Owner;
-        public COS_Type Type = COS_Type.None;
+        public COS_Type COSType = COS_Type.None;
 
         //Structure
         public uint HP;
@@ -49,12 +49,26 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public byte OptValue;
         public uint Amount;
         public uint OwnerID;
-        //public uint PickRightsID;
         public uint DropperUniqueID;
         public byte DropSource;
 
         //EVENT_ZONE
         public uint SkillID;
 
+        public bool CharacterInJobSuit()
+        {
+            for(int i = 0; i < Inventory.Count; i++)
+            {
+                var item = Media.Data.MediaModels[Inventory[i].ModelID];
+                if(item.Classes.C == 3 && item.Classes.D == 1 && item.Classes.E == 7 && item.Classes.F != 5)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public byte type { get; set; } = 0; //Character = 0, NPC = 1, MOB = 2, Item = 3, COS = 4, struct = 5, Buff area = 6;
     }
 }

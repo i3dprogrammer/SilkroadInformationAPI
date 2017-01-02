@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Media
 {
     class Data
     {
-        public static Dictionary<long, DataInfo.Object> MediaModels = new Dictionary<long, DataInfo.Object>();
+        public static Dictionary<long, DataInfo.MediaModel> MediaModels = new Dictionary<long, DataInfo.MediaModel>();
         public static Dictionary<long, DataInfo.Item> MediaItems = new Dictionary<long, DataInfo.Item>();
         public static Dictionary<long, DataInfo.Skill> MediaSkills = new Dictionary<long, DataInfo.Skill>();
         public static List<DataInfo.Shops.Shop> MediaShops = new List<DataInfo.Shops.Shop>();

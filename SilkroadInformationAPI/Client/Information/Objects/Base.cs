@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.Objects
 {
-    class Base
+    public class Base
     {
-        public uint ModelID;
-        public uint UniqueID;
+        /// <summary>
+        /// The Reference ID in Media.pk2 (Usually found in characterdata, itemdata, teleportbuildings)
+        /// </summary>
+        public uint ModelID { get; set; }
+
+        /// <summary>
+        /// The Unique ID of the object, each object has it's own distinct unique id.
+        /// </summary>
+        public uint UniqueID { get; set; }
+
         public BasicInfo.Position Position = new BasicInfo.Position();
     }
 }

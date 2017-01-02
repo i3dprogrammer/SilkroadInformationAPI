@@ -151,5 +151,73 @@ namespace SilkroadInformationAPI
             Console.WriteLine(data);
             return data;
         }
+
+
+
+        /// <summary>
+        /// Returns the surrounding characters of the main account.
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Character</returns>
+        public Dictionary<uint, Client.Information.Objects.Character> GetSurroundingCharacters()
+        {
+            return Client.Client.NearbyCharacters;
+        }
+
+        /// <summary>
+        /// Returns the NPCs near the main character
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Base</returns>
+        public Dictionary<uint, Client.Information.Objects.Base> GetNearbyNPCs()
+        {
+            return Client.Client.NearbyNPCs;
+        }
+
+        /// <summary>
+        /// Returns the mobs near the main character.
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Mob</returns>
+        public Dictionary<uint, Client.Information.Objects.Mob> GetSurroundingMobs()
+        {
+            return Client.Client.NearbyMobs;
+        }
+
+        /// <summary>
+        /// Returns the structures near the main character (Portals, Dimension holes, FW Structs, etc..).
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Structure</returns>
+        public Dictionary<uint, Client.Information.Objects.Structure> GetSurroundingStructures()
+        {
+            return Client.Client.NearbyStructures;
+        }
+
+        /// <summary>
+        /// Returns nearby gold dropped on the ground.
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Item</returns>
+        public Dictionary<uint, Client.Information.Objects.Item> GetDroppedGold()
+        {
+            var list = new Dictionary<uint, Client.Information.Objects.Item>();
+            Client.Client.NearbyItems.ToList().ForEach(x =>
+            {
+                if (x.Value.Amount != 0)
+                    list.Add(x.Key, x.Value);
+            });
+            return list;
+        }
+
+        /// <summary>
+        /// Returns nearby items dropped on the ground.
+        /// </summary>
+        /// <returns>Returns a dictionary with the key being object unique ID and value of Client.Information.Objects.Item</returns>
+        public Dictionary<uint, Client.Information.Objects.Item> GetDroppedItems()
+        {
+            var list = new Dictionary<uint, Client.Information.Objects.Item>();
+            Client.Client.NearbyItems.ToList().ForEach(x =>
+            {
+                if (x.Value.Amount == 0)
+                    list.Add(x.Key, x.Value);
+            });
+            return list;
+        }
     }
 }

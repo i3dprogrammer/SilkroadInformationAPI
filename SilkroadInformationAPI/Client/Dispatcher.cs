@@ -16,7 +16,20 @@ namespace SilkroadInformationAPI.Client
                 if (p.Opcode == 0x3013)
                 {
                     Packets.CharacterData.Parse(p);
-                } else if(p.Opcode == 0x3015)
+                }
+                else if (p.Opcode == 0x3017)
+                {
+                    Packets.Spawn.GroupSpawn.GroupSpawnStart(p);
+                }
+                else if (p.Opcode == 0x3019)
+                {                 
+                    Packets.Spawn.GroupSpawn.GroupSpawnData(p);
+                }
+                else if (p.Opcode == 0x3018)
+                {
+                    Packets.Spawn.GroupSpawn.GroupSpawnEnd(p);
+                }
+                else if (p.Opcode == 0x3015)
                 {
                     Packets.Spawn.SingleSpawn.Parse(p);
                 }
@@ -35,7 +48,8 @@ namespace SilkroadInformationAPI.Client
                 else if (p.Opcode == 0xB04C)
                 {
                     Packets.Inventory.ItemCountUpdated.Parse(p);
-                } else if (p.Opcode == 0x304E)
+                }
+                else if (p.Opcode == 0x304E)
                 {
                     Packets.Inventory.GoldUpdated.Parse(p);
                 }

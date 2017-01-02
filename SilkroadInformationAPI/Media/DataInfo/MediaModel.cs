@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Media.DataInfo
 {
-    class Object : Base
+    class MediaModel : Base
     {
         public ModelType Type;
     }

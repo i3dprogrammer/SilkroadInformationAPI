@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Media
 {
     class Utility
     {
-        public static ModelType GetModelType(DataInfo.Object obj)
+        public static ModelType GetModelType(DataInfo.MediaModel obj)
         {
             ModelType type;
             string seq = obj.Classes.A.ToString() +

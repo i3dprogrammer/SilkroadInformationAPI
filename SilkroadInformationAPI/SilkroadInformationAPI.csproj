@@ -50,7 +50,12 @@
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\Dispatcher.cs" />
     <Compile Include="Client\Information\Objects\Base.cs" />
-    <Compile Include="Client\Information\Objects\Character\Stall.cs" />
+    <Compile Include="Client\Information\Objects\Character.cs" />
+    <Compile Include="Client\Information\Objects\CharacterInfo\Stall.cs" />
+    <Compile Include="Client\Information\Objects\COS.cs" />
+    <Compile Include="Client\Information\Objects\BuffArea.cs" />
+    <Compile Include="Client\Information\Objects\Item.cs" />
+    <Compile Include="Client\Information\Objects\Mob.cs" />
     <Compile Include="Client\Information\Objects\Object.cs" />
     <Compile Include="Client\Information\BasicInfo\State.cs" />
     <Compile Include="Client\Information\Info.cs" />
@@ -58,9 +63,10 @@
     <Compile Include="Client\Information\BasicInfo\Position.cs" />
     <Compile Include="Client\Information\InventoryItem.cs" />
     <Compile Include="Client\Information\Mastery.cs" />
-    <Compile Include="Client\Information\Objects\Character\Buff.cs" />
-    <Compile Include="Client\Information\Objects\Character\Guild.cs" />
-    <Compile Include="Client\Information\Objects\Character\CharacterItem.cs" />
+    <Compile Include="Client\Information\Objects\CharacterInfo\Buff.cs" />
+    <Compile Include="Client\Information\Objects\CharacterInfo\Guild.cs" />
+    <Compile Include="Client\Information\Objects\CharacterInfo\CharacterItem.cs" />
+    <Compile Include="Client\Information\Objects\Structure.cs" />
     <Compile Include="Client\Information\Quests\Objective.cs" />
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Skill.cs" />
@@ -72,6 +78,7 @@
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemy.cs" />
     <Compile Include="Client\Packets\Inventory\ParseItem.cs" />
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
+    <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\SingleSpawn.cs" />
     <Compile Include="Client\Utility.cs" />
     <Compile Include="Enums.cs" />
@@ -85,7 +92,7 @@
     <Compile Include="Media\LoadData.cs" />
     <Compile Include="Media\DataInfo\Base.cs" />
     <Compile Include="Media\DataInfo\Item.cs" />
-    <Compile Include="Media\DataInfo\Object.cs" />
+    <Compile Include="Media\DataInfo\MediaModel.cs" />
     <Compile Include="Media\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

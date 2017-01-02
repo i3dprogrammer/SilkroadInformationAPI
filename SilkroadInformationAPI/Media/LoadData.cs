@@ -71,7 +71,7 @@ namespace SilkroadInformationAPI.Media
                                         bool Used = (vars[0] == "1") ? true : false;
                                         if (Used)
                                         {
-                                            DataInfo.Object newModel = new DataInfo.Object();
+                                            DataInfo.MediaModel newModel = new DataInfo.MediaModel();
                                             newModel.ModelID = Int32.Parse(vars[1]);
                                             newModel.MediaName = vars[2];
                                             string SN = vars[5];
@@ -104,7 +104,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading models. " + ex.Message);
             } 
         }
-        public static void LoadItems() //TODO: Add extra stats
+        public static void LoadItems() //TODO: Add extra attrs, Add Item Models to MediaModels
         {
             try
             {
@@ -140,32 +140,36 @@ namespace SilkroadInformationAPI.Media
                                         bool Used = (vars[0] == "1") ? true : false;
                                         if (Used)
                                         {
-                                            var newModel = new DataInfo.Item();
-                                            newModel.ModelID = Int32.Parse(vars[1]);
-                                            newModel.MediaName = vars[2];
+                                            var newItem = new DataInfo.Item();
+                                            var newModel = new DataInfo.MediaModel();
+                                            newItem.ModelID = newModel.ModelID = Int32.Parse(vars[1]);
+                                            newItem.MediaName = newModel.MediaName = vars[2];
                                             string SN = vars[5];
                                             if (Data.Translation.ContainsKey(SN))
-                                                newModel.TranslationName = Data.Translation[SN];
+                                                newItem.TranslationName = newModel.TranslationName = Data.Translation[SN];
                                             SN = vars[6];
                                             if (Data.Translation.ContainsKey(SN))
-                                                newModel.Description = Data.Translation[SN];
-                                            newModel.Classes.A = Int32.Parse(vars[7]);
-                                            newModel.Classes.B = Int32.Parse(vars[8]);
-                                            newModel.Classes.C = Int32.Parse(vars[9]);
-                                            newModel.Classes.D = Int32.Parse(vars[10]);
-                                            newModel.Classes.E = Int32.Parse(vars[11]);
-                                            newModel.Classes.F = Int32.Parse(vars[12]);
-                                            newModel.Type = Utility.GetItemType(newModel);
-                                            newModel.MaxStack = Int32.Parse(vars[57]);
+                                                newItem.Description = newModel.TranslationName = Data.Translation[SN];
+                                            newItem.Classes.A = newModel.Classes.A = Int32.Parse(vars[7]);
+                                            newItem.Classes.B = newModel.Classes.B = Int32.Parse(vars[8]);
+                                            newItem.Classes.C = newModel.Classes.C = Int32.Parse(vars[9]);
+                                            newItem.Classes.D = newModel.Classes.D = Int32.Parse(vars[10]);
+                                            newItem.Classes.E = newModel.Classes.E = Int32.Parse(vars[11]);
+                                            newItem.Classes.F = newModel.Classes.F = Int32.Parse(vars[12]);
+                                            newItem.Type = Utility.GetItemType(newItem);
+                                            newModel.Type = ModelType.Unknown;
+                                            newItem.MaxStack = Int32.Parse(vars[57]);
 
-                                            newModel.Degree = Int32.Parse(vars[61]);
-                                            newModel.Duration = Int32.Parse(vars[118]);
-                                            Data.MediaItems.Add(newModel.ModelID, newModel);
+                                            newItem.Degree = Int32.Parse(vars[61]);
+                                            newItem.Duration = Int32.Parse(vars[118]);
+
+                                            Data.MediaItems.Add(newItem.ModelID, newItem);
+                                            Data.MediaModels.Add(newModel.ModelID, newModel);
                                         }
                                     }
                                     catch (Exception ex)
                                     {
-                                        //Console.WriteLine(ex.StackTrace);
+                                        //Console.WriteLine(ex.Message + ex.StackTrace);
                                     }
                                 }
 
@@ -182,7 +186,7 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading Items." + ex.Message);
             }
         }
-        public static void LoadSkills() //TODO: Add extra stats
+        public static void LoadSkills() //TODO: Add extra attrs
         {
             try
             {
@@ -274,7 +278,7 @@ namespace SilkroadInformationAPI.Media
                                 bool Used = (vars[0] == "1") ? true : false;
                                 if (Used)
                                 {
-                                    DataInfo.Object newModel = new DataInfo.Object();
+                                    DataInfo.MediaModel newModel = new DataInfo.MediaModel();
                                     newModel.ModelID = Int32.Parse(vars[1]);
                                     newModel.MediaName = vars[2];
                                     string SN = vars[5];

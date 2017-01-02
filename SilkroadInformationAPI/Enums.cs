@@ -60,11 +60,34 @@ namespace SilkroadInformationAPI
     }
     public enum COS_Type
     {
-        Riding,
+        None,
+        Normal,
+        Fortress,
         AttackPet,
         PickupPet,
         Guild,
-        Fortress,
-        None
+    }
+    public enum PVP_Cape
+    {
+        None = 0,
+        Red = 1,
+        Gray = 2,
+        Blue = 3,
+        White = 4,
+        Orange = 5,
+    }
+    public enum PK_State
+    {
+        Neutral = 0,
+        Assaulter = 1,
+        Murderer = 2,
+    }
+
+    public enum JOB_Type
+    {
+        None = 0,
+        Trader = 1,
+        Thief = 2,
+        Hunter = 3,
     }
 }

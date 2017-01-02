@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.BasicInfo
 {
-    class Movement
+    public class Movement
     {
         public byte HasDestination;
         public byte Type;

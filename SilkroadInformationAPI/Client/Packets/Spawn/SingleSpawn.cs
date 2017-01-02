@@ -8,31 +8,33 @@ using SilkroadSecurityApi;
 namespace SilkroadInformationAPI.Client.Packets.Spawn
 {
     class SingleSpawn
-    {   //Using AGENT_ENTITY_SPAWN packet from DaxterSoul
+    {   //Using AGENT_ENTITY_SPAWN structure from DaxterSoul
         public static void Parse(Packet p)
         {
-            bool job = false;
             uint ObjectID = p.ReadUInt32();
+            Console.Write(ObjectID);
             var obj = Media.Data.MediaModels[ObjectID];
             var surrObject = new Information.Objects.Object();
+            surrObject.ModelID = ObjectID;
             if(obj.Classes.C == 1)
             {
                 if(obj.Classes.D == 1)
                 {   //Character
+                    surrObject.type = 0;
                     surrObject.Scale = p.ReadUInt8();
-                    p.ReadUInt8(); //HwanLevel
+                    p.ReadUInt8(); //Title
                     surrObject.PVPCape = p.ReadUInt8();
-                    p.ReadUInt8();
+                    p.ReadUInt8(); //Beginner Icon
 
                     //Inventory
-                    p.ReadUInt8();
+                    p.ReadUInt8(); //Size
                     byte count = p.ReadUInt8();
                     for(int i = 0; i < count; i++)
                     {
                         uint ID = p.ReadUInt32();
-                        Console.WriteLine(ID);
-                        if (Media.Data.MediaModels[ID].Type == ModelType.PlusItem)
-                            surrObject.Inventory.Add(new Information.Objects.Character.CharacterItem(ID, p.ReadUInt8()));
+                        Console.WriteLine("\t" + ID);
+                        if (Media.Data.MediaModels[ID].Classes.C == 3 && Media.Data.MediaModels[ID].Classes.D == 1)
+                            surrObject.Inventory.Add(new Information.Objects.CharacterInfo.CharacterItem(ID, p.ReadUInt8()));
                     }
 
                     //AvatarInventory
@@ -41,8 +43,8 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     for(int i = 0; i < count; i++)
                     {
                         uint ID = p.ReadUInt32();
-                        if (Media.Data.MediaModels[ID].Type == ModelType.PlusItem)
-                            surrObject.AvatarInventory.Add(new Information.Objects.Character.CharacterItem(ID, p.ReadUInt8()));
+                        if (Media.Data.MediaModels[ID].Classes.C == 3 && Media.Data.MediaModels[ID].Classes.D == 1)
+                            surrObject.Inventory.Add(new Information.Objects.CharacterInfo.CharacterItem(ID, p.ReadUInt8()));
                     }
 
                     //Mask
@@ -62,6 +64,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     }
                 } else if (obj.Classes.D == 2 && obj.Classes.E == 5)
                 {   //NPC_FORTRESS_STRUCT
+                    surrObject.type = 5;
                     surrObject.HP = p.ReadUInt32();
                     surrObject.EventStructID = p.ReadUInt32();
                     surrObject.StructureState = p.ReadUInt16();
@@ -90,7 +93,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     }
                     else
                     {   //Dungeon
-                        surrObject.Movement.DestinationOffsetX = p.ReadUInt32();
+                        surrObject.Movement.DestinationOffsetX = p.ReadUInt32(); // Probably 16bit a mistake.
                         surrObject.Movement.DestinationOffsetY = p.ReadUInt32();
                         surrObject.Movement.DestinationOffsetZ = p.ReadUInt32();
                     }
@@ -115,7 +118,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     uint ID = p.ReadUInt32(); //Skill ID
                     uint Duration = p.ReadUInt32(); //Duration
                     if (Media.Data.MediaSkills[ID].Params == "1701213281") //TODO: Read skill params
-                        surrObject.Buffs.Add(new Information.Objects.Character.Buff(ID, Duration, p.ReadUInt8())); //IsBuffCreator
+                        surrObject.Buffs.Add(new Information.Objects.CharacterInfo.Buff(ID, Duration, p.ReadUInt8())); //IsBuffCreator
                 }
 
                 if(obj.Classes.D == 1)
@@ -137,14 +140,14 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     //Guild
                     surrObject.Guild.Name = p.ReadAscii();
 
-                    if(job == false)
+                    if(surrObject.CharacterInJobSuit() == false)
                     {
                         surrObject.Guild.ID = p.ReadUInt32();
                         surrObject.Guild.Nickname = p.ReadAscii();
                         p.ReadUInt32(); //Last Crest Rev
                         surrObject.Guild.UnionID = p.ReadUInt32();
                         p.ReadUInt32(); //Last Crest Rev
-                        p.ReadUInt8(); //IsFriendly 0 = Hostile, 1 = Friendly
+                        surrObject.Guild.IsFriendly = p.ReadUInt8(); 
                         p.ReadUInt8(); //??
                     }
 
@@ -169,46 +172,58 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                             p.ReadUInt8();
                     }
 
-                    if(obj.Classes.E == 2)
+                    if (obj.Classes.E == 1)
                     {   //NPC_MOB
+                        surrObject.type = 2;
                         surrObject.Rarity = p.ReadUInt8();
-                        if(obj.Classes.F == 2 || obj.Classes.F == 3)
+                        if (obj.Classes.F == 2 || obj.Classes.F == 3)
                         {
                             surrObject.Appearance = p.ReadUInt8();
                         }
-                    } else if(obj.Classes.E == 3)
+                    }
+                    else if (obj.Classes.E == 2)
+                    {
+                        surrObject.type = 1;
+                    }
+                    else if (obj.Classes.E == 3)
                     {   //NPC_COS
-                        if(obj.Classes.F == 3 || obj.Classes.F == 4)
-                        {   //Pickup/Attackpet
+                        if (obj.Classes.F == 3 || obj.Classes.F == 4)
+                        {   //Pickup, Attackpet
                             surrObject.Name = p.ReadAscii();
+                            surrObject.type = 4;
                         }
 
                         if (obj.Classes.F == 5)
                         {
                             surrObject.PetGuildName = p.ReadAscii();
-                        } else
-                        {  
+                        }
+                        else
+                        {
                             surrObject.Owner = p.ReadAscii();
                         }
 
-                        if(obj.Classes.F == 2 ||
-                            obj.Classes.F == 3 || 
-                            obj.Classes.F == 4 || 
+                        if (obj.Classes.F == 2 ||
+                            obj.Classes.F == 3 ||
+                            obj.Classes.F == 4 ||
                             obj.Classes.F == 5)
                         {
                             p.ReadUInt8();
-                            if(obj.Classes.F != 4)
+                            if (obj.Classes.F != 4)
                             {
                                 p.ReadUInt8();
                             }
-                            if(obj.Classes.F == 5)
+                            if (obj.Classes.F == 5)
                             {
                                 p.ReadUInt32();
                             }
                         }
+                        surrObject.COSType = (COS_Type)obj.Classes.F;
                         surrObject.OwnerID = p.ReadUInt32(); //Owner ID
-                    } else if (obj.Classes.E == 4)
-                    {
+                    }
+                    else if (obj.Classes.E == 4)
+                    {   //ITEM FORTRESS COS
+                        surrObject.type = 4;
+                        surrObject.COSType = COS_Type.Fortress;
                         surrObject.Guild.ID = p.ReadUInt32();
                         surrObject.Guild.Name = p.ReadAscii();
                     }
@@ -216,14 +231,15 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
 
             } else if(obj.Classes.C == 3)
             {   //ITEM
+                surrObject.type = 3;
                 if(obj.Classes.D == 1)
-                {
+                {   //ITEM EQUIP
                     surrObject.OptValue = p.ReadUInt8();
                 } else if(obj.Classes.D == 3)
-                {
-                    if (obj.Classes.E == 5 && obj.Classes.F == 0)
+                {   
+                    if (obj.Classes.E == 5 && obj.Classes.F == 0) //ITEM_GOLD
                         surrObject.Amount = p.ReadUInt32();
-                    else if(obj.Classes.E == 8 || obj.Classes.E == 9)
+                    else if(obj.Classes.E == 8 || obj.Classes.E == 9) //ITEM TRADE/QUEST
                     {
                         surrObject.Owner = p.ReadAscii();
                     }
@@ -243,9 +259,8 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     surrObject.OwnerID = p.ReadUInt32();
                 surrObject.Rarity = p.ReadUInt8();
             } else if(obj.Classes.C == 4)
-            {
-                //PORTALS
-
+            {   //PORTALS
+                surrObject.type = 5;
                 surrObject.UniqueID = p.ReadUInt32(); //Unique ID
 
                 //Position
@@ -278,6 +293,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
 
             } else if(ObjectID == uint.MaxValue)
             {   //EVENT_ZONE (Traps, Buffzones, ...)
+                surrObject.type = 6;
                 p.ReadUInt16();
                 surrObject.SkillID = p.ReadUInt32();
 
@@ -302,7 +318,100 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 }
             }
 
-            Console.WriteLine(surrObject.Name);
+            Console.WriteLine(Media.Data.MediaModels[surrObject.ModelID].MediaName + surrObject.Name);
         }
+
+        public void ProcessObject(Information.Objects.Object obj)
+        {
+            if(obj.type == 0) //Character
+            {
+                var character = new Information.Objects.Character();
+                character.AvatarInventory = obj.AvatarInventory;
+                character.Buffs = obj.Buffs;
+                character.Guild = obj.Guild;
+                character.Inventory = obj.Inventory;
+                character.JobLevel = obj.JobLevel;
+                character.JobType = (JOB_Type)obj.JobType;
+                character.ModelID = obj.ModelID;
+                character.Name = obj.Name;
+                character.OnTransport = (obj.TransportFlag == 1);
+                character.PKState = (PK_State)obj.PVPState;
+                character.Position = obj.Position;
+                character.PVPCape = (PVP_Cape)obj.PVPCape;
+                character.PVPEquipCooldown = obj.PVPEquipCooldown;
+                character.Stall = obj.Stall;
+                character.State = obj.State;
+                character.TransportUniqueID = obj.TransportUniqueID;
+                character.UniqueID = obj.UniqueID;
+                character.UsingScroll = obj.UsingScroll;
+                character.WearingMask = obj.WearingMask;
+                Client.NearbyCharacters.Add(character.UniqueID, character);
+            } else if(obj.type == 1) //NPC
+            {
+                var NPC = new Information.Objects.Base();
+                NPC.ModelID = obj.ModelID;
+                NPC.Position = obj.Position;
+                NPC.UniqueID = obj.UniqueID;
+                Client.NearbyNPCs.Add(NPC.UniqueID, NPC);
+            } else if(obj.type == 2) //MOB
+            {
+                var mob = new Information.Objects.Mob();
+                mob.Appearance = obj.Appearance;
+                mob.ModelID = obj.ModelID;
+                mob.Position = obj.Position;
+                mob.Rarity = obj.Rarity;
+                Client.NearbyMobs.Add(mob.UniqueID, mob);
+            } else if(obj.type == 3) //Item
+            {
+                var item = new Information.Objects.Item();
+                item.Amount = obj.Amount;
+                item.DropperUniqueID = obj.DropperUniqueID;
+                item.DropSource = obj.DropSource;
+                item.ModelID = obj.ModelID;
+                item.OwnerID = obj.OwnerID;
+                item.OwnerName = obj.Owner;
+                item.PlusValue = obj.OptValue;
+                item.Position = obj.Position;
+                item.Rarity = obj.Rarity;
+                item.UniqueID = obj.UniqueID;
+                Client.NearbyItems.Add(item.UniqueID, item);
+            } else if(obj.type == 4) //COS
+            {
+                var cos = new Information.Objects.COS();
+                cos.COSGuildName = obj.PetGuildName;
+                cos.COSName = obj.Name;
+                cos.FortressCOSGuildID = obj.Guild.ID;
+                cos.FortressCOSGuildName = obj.Guild.Name;
+                cos.ModelID = obj.ModelID;
+                cos.OwnerName = obj.Owner;
+                cos.OwnerUniqueID = obj.OwnerID;
+                cos.Position = obj.Position;
+                cos.Type = obj.COSType;
+                cos.UniqueID = obj.UniqueID;
+                Client.NearbyCOSs.Add(cos.UniqueID, cos);
+            } else if(obj.type == 5) //Struct
+            {
+                var structure = new Information.Objects.Structure();
+                structure.HP = obj.HP;
+                structure.ModelID = obj.ModelID;
+                structure.OwnerName = obj.Owner;
+                structure.OwnerUniqueID = obj.OwnerID;
+                structure.Position = obj.Position;
+                structure.RefEventStructID = obj.EventStructID;
+                structure.State = obj.StructureState;
+                structure.UniqueID = obj.UniqueID;
+                Client.NearbyStructures.Add(structure.UniqueID, structure);
+            } else if(obj.type == 6) //Event area
+            {
+                var area = new Information.Objects.BuffArea();
+                area.Position = obj.Position;
+                area.UniqueID = obj.UniqueID;
+                area.ModelID = obj.ModelID;
+                area.ReferenceSkillID = obj.SkillID;
+                Client.NearbyBuffAreas.Add(area.UniqueID, area);
+            }
+        }
+
+
     }
 }
