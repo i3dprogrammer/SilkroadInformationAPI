@@ -32,6 +32,8 @@ namespace SilkroadInformationAPI.Client
         public static Dictionary<uint, Information.Objects.COS> NearbyCOSs = new Dictionary<uint, Information.Objects.COS>();
         public static Dictionary<uint, Information.Objects.Structure> NearbyStructures = new Dictionary<uint, Information.Objects.Structure>();
 
-
+        public static Dictionary<ChatType, Information.Chat.ChatMessage> Chat = new Dictionary<ChatType, Information.Chat.ChatMessage>();
+        public static Information.Objects.CharacterInfo.Stall CurrentStall = new Information.Objects.CharacterInfo.Stall();
+        public static bool CharacterInStall = false;
     }
 }

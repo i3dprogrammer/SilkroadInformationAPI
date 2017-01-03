@@ -10,7 +10,11 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
     {
         public static Information.InventoryItem Parse(Packet p)
         {
-            int slot = p.ReadInt8();
+            byte slot = p.ReadUInt8();
+
+            if (slot == byte.MaxValue)
+                return null;
+
             int rent = p.ReadInt32(); // Rent Type
 
             if (rent == 1)
@@ -55,7 +59,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 item.PlusValue = p.ReadInt8();   //Plus value
 
                 ulong variance = p.ReadUInt64();
-                item.Stats = Utility.CalculateWhiteStats(variance, item.Type);
+                item.Stats = Actions.Utility.CalculateWhiteStats(variance, item.Type);
                 item.Stats.Add("DURABILITY", p.ReadInt32());
 
                 int countB = p.ReadInt8(); //Blue count
@@ -105,7 +109,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             }
             else if (item.Type == ItemType.Stones)
             {
-                item.Count = p.ReadInt16(); //count
+                item.Stack = p.ReadInt16(); //count
                 if(item.Classes.F == 1 || item.Classes.F == 2)
                     p.ReadInt8(); //AttributeAssimilationProbability
             }
@@ -118,7 +122,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             }
             else
             {
-                item.Count = p.ReadInt16();
+                item.Stack = p.ReadInt16();
             }
 
             if (item.MediaName.Contains("RECIPE_WEAPON"))

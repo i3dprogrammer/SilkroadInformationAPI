@@ -153,7 +153,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
 
                     if(surrObject.InteractMode == 4)
                     {
-                        surrObject.Stall.isStall = true;
+                        surrObject.Stall.StallCreated = true;
                         surrObject.Stall.StallName = p.ReadAscii();
                         surrObject.Stall.DecorationModelID = p.ReadUInt32();
                     }

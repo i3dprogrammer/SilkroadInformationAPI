@@ -15,7 +15,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             {
                 int itemSlot = p.ReadInt8();
                 int count = p.ReadInt16();
-                Client.InventoryItems[itemSlot].Count = count;
+                Client.InventoryItems[itemSlot].Stack = count;
             }
         }
     }

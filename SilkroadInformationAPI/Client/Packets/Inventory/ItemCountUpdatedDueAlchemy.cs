@@ -22,7 +22,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             if(flag == 0x08)
             {
                 int newCount = p.ReadInt8();
-                Client.InventoryItems[slot].Count = newCount;
+                Client.InventoryItems[slot].Stack = newCount;
                 ItemCountUpdatedDueAlchemyEventArgs args = new ItemCountUpdatedDueAlchemyEventArgs(Client.InventoryItems[slot]);
                 OnItemCountUpdatedDueAlchemyEvent(args);
             }

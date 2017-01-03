@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Actions\Mapping.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\Dispatcher.cs" />
+    <Compile Include="Client\Information\Chat\ChatMessage.cs" />
     <Compile Include="Client\Information\Objects\Base.cs" />
     <Compile Include="Client\Information\Objects\Character.cs" />
     <Compile Include="Client\Information\Objects\CharacterInfo\Stall.cs" />
@@ -72,6 +74,9 @@
     <Compile Include="Client\Information\Skill.cs" />
     <Compile Include="Client\Packets\Alchemy\ParseInfo.cs" />
     <Compile Include="Client\Packets\CharacterData.cs" />
+    <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
+    <Compile Include="Client\Packets\COS\COSName.cs" />
+    <Compile Include="Client\Packets\COS\RideState.cs" />
     <Compile Include="Client\Packets\Inventory\GoldUpdated.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryItemsUpdated.cs" />
     <Compile Include="Client\Packets\Inventory\ItemCountUpdated.cs" />
@@ -80,7 +85,14 @@
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\SingleSpawn.cs" />
-    <Compile Include="Client\Utility.cs" />
+    <Compile Include="Client\Actions\Utility.cs" />
+    <Compile Include="Client\Packets\Stall\Action.cs" />
+    <Compile Include="Client\Packets\Stall\Closed.cs" />
+    <Compile Include="Client\Packets\Stall\Created.cs" />
+    <Compile Include="Client\Packets\Stall\Entered.cs" />
+    <Compile Include="Client\Packets\Stall\Leave.cs" />
+    <Compile Include="Client\Packets\Stall\NameUpdated.cs" />
+    <Compile Include="Client\Packets\Stall\Updated.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Media\Data.cs" />

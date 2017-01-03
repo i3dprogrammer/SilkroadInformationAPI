@@ -11,9 +11,10 @@ namespace SilkroadInformationAPI.Client.Information
     [Serializable]
     public class InventoryItem : Media.DataInfo.Item
     {
-        public int Count;
+        public int Stack;
         public int PlusValue;
         public int Slot;
+        public ulong Price;
         public bool HasAdvance;
         public Dictionary<string, int> Blues;
         public Dictionary<string, int> Stats;
@@ -32,7 +33,7 @@ namespace SilkroadInformationAPI.Client.Information
             Duration = mediaItem.Duration;
             MaxStack = mediaItem.MaxStack;
 
-            Count = 1;
+            Stack = 1;
             PlusValue = 0;
             Slot = 0;
             HasAdvance = false;

@@ -42,7 +42,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
                 if (Client.InventoryItems.ContainsKey(newSlot) && Client.InventoryItems[newSlot].MediaName == Client.InventoryItems[oldSlot].MediaName)
                 {
-                    if (Client.InventoryItems[newSlot].Count == Client.InventoryItems[newSlot].MaxStack)
+                    if (Client.InventoryItems[newSlot].Stack == Client.InventoryItems[newSlot].MaxStack)
                     {
 
                         Information.InventoryItem temp = Client.InventoryItems[newSlot];
@@ -54,17 +54,17 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                         args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSwappedWithAnotherItem;
 
                     }
-                    else if (count != Client.InventoryItems[oldSlot].Count)
+                    else if (count != Client.InventoryItems[oldSlot].Stack)
                     {
-                        Client.InventoryItems[newSlot].Count += count;
-                        Client.InventoryItems[oldSlot].Count -= count;
+                        Client.InventoryItems[newSlot].Stack += count;
+                        Client.InventoryItems[oldSlot].Stack -= count;
 
                         args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
                         args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemPartiallyAddedOnAnotherInstance;
                     }
                     else
                     {
-                        Client.InventoryItems[newSlot].Count += count;
+                        Client.InventoryItems[newSlot].Stack += count;
                         Client.InventoryItems.Remove(oldSlot);
 
                         args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot]);
@@ -81,12 +81,12 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
                     args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSwappedWithAnotherItem;
                 }
-                else if (!Client.InventoryItems.ContainsKey(newSlot) && count != Client.InventoryItems[oldSlot].Count)
+                else if (!Client.InventoryItems.ContainsKey(newSlot) && count != Client.InventoryItems[oldSlot].Stack)
                 {
-                    Client.InventoryItems[oldSlot].Count -= count;
+                    Client.InventoryItems[oldSlot].Stack -= count;
                     Information.InventoryItem item = new Information.InventoryItem(Client.InventoryItems[oldSlot].ModelID);
                     item.Blues = Client.InventoryItems[oldSlot].Blues;
-                    item.Count = count;
+                    item.Stack = count;
                     item.Slot = newSlot;
                     Client.InventoryItems.Add(newSlot, item);
 
@@ -117,7 +117,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
                 if (Client.StorageItems.ContainsKey(newSlot) && Client.StorageItems[newSlot].MediaName == Client.StorageItems[oldSlot].MediaName)
                 {
-                    if (Client.StorageItems[newSlot].Count == Client.StorageItems[newSlot].MaxStack)
+                    if (Client.StorageItems[newSlot].Stack == Client.StorageItems[newSlot].MaxStack)
                     {
 
                         Information.InventoryItem temp = Client.StorageItems[newSlot];
@@ -128,17 +128,17 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                         args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot], Client.StorageItems[oldSlot]);
                         args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemSwappedWithAnotherItem;
 
-                    } else if(count != Client.StorageItems[oldSlot].Count)
+                    } else if(count != Client.StorageItems[oldSlot].Stack)
                     {
-                        Client.StorageItems[newSlot].Count += count;
-                        Client.StorageItems[oldSlot].Count -= count;
+                        Client.StorageItems[newSlot].Stack += count;
+                        Client.StorageItems[oldSlot].Stack -= count;
 
                         args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot], Client.StorageItems[oldSlot]);
                         args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemPartiallyAddedOnAnotherInstance;
                     }
                     else
                     {
-                        Client.StorageItems[newSlot].Count += count;
+                        Client.StorageItems[newSlot].Stack += count;
                         Client.StorageItems.Remove(oldSlot);
 
                         args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot]);
@@ -231,14 +231,14 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int indexInNPC = p.ReadInt8();
 
                 var item = Client.InventoryItems[itemSlot].Clone();
-                item.Count = countSold;
+                item.Stack = countSold;
 
                 Client.SoldItems.Insert(0, item);
 
-                if (countSold == Client.InventoryItems[itemSlot].Count)
+                if (countSold == Client.InventoryItems[itemSlot].Stack)
                     Client.InventoryItems.Remove(itemSlot);
                 else
-                    Client.InventoryItems[itemSlot].Count -= countSold;
+                    Client.InventoryItems[itemSlot].Stack -= countSold;
 
                 args = new ItemSlotChangedEventArgs(item);
                 args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSoldToNPC;

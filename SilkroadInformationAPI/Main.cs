@@ -118,7 +118,7 @@ namespace SilkroadInformationAPI
                 }
 
                 if (Client.Client.InventoryItems.ContainsKey(i))
-                    Console.Write(Client.Client.InventoryItems[i].Count + ", ");
+                    Console.Write(Client.Client.InventoryItems[i].Stack + ", ");
                 else
                     Console.Write("-1, ");
             }

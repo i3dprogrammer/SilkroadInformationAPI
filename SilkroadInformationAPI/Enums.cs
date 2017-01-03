@@ -90,4 +90,19 @@ namespace SilkroadInformationAPI
         Thief = 2,
         Hunter = 3,
     }
+
+    public enum ChatType
+    {
+        All = 1,
+        PM = 2,
+        AllGM = 3,
+        Party = 4,
+        Guild = 5,
+        Global = 6,
+        Notice = 7,
+        Stall = 9,
+        Union = 11,
+        NPC = 13,
+        Accademy = 16,
+    }
 }

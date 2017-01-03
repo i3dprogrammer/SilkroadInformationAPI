@@ -13,10 +13,12 @@ namespace SilkroadInformationAPI.Client
         {
             try
             {
+                
                 if (p.Opcode == 0x3013)
                 {
                     Packets.CharacterData.Parse(p);
                 }
+                #region Spawn Data
                 else if (p.Opcode == 0x3017)
                 {
                     Packets.Spawn.GroupSpawn.GroupSpawnStart(p);
@@ -33,6 +35,8 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Spawn.SingleSpawn.Parse(p);
                 }
+                #endregion
+                #region Inventory
                 else if (p.Opcode == 0x3040)
                 {
                     Packets.Inventory.ItemCountUpdatedDueAlchemy.Parse(p);
@@ -53,7 +57,43 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Inventory.GoldUpdated.Parse(p);
                 }
-            } catch (Exception ex){
+                #endregion
+                else if (p.Opcode == 0x3026)
+                {
+                    Packets.Chat.ChatUpdated.Parse(p);
+                }
+                #region STALL OPCODES
+                else if (p.Opcode == 0xB0B3)
+                {
+                    Packets.Stall.Entered.Parse(p);
+                }
+                else if(p.Opcode == 0xB0B5)
+                {
+                    Packets.Stall.Leave.Parse();
+                }
+                else if(p.Opcode == 0x30B7)
+                {
+                    Packets.Stall.Action.Parse(p);
+                }
+                else if (p.Opcode == 0x30B8)
+                {
+                    Packets.Stall.Created.Parse(p);
+                }
+                else if (p.Opcode == 0x30B9)
+                {
+                    Packets.Stall.Closed.Parse(p);
+                }
+                else if (p.Opcode == 0xB0BA)
+                {
+                    Packets.Stall.Updated.Parse(p);
+                }
+                else if (p.Opcode == 0x30BB)
+                {
+                    Packets.Stall.NameUpdated.Parse(p);
+                }
+                #endregion
+            }
+            catch (Exception ex){
                 Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
             }
         }
