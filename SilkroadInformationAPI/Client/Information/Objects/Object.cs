@@ -20,12 +20,12 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public byte JobType { get; set; }
         public byte JobLevel { get; set; }
         public byte InteractMode { get; set; }
-        public CharacterInfo.Stall Stall = new CharacterInfo.Stall();
+        public Stalls.Stall Stall = new Stalls.Stall();
         public bool WearingMask { get; set; } = false;
-        public CharacterInfo.Guild Guild = new CharacterInfo.Guild();
+        public Guilds.Guild Guild = new Guilds.Guild();
         public List<CharacterInfo.CharacterItem> Inventory = new List<CharacterInfo.CharacterItem>();
         public List<CharacterInfo.CharacterItem> AvatarInventory = new List<CharacterInfo.CharacterItem>();
-        public List<CharacterInfo.Buff> Buffs = new List<CharacterInfo.Buff>();
+        public List<Spells.Skill> Buffs = new List<Spells.Skill>();
         public BasicInfo.Movement Movement = new BasicInfo.Movement();
         public BasicInfo.State State = new BasicInfo.State();
         public byte PVPEquipCooldown { get; set; }

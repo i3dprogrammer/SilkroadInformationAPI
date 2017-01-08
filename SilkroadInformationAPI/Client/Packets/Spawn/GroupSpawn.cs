@@ -32,7 +32,26 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 }
                 else
                 {
-                    GroupSpawnPacket.ReadUInt32(); //Unique ID
+                    uint uid = GroupSpawnPacket.ReadUInt32();
+                    Console.WriteLine(uid + " Dispawned");
+                    if (Client.NearbyBuffAreas.ContainsKey(uid))
+                        Client.NearbyBuffAreas.Remove(uid);
+                    if (Client.NearbyCharacters.ContainsKey(uid))
+                        Client.NearbyCharacters.Remove(uid);
+                    if (Client.NearbyCOSs.ContainsKey(uid))
+                    {
+                        if(Client.Info.CharacterCOS.Contains(Client.NearbyCOSs[uid]))
+                            Client.Info.CharacterCOS.Remove(Client.NearbyCOSs[uid]);
+                        Client.NearbyCOSs.Remove(uid);
+                    }
+                    if (Client.NearbyItems.ContainsKey(uid))
+                        Client.NearbyItems.Remove(uid);
+                    if (Client.NearbyMobs.ContainsKey(uid))
+                        Client.NearbyMobs.Remove(uid);
+                    if (Client.NearbyNPCs.ContainsKey(uid))
+                        Client.NearbyNPCs.Remove(uid);
+                    if (Client.NearbyStructures.ContainsKey(uid))
+                        Client.NearbyStructures.Remove(uid);
                 }
             }
         }

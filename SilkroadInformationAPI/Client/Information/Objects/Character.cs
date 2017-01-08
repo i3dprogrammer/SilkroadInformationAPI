@@ -51,7 +51,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// Character stall information.
         /// </summary>
-        public CharacterInfo.Stall Stall = new CharacterInfo.Stall();
+        public Stalls.Stall Stall = new Stalls.Stall();
 
         /// <summary>
         /// Character is wearing a mask (rouge/warlock skills).
@@ -61,7 +61,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// Character guild information.
         /// </summary>
-        public CharacterInfo.Guild Guild = new CharacterInfo.Guild();
+        public Guilds.Guild Guild = new Guilds.Guild();
 
         /// <summary>
         /// The items character is wearing.
@@ -76,7 +76,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// The buffs on the character.
         /// </summary>
-        public List<CharacterInfo.Buff> Buffs = new List<CharacterInfo.Buff>();
+        public List<Spells.Skill> Buffs = new List<Spells.Skill>();
 
         /// <summary>
         /// Character state information

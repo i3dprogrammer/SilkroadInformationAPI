@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SilkroadSecurityApi;
 
-namespace SilkroadInformationAPI.Client.Packets
+namespace SilkroadInformationAPI.Client.Packets.Character
 {
-    class CharacterData
+    class ParseData
     {   //Mostly thanks to DaxterSoul
         public static void Parse(Packet p)
         {
@@ -55,7 +55,7 @@ namespace SilkroadInformationAPI.Client.Packets
             int nextMastery = p.ReadInt8();
             while (nextMastery == 1)
             {
-                var mastery = new Information.Mastery();
+                var mastery = new Information.Spells.Mastery();
                 mastery.ID = p.ReadInt32();
                 mastery.Level = p.ReadInt8();
                 Client.GameMasteries.Add(mastery);
@@ -68,8 +68,8 @@ namespace SilkroadInformationAPI.Client.Packets
             int nextSkill = p.ReadInt8();
             while (nextSkill == 1)
             {
-                var skill = new Information.Skill();
-                skill.ID = p.ReadInt32();
+                var skill = new Information.Spells.Skill();
+                skill.SkillID = p.ReadUInt32();
                 skill.Enabled = p.ReadInt8();
                 Client.GameSkills.Add(skill);
                 //Console.WriteLine(skill.ID);

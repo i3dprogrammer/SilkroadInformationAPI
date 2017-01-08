@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information
 {
-    class Info
+    public class Info
     {
         public int RegionID { get; set; }
         public int ModelID { get; set; }
@@ -39,6 +39,6 @@ namespace SilkroadInformationAPI.Client.Information
         public uint JID { get; set; } // ?
         public byte GMFlag { get; set; }
 
-        //public Dictionary<int, InventoryItem> Items = new Dictionary<int, InventoryItem>();
+        public List<Objects.COS> CharacterCOS = new List<Objects.COS>();
     }
 }

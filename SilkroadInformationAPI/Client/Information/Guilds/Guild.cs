@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkroadInformationAPI.Client.Information.Objects.CharacterInfo
+namespace SilkroadInformationAPI.Client.Information.Guilds
 {
     public class Guild
     {

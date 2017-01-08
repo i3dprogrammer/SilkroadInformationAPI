@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.Quests
 {
-    class Quest
+    public class Quest
     {
         public int QuestID;
         public int AchievementCount;

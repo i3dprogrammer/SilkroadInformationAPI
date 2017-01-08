@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI
         PickupPet, //0	1	1	2	3	4
         AttackPet, //0	1	1	2	3	3	
         NormalPet, //0	1	1	2	3	1
-        AttackAndRidePet, //0	1	1	2	3	3
+        //AttackAndRidePet, //0	1	1	2	3	3
         JobPet,     //0	1	1	2	3	2	
         JobSilkPet, //1	1	1	2	3	2	
         NPC,        //0	1	1	2	2	0
@@ -62,10 +62,11 @@ namespace SilkroadInformationAPI
     {
         None,
         Normal,
-        Fortress,
+        Job,
         AttackPet,
         PickupPet,
         Guild,
+        Fortress,
     }
     public enum PVP_Cape
     {

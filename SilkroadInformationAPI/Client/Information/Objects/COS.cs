@@ -41,6 +41,11 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public uint OwnerUniqueID { get; set; }
 
         /// <summary>
+        /// Maximum inventory slots, in case of Job/Pickup pet.
+        /// </summary>
+        public byte MaxInventorySlots { get; set; }
+
+        /// <summary>
         /// Summon type (Pickup pet, Fortress pet, Guild pet..)
         /// </summary>
         public COS_Type Type = COS_Type.None;

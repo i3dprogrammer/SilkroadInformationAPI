@@ -39,9 +39,15 @@ namespace SilkroadInformationAPI.Client.Packets.Chat
             if(name == "")
                 name = Actions.Mapping.GetCharNameFromUID(uniqueID);
 
-            Client.Chat.Add(chatType, new Information.Chat.ChatMessage(message, name, uniqueID, chatType));
-            Client.Chat.Add(chatType, new Information.Chat.ChatMessage(message, name, uniqueID, ChatType.All));
+            if (Client.Chat.ContainsKey(chatType))
+                Client.Chat[chatType].Add(new Information.Chat.ChatMessage(message, name, uniqueID, chatType));
+            else
+                Client.Chat.Add(chatType, new List<Information.Chat.ChatMessage>() { new Information.Chat.ChatMessage(message, name, uniqueID, chatType) });
 
+            if (Client.Chat.ContainsKey(ChatType.All) && chatType != ChatType.All)
+                Client.Chat[ChatType.All].Add(new Information.Chat.ChatMessage(message, name, uniqueID, chatType));
+            else if (!Client.Chat.ContainsKey(ChatType.All) && chatType != ChatType.All)
+                Client.Chat.Add(ChatType.All, new List<Information.Chat.ChatMessage>() { new Information.Chat.ChatMessage(message, name, uniqueID, chatType) });
         }
     }
 }

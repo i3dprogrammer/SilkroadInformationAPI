@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkroadInformationAPI.Client.Information.Objects.CharacterInfo
+namespace SilkroadInformationAPI.Client.Information.Spells
 {
-    public class Buff
+    public class Skill
     {
         /// <summary>
         /// Skill reference id in (skilldata).
@@ -23,11 +23,18 @@ namespace SilkroadInformationAPI.Client.Information.Objects.CharacterInfo
         /// </summary>
         public byte isCreator { get; set; }
 
-        public Buff(uint id, uint dur, byte creator)
+        public Skill(uint id, uint dur, byte creator)
         {
             SkillID = id;
             Duration = dur;
             isCreator = creator;
         }
+
+        public Skill()
+        {
+
+        }
+
+        public int Enabled; //??
     }
 }

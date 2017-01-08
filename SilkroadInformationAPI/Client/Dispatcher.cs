@@ -16,9 +16,9 @@ namespace SilkroadInformationAPI.Client
                 
                 if (p.Opcode == 0x3013)
                 {
-                    Packets.CharacterData.Parse(p);
+                    Packets.Character.ParseData.Parse(p);
                 }
-                #region Spawn Data
+                #region SPAWN
                 else if (p.Opcode == 0x3017)
                 {
                     Packets.Spawn.GroupSpawn.GroupSpawnStart(p);
@@ -36,7 +36,8 @@ namespace SilkroadInformationAPI.Client
                     Packets.Spawn.SingleSpawn.Parse(p);
                 }
                 #endregion
-                #region Inventory
+
+                #region INVENTORY
                 else if (p.Opcode == 0x3040)
                 {
                     Packets.Inventory.ItemCountUpdatedDueAlchemy.Parse(p);
@@ -58,11 +59,24 @@ namespace SilkroadInformationAPI.Client
                     Packets.Inventory.GoldUpdated.Parse(p);
                 }
                 #endregion
+
+                #region COS
+                else if (p.Opcode == 0xB0CB)
+                {
+                    Packets.COS.RideState.Parse(p);
+                }
+                else if (p.Opcode == 0x30C8)
+                {
+                    Packets.COS.COSData.Parse(p);
+                }
+                #endregion
+
                 else if (p.Opcode == 0x3026)
                 {
                     Packets.Chat.ChatUpdated.Parse(p);
                 }
-                #region STALL OPCODES
+
+                #region STALL
                 else if (p.Opcode == 0xB0B3)
                 {
                     Packets.Stall.Entered.Parse(p);

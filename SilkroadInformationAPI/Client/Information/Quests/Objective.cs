@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.Quests
 {
-    class Objective
+    public class Objective
     {
         public int ID;
         public int Status;

@@ -13,28 +13,15 @@ namespace SilkroadInformationAPI.Client.Packets.Stall
         {
             if(p.ReadUInt8() == 1) //Successfully entered the stall.
             {
-                Client.CurrentStall.StallItems.Clear();
-                Client.CurrentStall.PeopleInStall.Clear();
+                StallUtility.ClearCurrentStall();
                 Client.CharacterInStall = true;
-
 
                 Client.CurrentStall.UniqueID = p.ReadUInt32();
                 Client.CurrentStall.Message = p.ReadAscii();
                 Client.CurrentStall.Opened = (p.ReadUInt8() == 1);
                 p.ReadUInt8(); //??
 
-                while (true)
-                {
-                    var item = Inventory.ParseItem.Parse(p);
-                    if (item == null)
-                        break;
-
-                    p.ReadUInt8(); // ??
-                    item.Stack = p.ReadUInt16();
-                    item.Price = p.ReadUInt64();
-
-                    Client.CurrentStall.StallItems.Add((byte)item.Slot, item);
-                }
+                StallUtility.ParseCurrentStallItems(p);
 
                 byte peopleInStallCount = p.ReadUInt8();
                 for (int i = 0; i < peopleInStallCount; i++) {

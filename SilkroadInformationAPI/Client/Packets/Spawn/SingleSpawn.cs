@@ -12,7 +12,6 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
         public static void Parse(Packet p)
         {
             uint ObjectID = p.ReadUInt32();
-            Console.Write(ObjectID);
             var obj = Media.Data.MediaModels[ObjectID];
             var surrObject = new Information.Objects.Object();
             surrObject.ModelID = ObjectID;
@@ -32,7 +31,6 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     for(int i = 0; i < count; i++)
                     {
                         uint ID = p.ReadUInt32();
-                        Console.WriteLine("\t" + ID);
                         if (Media.Data.MediaModels[ID].Classes.C == 3 && Media.Data.MediaModels[ID].Classes.D == 1)
                             surrObject.Inventory.Add(new Information.Objects.CharacterInfo.CharacterItem(ID, p.ReadUInt8()));
                     }
@@ -118,7 +116,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     uint ID = p.ReadUInt32(); //Skill ID
                     uint Duration = p.ReadUInt32(); //Duration
                     if (Media.Data.MediaSkills[ID].Params == "1701213281") //TODO: Read skill params
-                        surrObject.Buffs.Add(new Information.Objects.CharacterInfo.Buff(ID, Duration, p.ReadUInt8())); //IsBuffCreator
+                        surrObject.Buffs.Add(new Information.Spells.Skill(ID, Duration, p.ReadUInt8())); //IsBuffCreator
                 }
 
                 if(obj.Classes.D == 1)
@@ -188,7 +186,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     else if (obj.Classes.E == 3)
                     {   //NPC_COS
                         if (obj.Classes.F == 3 || obj.Classes.F == 4)
-                        {   //Pickup, Attackpet
+                        {   //Attackpet/Pickup
                             surrObject.Name = p.ReadAscii();
                             surrObject.type = 4;
                         }
@@ -318,10 +316,10 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 }
             }
 
-            Console.WriteLine(Media.Data.MediaModels[surrObject.ModelID].MediaName + surrObject.Name);
+            ProcessObject(surrObject);
         }
 
-        public void ProcessObject(Information.Objects.Object obj)
+        public static void ProcessObject(Information.Objects.Object obj)
         {
             if(obj.type == 0) //Character
             {
@@ -360,6 +358,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 mob.ModelID = obj.ModelID;
                 mob.Position = obj.Position;
                 mob.Rarity = obj.Rarity;
+                mob.UniqueID = obj.UniqueID;
                 Client.NearbyMobs.Add(mob.UniqueID, mob);
             } else if(obj.type == 3) //Item
             {
@@ -389,6 +388,9 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 cos.Type = obj.COSType;
                 cos.UniqueID = obj.UniqueID;
                 Client.NearbyCOSs.Add(cos.UniqueID, cos);
+
+                if (cos.OwnerUniqueID == Client.Info.UniqueID)
+                    Client.Info.CharacterCOS.Add(cos);
             } else if(obj.type == 5) //Struct
             {
                 var structure = new Information.Objects.Structure();

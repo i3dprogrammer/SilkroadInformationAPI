@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkroadInformationAPI.Client.Information
+namespace SilkroadInformationAPI.Client.Information.Spells
 {
-    class Mastery
+    public class Mastery
     {
         public int ID;
         public int Level;

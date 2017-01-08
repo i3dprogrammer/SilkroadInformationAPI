@@ -9,11 +9,16 @@ using System.IO;
 using SilkroadSecurityApi;
 using SilkroadInformationAPI.Client.Information;
 using SilkroadInformationAPI.Client.Packets.Inventory;
+
+/// 
+/// HUGE Thanks to DaxterSoul to his awesome documentation and pushedx for SilkroadSecurity.
+/// And to everyone else I used their source, mostly are mentioed.
+/// 
+
 namespace SilkroadInformationAPI
 {
     public class SroClient
     {
-        
 
         public SroClient()
         {

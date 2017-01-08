@@ -30,141 +30,10 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
             if (flag == 0x00) //Item update in inventory
             {
-                int oldSlot = p.ReadInt8();
-                int newSlot = p.ReadInt8();
-                int count = p.ReadInt16();
-
-                if (count == 0)
-                    count = 1;
-
-                if (!Client.InventoryItems.ContainsKey(oldSlot))
-                    return;
-
-                if (Client.InventoryItems.ContainsKey(newSlot) && Client.InventoryItems[newSlot].MediaName == Client.InventoryItems[oldSlot].MediaName)
-                {
-                    if (Client.InventoryItems[newSlot].Stack == Client.InventoryItems[newSlot].MaxStack)
-                    {
-
-                        Information.InventoryItem temp = Client.InventoryItems[newSlot];
-                        temp.Slot = oldSlot;
-                        Client.InventoryItems[newSlot] = Client.InventoryItems[oldSlot];
-                        Client.InventoryItems[oldSlot] = temp;
-
-                        args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSwappedWithAnotherItem;
-
-                    }
-                    else if (count != Client.InventoryItems[oldSlot].Stack)
-                    {
-                        Client.InventoryItems[newSlot].Stack += count;
-                        Client.InventoryItems[oldSlot].Stack -= count;
-
-                        args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemPartiallyAddedOnAnotherInstance;
-                    }
-                    else
-                    {
-                        Client.InventoryItems[newSlot].Stack += count;
-                        Client.InventoryItems.Remove(oldSlot);
-
-                        args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemTotallyAddedOnAnotherInstance;
-                    }
-                }
-                else if (Client.InventoryItems.ContainsKey(newSlot) && Client.InventoryItems[newSlot].MediaName != Client.InventoryItems[oldSlot].MediaName)
-                {
-                    Information.InventoryItem temp = Client.InventoryItems[newSlot];
-                    temp.Slot = oldSlot;
-                    Client.InventoryItems[newSlot] = Client.InventoryItems[oldSlot];
-                    Client.InventoryItems[oldSlot] = temp;
-
-                    args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
-                    args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSwappedWithAnotherItem;
-                }
-                else if (!Client.InventoryItems.ContainsKey(newSlot) && count != Client.InventoryItems[oldSlot].Stack)
-                {
-                    Client.InventoryItems[oldSlot].Stack -= count;
-                    Information.InventoryItem item = new Information.InventoryItem(Client.InventoryItems[oldSlot].ModelID);
-                    item.Blues = Client.InventoryItems[oldSlot].Blues;
-                    item.Stack = count;
-                    item.Slot = newSlot;
-                    Client.InventoryItems.Add(newSlot, item);
-
-                    args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot], Client.InventoryItems[oldSlot]);
-                    args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSplitted;
-                }
-                else
-                {
-                    Client.InventoryItems.Add(newSlot, Client.InventoryItems[oldSlot]);
-                    Client.InventoryItems.Remove(oldSlot);
-
-                    args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlot]);
-                    args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSlotChanged;
-                }
-                
-                Parse(p);
-            } else if(flag == 0x01) //Item update in storage
+                args = InventoryUtility.ParseSlotChangedUpdate(p, Client.InventoryItems, "Inv");
+            } else if(flag == 0x01) //Item slot changed in storage
             {
-                int oldSlot = p.ReadInt8();
-                int newSlot = p.ReadInt8();
-                int count = p.ReadInt16();
-
-                if (count == 0)
-                    count = 1;
-
-                if (!Client.StorageItems.ContainsKey(oldSlot))
-                    return;
-
-                if (Client.StorageItems.ContainsKey(newSlot) && Client.StorageItems[newSlot].MediaName == Client.StorageItems[oldSlot].MediaName)
-                {
-                    if (Client.StorageItems[newSlot].Stack == Client.StorageItems[newSlot].MaxStack)
-                    {
-
-                        Information.InventoryItem temp = Client.StorageItems[newSlot];
-                        temp.Slot = oldSlot;
-                        Client.StorageItems[newSlot] = Client.StorageItems[oldSlot];
-                        Client.StorageItems[oldSlot] = temp;
-
-                        args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot], Client.StorageItems[oldSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemSwappedWithAnotherItem;
-
-                    } else if(count != Client.StorageItems[oldSlot].Stack)
-                    {
-                        Client.StorageItems[newSlot].Stack += count;
-                        Client.StorageItems[oldSlot].Stack -= count;
-
-                        args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot], Client.StorageItems[oldSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemPartiallyAddedOnAnotherInstance;
-                    }
-                    else
-                    {
-                        Client.StorageItems[newSlot].Stack += count;
-                        Client.StorageItems.Remove(oldSlot);
-
-                        args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot]);
-                        args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemTotallyAddedOnAnotherInstance;
-                    }
-                }
-                else if (Client.StorageItems.ContainsKey(newSlot) && Client.StorageItems[newSlot].MediaName != Client.StorageItems[oldSlot].MediaName)
-                {
-                    Information.InventoryItem temp = Client.StorageItems[newSlot];
-                    temp.Slot = oldSlot;
-                    Client.StorageItems[newSlot] = Client.StorageItems[oldSlot];
-                    Client.StorageItems[oldSlot] = temp;
-
-                    args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot], Client.StorageItems[oldSlot]);
-                    args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemSwappedWithAnotherItem;
-                }
-                else
-                {
-                    Client.StorageItems.Add(newSlot, Client.StorageItems[oldSlot]);
-                    Client.StorageItems.Remove(oldSlot);
-
-                    args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlot]);
-                    args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemSlotChanged;
-                }
-
-                Parse(p);
+                args = InventoryUtility.ParseSlotChangedUpdate(p, Client.StorageItems, "Storage");
             }
             else if (flag == 0x02) //Item added to storage
             {
@@ -272,6 +141,33 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemDisappeared;
 
                 Client.InventoryItems.Remove(oldSlot);
+            } else if(flag == 0x1B) //Item moved from inventory to pet
+            {
+                uint COS_uid = p.ReadUInt32();
+                if(Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                {
+                    byte oldSlot = p.ReadUInt8();
+                    byte newSlotInPet = p.ReadUInt8();
+                    Client.SpawnedPetItems.Add(newSlotInPet, Client.InventoryItems[oldSlot]);
+                    Client.InventoryItems.Remove(oldSlot);
+                }
+            } else if(flag == 0x1A) //Item moved from pet to inventory
+            {
+                uint COS_uid = p.ReadUInt32();
+                if (Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                {
+                    byte oldSlot = p.ReadUInt8();
+                    byte newSlotInPet = p.ReadUInt8();
+                    Client.InventoryItems.Add(newSlotInPet, Client.SpawnedPetItems[oldSlot]);
+                    Client.SpawnedPetItems.Remove(oldSlot);
+                }
+            } else if(flag == 0x10) //Item slot changed within pet
+            {
+                uint COS_uid = p.ReadUInt32();
+                if (Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                {
+                    args = InventoryUtility.ParseSlotChangedUpdate(p, Client.SpawnedPetItems, "PetInventory");
+                }
             }
 
             if(args != null)
@@ -292,6 +188,12 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 ItemChangeType = ChangeType.None;
             }
 
+            public ItemSlotChangedEventArgs(Information.InventoryItem _item, ChangeType _itemChangeType, Information.InventoryItem _associated = null)
+            {
+                item = _item;
+                associated = _associated;
+                ItemChangeType = _itemChangeType;
+            }
             /// <summary>
             /// The item with the change taking place.
             /// </summary>
@@ -328,6 +230,18 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Storage_ItemTakenFromStorage,
                 Storage_ItemTotallyAddedOnAnotherInstance,
                 Storage_ItemPartiallyAddedOnAnotherInstance,
+                GuildStorage_ItemSwappedWithAnotherItem,
+                GuildStorage_ItemSlotChanged,
+                GuildStorage_ItemAddedStorage,
+                GuildStorage_ItemTakenFromStorage,
+                GuildStorage_ItemTotallyAddedOnAnotherInstance,
+                GuildStorage_ItemPartiallyAddedOnAnotherInstance,
+                PetInventory_ItemSwappedWithAnotherItem,
+                PetInventory_ItemSlotChanged,
+                PetInventory_ItemAddedToInventory,
+                PetInventory_ItemTakenFromInventory,
+                PetInventory_ItemTotallyAddedOnAnotherInstance,
+                PetInventory_ItemPartiallyAddedOnAnotherInstance,
                 None
             }
 
