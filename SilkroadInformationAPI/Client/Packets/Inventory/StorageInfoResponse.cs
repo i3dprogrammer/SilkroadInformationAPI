@@ -9,7 +9,25 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
     class StorageInfoResponse
     {
-        public static void Parse(Packet p)
+
+        private static Packet StorageInfoPacket;
+
+        public static void StorageInfoStart()
+        {
+            StorageInfoPacket = new Packet(0x3013, false, true);
+        }
+
+        public static void StorageInfoData(Packet p)
+        {
+            StorageInfoPacket.WriteUInt8Array(p.GetBytes());
+        }
+
+        public static void StorageInfoEnd()
+        {
+            Parse(StorageInfoPacket);
+        }
+
+        private static void Parse(Packet p)
         {
             Client.StorageItems.Clear();
 

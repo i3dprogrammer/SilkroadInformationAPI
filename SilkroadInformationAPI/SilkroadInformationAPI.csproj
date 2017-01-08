@@ -72,6 +72,7 @@
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Spells\Skill.cs" />
     <Compile Include="Client\Packets\Alchemy\ParseInfo.cs" />
+    <Compile Include="Client\Packets\Character\CharInfo.cs" />
     <Compile Include="Client\Packets\Character\ParseData.cs" />
     <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
     <Compile Include="Client\Packets\COS\COSName.cs" />

@@ -13,11 +13,21 @@ namespace SilkroadInformationAPI.Client
         {
             try
             {
-                
+                #region CHARACTER_INFO
                 if (p.Opcode == 0x3013)
                 {
-                    Packets.Character.ParseData.Parse(p);
+                    Packets.Character.CharInfo.CharInfoData(p);
                 }
+                else if(p.Opcode == 0x34A5)
+                {
+                    Packets.Character.CharInfo.CharInfoStart();
+                }
+                else if (p.Opcode == 0x34A6)
+                {
+                    Packets.Character.CharInfo.CharInfoEnd();
+                }
+                #endregion
+
                 #region SPAWN
                 else if (p.Opcode == 0x3017)
                 {
@@ -46,10 +56,6 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Inventory.InventoryItemsUpdated.Parse(p);
                 }
-                else if (p.Opcode == 0x3049)
-                {
-                    Packets.Inventory.StorageInfoResponse.Parse(p);
-                }
                 else if (p.Opcode == 0xB04C)
                 {
                     Packets.Inventory.ItemCountUpdated.Parse(p);
@@ -57,6 +63,21 @@ namespace SilkroadInformationAPI.Client
                 else if (p.Opcode == 0x304E)
                 {
                     Packets.Inventory.GoldUpdated.Parse(p);
+                }
+                #endregion
+
+                #region STORAGE
+                else if (p.Opcode == 0x3049)
+                {
+                    Packets.Inventory.StorageInfoResponse.StorageInfoData(p);
+                }
+                else if (p.Opcode == 0x3047)
+                {
+                    Packets.Inventory.StorageInfoResponse.StorageInfoStart();
+                }
+                else if (p.Opcode == 0x3048)
+                {
+                    Packets.Inventory.StorageInfoResponse.StorageInfoEnd();
                 }
                 #endregion
 
