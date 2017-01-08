@@ -26,7 +26,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 p.ReadUInt8(); //Max transport slots
                 byte currCount = p.ReadUInt8(); //Current transport items
                 for (int i = 0; i < currCount; i++)
-                    Inventory.ParseItem.Parse(p);
+                    Inventory.InventoryUtility.ParseItem(p);
                 p.ReadUInt32(); //Owned Unique ID
             }
             else if(obj.Classes.F == 3) //Attack COS
@@ -49,7 +49,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 byte currCount = p.ReadUInt8();
                 for (int i = 0; i < currCount; i++)
                 {
-                    var item = Inventory.ParseItem.Parse(p);
+                    var item = Inventory.InventoryUtility.ParseItem(p);
                     Client.SpawnedPetItems.Add(item.Slot, item);
                 }
                 p.ReadUInt32(); //Owned unique id

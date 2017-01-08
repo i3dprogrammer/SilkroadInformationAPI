@@ -70,7 +70,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 if (Client.InventoryItems.ContainsKey(itemSlot)) //Removes the item if it's already in the inventory *If the item stacks*
                     Client.InventoryItems.Remove(itemSlot);
 
-                Information.InventoryItem item = ParseItem.Parse(p);
+                Information.InventoryItem item = InventoryUtility.ParseItem(p);
 
                 Client.InventoryItems.Add(itemSlot, item); //Re-adds the item with the new info.
 

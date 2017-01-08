@@ -38,7 +38,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             int currentInventoryItems = Client.Info.CurrentInvItemsCount = p.ReadInt8();
             for (int i = 0; i < currentInventoryItems; i++)
             {
-                var item = Inventory.ParseItem.Parse(p);
+                var item = Inventory.InventoryUtility.ParseItem(p);
                 Client.InventoryItems.Add(item.Slot, item);
             }
 
@@ -47,7 +47,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             int currentAvatarItems = p.ReadInt8();
             for (int i = 0; i < currentAvatarItems; i++)
             {
-                var item = Inventory.ParseItem.Parse(p);
+                var item = Inventory.InventoryUtility.ParseItem(p);
             }
             p.ReadInt8(); //UNK
 

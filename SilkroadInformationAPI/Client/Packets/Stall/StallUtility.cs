@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI.Client.Packets.Stall
         {
             while (true)
             {
-                var item = Inventory.ParseItem.Parse(p);
+                var item = Inventory.InventoryUtility.ParseItem(p);
                 if (item == null)
                     break;
 
