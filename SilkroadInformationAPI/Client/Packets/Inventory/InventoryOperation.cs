@@ -8,7 +8,7 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
-    public class InventoryItemsUpdated
+    public class InventoryOperation
     {
         public delegate void ItemSlotUpdatedHandler(InventoryOperationEventArgs e);
         public static event ItemSlotUpdatedHandler OnItemSlotUpdated;
@@ -171,7 +171,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             }
 
             if(args != null)
-                OnItemSlotUpdated(args);
+                OnItemSlotUpdated?.Invoke(args);
         }
 
         

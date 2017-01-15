@@ -7,14 +7,19 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Alchemy
 {
-    class EnchantResult
+    public class EnchantResult
     {
-        public delegate void EnchantmentResultHandler(FuseResultEventArgs e);
-
+        public delegate void ReinforcementResultHandler(FuseResultEventArgs e);
         /// <summary>
-        /// This event gets called whenever packet 0xB151 is received, when a stone is added on the item.
+        /// This event gets called whenever packet 0xB150 is received, after elixir is added on the item.
         /// </summary>
-        public static event EnchantmentResultHandler OnEnchant;
+        public static event ReinforcementResultHandler OnReinforceResult;
+
+        public delegate void EnchantmentResultHandler(FuseResultEventArgs e);
+        /// <summary>
+        /// This event gets called whenever packet 0xB151 is received, after a stone is added on the item.
+        /// </summary>
+        public static event EnchantmentResultHandler OnEnchantResult;
 
         public static void Parse(Packet p)
         {
@@ -25,16 +30,19 @@ namespace SilkroadInformationAPI.Client.Packets.Alchemy
                 if(flag2 == 0x02) // ??
                 {
                     bool EnchantSuccess = (p.ReadUInt8() == 1);
-                    byte ItemSlotInInventory = p.ReadUInt8();
+                    byte ItemSlot = p.ReadUInt8();
                     p.ReadUInt32(); //Rent Type
                     p.ReadUInt32(); //Item ref id, why?
-                    byte CurrentPlusValue = p.ReadUInt8();
-                    p.ReadUInt64(); //White stats
-                    p.ReadUInt32(); //DURABILITY
+                    Client.InventoryItems[ItemSlot].PlusValue = p.ReadUInt8();
+                    Client.InventoryItems[ItemSlot].Stats = Actions.Utility.CalculateWhiteStats(p.ReadUInt64(), Client.InventoryItems[ItemSlot].Type); //White stats
+                    Client.InventoryItems[ItemSlot].Stats.Add("DURABILITY", p.ReadInt32()); //DURABILITY
                     byte currBlues = p.ReadUInt8();
-                    Client.InventoryItems[ItemSlotInInventory].Blues = AlchemyUtility.ParseBlues(p, currBlues);
+                    Client.InventoryItems[ItemSlot].Blues = AlchemyUtility.ParseBlues(p, currBlues);
 
-                    OnEnchant(new FuseResultEventArgs(EnchantSuccess, Client.InventoryItems[ItemSlotInInventory]));
+                    if(p.Opcode == 0xB151)
+                        OnEnchantResult?.Invoke(new FuseResultEventArgs(EnchantSuccess, Client.InventoryItems[ItemSlot]));
+                    else
+                        OnReinforceResult?.Invoke(new FuseResultEventArgs(EnchantSuccess, Client.InventoryItems[ItemSlot]));
                 }
             }
 

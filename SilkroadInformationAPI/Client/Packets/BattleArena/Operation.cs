@@ -7,7 +7,7 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.BattleArena
 {
-    class Operation
+    public class Operation
     {
         public delegate void BattleArenaStateHandler(BattleArenaStateEventArgs e);
         /// <summary>
@@ -48,26 +48,26 @@ namespace SilkroadInformationAPI.Client.Packets.BattleArena
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
                 if(flag == 0x02)
-                    OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.TenMinutesLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.TenMinutesLeftToStartArena));
                 if (flag == 0x0D)
-                    OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.FiveMinutesLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.FiveMinutesLeftToStartArena));
                 if (flag == 0x0E)
-                    OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.OneMinuteLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.OneMinuteLeftToStartArena));
             }
             else if (flag == 0x05) //Arena ended
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaEnded));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaEnded));
             }
             else if (flag == 0x04) //Arena started
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaStarted));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaStarted));
             }
             else if (flag == 0x03) //Registration closed
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange(new BattleArenaStateEventArgs((ArenaType)Type, State.RegistrationClosed));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.RegistrationClosed));
             }
             else if (flag == 0xFF) //Registration response
             {
@@ -94,16 +94,16 @@ namespace SilkroadInformationAPI.Client.Packets.BattleArena
                 {
                     uint totalTime = p.ReadUInt32(); //in milliseconds
                     uint timeElapsed = p.ReadUInt32(); //in milliseconds
-                    OnBattleArenaTimeChange(new BattleArenaTimeEventArgs(totalTime, timeElapsed));
+                    OnBattleArenaTimeChange?.Invoke(new BattleArenaTimeEventArgs(totalTime, timeElapsed));
                 }
                 else if (result == 0x88) //Update score
                 {
                     uint TeamScore = p.ReadUInt32(); //Team score
                     uint EnemyScore = p.ReadUInt32(); //Enemy score
-                    OnBattleArenaScoreChange(new BattleArenaScoreEventArgs(TeamScore, EnemyScore));
+                    OnBattleArenaScoreChange?.Invoke(new BattleArenaScoreEventArgs(TeamScore, EnemyScore));
                 } else
                 {
-                    OnBattleArenaReceiveResponse(args);
+                    OnBattleArenaReceiveResponse?.Invoke(args);
                 }
 
                 //TODO: Anaylze more scenario's
@@ -117,7 +117,7 @@ namespace SilkroadInformationAPI.Client.Packets.BattleArena
                 byte type = p.ReadUInt8();
                 byte result = p.ReadUInt8();
                 byte coins = p.ReadUInt8();
-                OnBattleArenaResult(new BattleArenaResultEventArgs(coins, ((result == 0) ? ArenaResult.Won : (result == 2) ? ArenaResult.Lost : ArenaResult.Draw), p.ReadUInt32()));
+                OnBattleArenaResult?.Invoke(new BattleArenaResultEventArgs(coins, ((result == 0) ? ArenaResult.Won : (result == 2) ? ArenaResult.Lost : ArenaResult.Draw), p.ReadUInt32()));
             }
         }
     }

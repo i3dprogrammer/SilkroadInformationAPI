@@ -232,7 +232,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemSlotChanged"));
             }
 
-            InventoryItemsUpdated.Parse(p);
+            InventoryOperation.Parse(p);
 
             return args;
         }

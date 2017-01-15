@@ -57,7 +57,7 @@ namespace SilkroadInformationAPI.Client
                 }
                 else if (p.Opcode == 0xB034)
                 {
-                    Packets.Inventory.InventoryItemsUpdated.Parse(p);
+                    Packets.Inventory.InventoryOperation.Parse(p);
                 }
                 else if (p.Opcode == 0xB04C)
                 {
@@ -65,7 +65,7 @@ namespace SilkroadInformationAPI.Client
                 }
                 else if (p.Opcode == 0x304E)
                 {
-                    Packets.Inventory.GoldUpdated.Parse(p);
+                    Packets.Inventory.InventoryGoldUpdated.Parse(p);
                 }
                 #endregion
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Packets.BattleArena
 {
-    class BattleArenaResultEventArgs : EventArgs
+    public class BattleArenaResultEventArgs : EventArgs
     {
         public byte CountEarned;
         public ArenaResult ArenaResult;

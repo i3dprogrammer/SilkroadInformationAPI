@@ -24,16 +24,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int newCount = p.ReadInt8();
                 Client.InventoryItems[slot].Stack = newCount;
                 ItemCountUpdatedDueAlchemyEventArgs args = new ItemCountUpdatedDueAlchemyEventArgs(Client.InventoryItems[slot]);
-                OnItemCountUpdatedDueAlchemyEvent(args);
-            }
-        }
 
-        public class ItemCountUpdatedDueAlchemyEventArgs : EventArgs
-        {
-            public Information.InventoryItem item;
-            public ItemCountUpdatedDueAlchemyEventArgs(Information.InventoryItem _Item)
-            {
-                item = _Item;
+                OnItemCountUpdatedDueAlchemyEvent?.Invoke(args);
             }
         }
     }
