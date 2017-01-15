@@ -8,7 +8,7 @@ using SilkroadInformationAPI.Client.Information;
 
 namespace SilkroadInformationAPI.Client.Packets.Alchemy
 {
-    class ParseInfo
+    class AlchemyUtility
     {
         public static Dictionary<string, int> ParseBlues(Packet p, int count)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SilkroadSecurityApi;
-using static SilkroadInformationAPI.Client.Packets.Inventory.InventoryItemsUpdated.ItemSlotChangedEventArgs;
+using static SilkroadInformationAPI.Client.Packets.Inventory.InventoryOperationEventArgs;
 
 namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
@@ -65,7 +65,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 item.Stats.Add("DURABILITY", p.ReadInt32());
 
                 int countB = p.ReadInt8(); //Blue count
-                item.Blues = Alchemy.ParseInfo.ParseBlues(p, countB);
+                item.Blues = Alchemy.AlchemyUtility.ParseBlues(p, countB);
 
                 p.ReadInt8(); // Can add sockets
                 int socks = p.ReadInt8(); // Sockets
@@ -152,9 +152,9 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             return item;
         }
 
-        public static InventoryItemsUpdated.ItemSlotChangedEventArgs ParseSlotChangedUpdate(Packet p, Dictionary<int, Information.InventoryItem> SpecificInventory, string argName)
+        public static InventoryOperationEventArgs ParseSlotChangedUpdate(Packet p, Dictionary<int, Information.InventoryItem> SpecificInventory, string argName)
         {
-            InventoryItemsUpdated.ItemSlotChangedEventArgs args = null;
+            InventoryOperationEventArgs args = null;
 
             int oldSlot = p.ReadInt8();
             int newSlot = p.ReadInt8();
@@ -176,7 +176,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     SpecificInventory[newSlot] = SpecificInventory[oldSlot];
                     SpecificInventory[oldSlot] = temp;
 
-                    args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                    args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                         (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemSwappedWithAnotherItem"),
                         SpecificInventory[oldSlot]);
 
@@ -186,7 +186,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     SpecificInventory[newSlot].Stack += count;
                     SpecificInventory[oldSlot].Stack -= count;
 
-                    args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                    args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                         (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemPartiallyAddedOnAnotherInstance"),
                         SpecificInventory[oldSlot]);
                 }
@@ -195,7 +195,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     SpecificInventory[newSlot].Stack += count;
                     SpecificInventory.Remove(oldSlot);
 
-                    args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                    args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                         (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemTotallyAddedOnAnotherInstance"));
                 }
             }
@@ -206,7 +206,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 SpecificInventory[newSlot] = SpecificInventory[oldSlot];
                 SpecificInventory[oldSlot] = temp;
 
-                args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                     (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemSwappedWithAnotherItem"),
                     SpecificInventory[oldSlot]);
             }
@@ -219,7 +219,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 item.Slot = newSlot;
                 SpecificInventory.Add(newSlot, item);
 
-                args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                     (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemSplitted"),
                     SpecificInventory[oldSlot]);
             }
@@ -228,7 +228,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 SpecificInventory.Add(newSlot, SpecificInventory[oldSlot]);
                 SpecificInventory.Remove(oldSlot);
 
-                args = new InventoryItemsUpdated.ItemSlotChangedEventArgs(SpecificInventory[newSlot],
+                args = new InventoryOperationEventArgs(SpecificInventory[newSlot],
                     (ChangeType)Enum.Parse(typeof(ChangeType), argName + "_ItemSlotChanged"));
             }
 

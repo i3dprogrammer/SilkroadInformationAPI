@@ -44,6 +44,9 @@ namespace SilkroadInformationAPI.Client
                 else if (p.Opcode == 0x3015)
                 {
                     Packets.Spawn.SingleSpawn.Parse(p);
+                } else if (p.Opcode == 0x3016)
+                {
+                    Packets.Spawn.Despawn.Parse(p);
                 }
                 #endregion
 

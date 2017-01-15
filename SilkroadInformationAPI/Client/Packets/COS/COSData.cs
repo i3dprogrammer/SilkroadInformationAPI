@@ -15,8 +15,8 @@ namespace SilkroadInformationAPI.Client.Packets.COS
             uint refID = p.ReadUInt32(); //Model ID, can skip since the spawn packet comes first.
             var obj = Media.Data.MediaModels[refID];
 
-            p.ReadUInt32(); // unk, HP related
-            p.ReadUInt32(); // unk, HP related
+            p.ReadUInt32(); // HP?
+            p.ReadUInt32(); // HP?
 
             if (obj.Classes.F == 1) //Normal COS
             {
@@ -27,13 +27,13 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 byte currCount = p.ReadUInt8(); //Current transport items
                 for (int i = 0; i < currCount; i++)
                     Inventory.InventoryUtility.ParseItem(p);
-                p.ReadUInt32(); //Owned Unique ID
+                p.ReadUInt32(); //Owner Unique ID
             }
             else if(obj.Classes.F == 3) //Attack COS
             {
                 p.ReadUInt64(); //Pet EXP
                 p.ReadUInt8(); //Level?
-                p.ReadUInt16(); //HP, TODO: to decode
+                p.ReadUInt16(); //HGP Points
                 p.ReadUInt32(); //??
                 p.ReadAscii(); //COS Name
                 p.ReadUInt8(); //??
@@ -52,7 +52,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                     var item = Inventory.InventoryUtility.ParseItem(p);
                     Client.SpawnedPetItems.Add(item.Slot, item);
                 }
-                p.ReadUInt32(); //Owned unique id
+                p.ReadUInt32(); //Owner unique id
                 p.ReadUInt8(); // UNK ?? something with spawned pet count
             } else if(obj.Classes.F == 5) //Guild COS
             {

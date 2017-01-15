@@ -39,6 +39,6 @@ namespace SilkroadInformationAPI.Client.Information
         public uint JID { get; set; } // ?
         public byte GMFlag { get; set; }
 
-        public List<Objects.COS> CharacterCOS = new List<Objects.COS>();
+        public Dictionary<uint, Objects.COS> CharacterCOS = new Dictionary<uint, Objects.COS>();
     }
 }

@@ -16,7 +16,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// The Unique ID of the object, each object has it's own distinct unique id.
         /// </summary>
-        public uint UniqueID { get; set; }
+        public uint UniqueID { get; set; } = 0;
 
         public BasicInfo.Position Position = new BasicInfo.Position();
 

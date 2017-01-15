@@ -24,6 +24,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
 
         public static void CharInfoEnd()
         {
+            CharInfoPacket.Lock();
             ParseData.Parse(CharInfoPacket);
         }
     }

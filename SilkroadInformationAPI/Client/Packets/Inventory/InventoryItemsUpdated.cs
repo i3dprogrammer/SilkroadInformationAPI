@@ -10,7 +10,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
     public class InventoryItemsUpdated
     {
-        public delegate void ItemSlotUpdatedHandler(ItemSlotChangedEventArgs e);
+        public delegate void ItemSlotUpdatedHandler(InventoryOperationEventArgs e);
         public static event ItemSlotUpdatedHandler OnItemSlotUpdated;
 
         public static void Parse(Packet p)
@@ -26,7 +26,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
             int flag = p.ReadInt8();
 
-            ItemSlotChangedEventArgs args = null;
+            InventoryOperationEventArgs args = null;
 
             if (flag == 0x00) //Item update in inventory
             {
@@ -46,8 +46,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Client.InventoryItems.Remove(oldSlot);
                 Client.StorageItems.Add(newSlotInStorage, item);
 
-                args = new ItemSlotChangedEventArgs(Client.StorageItems[newSlotInStorage]);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemAddedToStorage;
+                args = new InventoryOperationEventArgs(Client.StorageItems[newSlotInStorage]);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Storage_ItemAddedToStorage;
             }
             else if (flag == 0x03) //Item taken from storage
             {
@@ -60,8 +60,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Client.InventoryItems.Add(newSlotInInventory, item);
                 Client.StorageItems.Remove(itemSlotInStorage);
 
-                args = new ItemSlotChangedEventArgs(Client.InventoryItems[newSlotInInventory]);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Storage_ItemTakenFromStorage;
+                args = new InventoryOperationEventArgs(Client.InventoryItems[newSlotInInventory]);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Storage_ItemTakenFromStorage;
 
             } else if(flag == 0x06) //Item picked from the ground
             {
@@ -74,15 +74,15 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
                 Client.InventoryItems.Add(itemSlot, item); //Re-adds the item with the new info.
 
-                args = new ItemSlotChangedEventArgs(Client.InventoryItems[itemSlot]);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemLooted;
+                args = new InventoryOperationEventArgs(Client.InventoryItems[itemSlot]);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemLooted;
             }
             else if (flag == 0x07) //Item thrown to the ground
             {
                 int oldSlot = p.ReadInt8();
 
-                args = new ItemSlotChangedEventArgs(Client.InventoryItems[oldSlot]);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemThrown;
+                args = new InventoryOperationEventArgs(Client.InventoryItems[oldSlot]);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemThrown;
 
                 Client.InventoryItems.Remove(oldSlot);
             } else if (flag == 0x08) //Item bought from NPC
@@ -109,8 +109,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 else
                     Client.InventoryItems[itemSlot].Stack -= countSold;
 
-                args = new ItemSlotChangedEventArgs(item);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemSoldToNPC;
+                args = new InventoryOperationEventArgs(item);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemSoldToNPC;
 
                 Console.WriteLine("Sold {0} to NPCID: {1}, Registered with ID: {2}", item.MediaName, NPCID, indexInNPC - 1);
             } else if(flag == 0x18) //Item bought from Item Mall
@@ -130,21 +130,21 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Client.InventoryItems.Add(newSlotInInventory, item);
                 Client.SoldItems.Remove(item);
 
-                args = new ItemSlotChangedEventArgs(item);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemBoughtbackFromNPC;
+                args = new InventoryOperationEventArgs(item);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemBoughtbackFromNPC;
             }
             else if (flag == 0x0F) //Item disappeared
             {
                 int oldSlot = p.ReadInt8();
 
-                args = new ItemSlotChangedEventArgs(Client.InventoryItems[oldSlot]);
-                args.ItemChangeType = ItemSlotChangedEventArgs.ChangeType.Inv_ItemDisappeared;
+                args = new InventoryOperationEventArgs(Client.InventoryItems[oldSlot]);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemDisappeared;
 
                 Client.InventoryItems.Remove(oldSlot);
             } else if(flag == 0x1B) //Item moved from inventory to pet
             {
                 uint COS_uid = p.ReadUInt32();
-                if(Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                if(Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
                 {
                     byte oldSlot = p.ReadUInt8();
                     byte newSlotInPet = p.ReadUInt8();
@@ -154,7 +154,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             } else if(flag == 0x1A) //Item moved from pet to inventory
             {
                 uint COS_uid = p.ReadUInt32();
-                if (Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                if (Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
                 {
                     byte oldSlot = p.ReadUInt8();
                     byte newSlotInPet = p.ReadUInt8();
@@ -164,7 +164,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             } else if(flag == 0x10) //Item slot changed within pet
             {
                 uint COS_uid = p.ReadUInt32();
-                if (Client.Info.CharacterCOS.Where(x => x.UniqueID == COS_uid && x.Type == COS_Type.PickupPet).Count() > 0)
+                if (Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
                 {
                     args = InventoryUtility.ParseSlotChangedUpdate(p, Client.SpawnedPetItems, "PetInventory");
                 }
@@ -174,77 +174,6 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 OnItemSlotUpdated(args);
         }
 
-        public class ItemSlotChangedEventArgs : EventArgs
-        {
-            Information.InventoryItem item;
-            Information.InventoryItem associated;
-
-            public ChangeType ItemChangeType;
-
-            public ItemSlotChangedEventArgs(Information.InventoryItem _item, Information.InventoryItem _associated = null)
-            {
-                item = _item;
-                associated = _associated;
-                ItemChangeType = ChangeType.None;
-            }
-
-            public ItemSlotChangedEventArgs(Information.InventoryItem _item, ChangeType _itemChangeType, Information.InventoryItem _associated = null)
-            {
-                item = _item;
-                associated = _associated;
-                ItemChangeType = _itemChangeType;
-            }
-            /// <summary>
-            /// The item with the change taking place.
-            /// </summary>
-            /// <returns></returns>
-            public Information.InventoryItem EffectedItem()
-            {
-                return item;
-            }
-
-            /// <summary>
-            /// The item associated with the changes i.e. (if it got swapped with another item, this returns the other item)
-            /// </summary>
-            /// <returns>The associated SilkroadInformationAPI.Client.Information.Item</returns>
-            public Information.InventoryItem AssociatedItem()
-            {
-                return associated;
-            }
-
-            public enum ChangeType
-            {
-                Inv_ItemSwappedWithAnotherItem,
-                Inv_ItemTotallyAddedOnAnotherInstance,
-                Inv_ItemPartiallyAddedOnAnotherInstance,
-                Inv_ItemSplitted,
-                Inv_ItemSlotChanged,
-                Inv_ItemLooted,
-                Inv_ItemThrown,
-                Inv_ItemSoldToNPC,
-                Inv_ItemBoughtbackFromNPC,
-                Inv_ItemDisappeared,
-                Storage_ItemSwappedWithAnotherItem,
-                Storage_ItemSlotChanged,
-                Storage_ItemAddedToStorage,
-                Storage_ItemTakenFromStorage,
-                Storage_ItemTotallyAddedOnAnotherInstance,
-                Storage_ItemPartiallyAddedOnAnotherInstance,
-                GuildStorage_ItemSwappedWithAnotherItem,
-                GuildStorage_ItemSlotChanged,
-                GuildStorage_ItemAddedStorage,
-                GuildStorage_ItemTakenFromStorage,
-                GuildStorage_ItemTotallyAddedOnAnotherInstance,
-                GuildStorage_ItemPartiallyAddedOnAnotherInstance,
-                PetInventory_ItemSwappedWithAnotherItem,
-                PetInventory_ItemSlotChanged,
-                PetInventory_ItemAddedToInventory,
-                PetInventory_ItemTakenFromInventory,
-                PetInventory_ItemTotallyAddedOnAnotherInstance,
-                PetInventory_ItemPartiallyAddedOnAnotherInstance,
-                None
-            }
-
-        }
+        
     }
 }

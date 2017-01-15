@@ -106,4 +106,45 @@ namespace SilkroadInformationAPI
         NPC = 13,
         Accademy = 16,
     }
+
+    public enum ArenaType
+    {
+        Random = 0,
+        Party = 1,
+        Guild = 2,
+        Job = 3,
+    }
+
+    public enum State
+    {
+        TenMinutesLeftToStartArena,
+        FiveMinutesLeftToStartArena,
+        OneMinuteLeftToStartArena,
+        ArenaStarted,
+        ArenaEnded,
+        RegistrationClosed
+    }
+
+    public enum ArenaResult
+    {
+        Won,
+        Lost,
+        Draw,
+    }
+
+    public enum ArenaResponse
+    {
+        RegistrationSuccess = 0x00,
+        YouAreAlreadyRegistered = 0x02,
+        YouMayNotRegisterAtThisTime = 0x04,
+        MatchHasBeenCanceledDueToNotEnoughPlayers = 0x06,
+        UnableToRegisterYouAreNoInparty = 0x0B,
+        YouAreNotWearingJobSuit = 0x0D,
+        TeamGotFlag = 0x80,
+        EnemyTeamGotFlag = 0x81,
+        FlagChannelling = 0x82,
+        FlagDropped = 0x83,
+        FlagHasBeenPutAtFlagpole = 0x84,
+        Unknown,
+    }
 }
