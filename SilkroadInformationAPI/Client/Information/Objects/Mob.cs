@@ -17,5 +17,9 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// TODO: ???
         /// </summary>
         public byte Appearance { get; set; }
+
+        public uint HP { get; set; }
+
+        public bool BadState { get; set; }
     }
 }

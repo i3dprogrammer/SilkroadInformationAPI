@@ -13,14 +13,17 @@ namespace SilkroadInformationAPI.Client.Information
         public uint UniqueID { get; set; }
         public int Level { get; set; }
         public int MaxGameLevel { get; set; }
-        public long CurrentExp { get; set; }
+        public ulong MaxEXP { get; set; }
+        public ulong CurrentExp { get; set; }
         public int SPLoadingBar { get; set; }
         public ulong Gold { get; set; }
         public int SP { get; set; }
         public short StatPoints { get; set; }
         public bool Zerk { get; set; }
-        public int HP { get; set; }
-        public int MP { get; set; }
+        public uint MaxHP { get; set; }
+        public uint MaxMP { get; set; }
+        public uint CurrentHP { get; set; }
+        public uint CurrentMP { get; set; }
         public int MaxInventorySlots { get; set; }
         public int CurrentInvItemsCount { get; set; }
         public string CharacterName { get; set; }
@@ -38,7 +41,7 @@ namespace SilkroadInformationAPI.Client.Information
         public ulong GuideFlag { get; set; }
         public uint JID { get; set; } // ?
         public byte GMFlag { get; set; }
-
+        public bool BadStatus { get; set; }
         public Dictionary<uint, Objects.COS> CharacterCOS = new Dictionary<uint, Objects.COS>();
     }
 }

@@ -18,15 +18,16 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             p.ReadInt8(); //Volume
             Client.Info.Level = p.ReadInt8(); //Current level
             Client.Info.MaxGameLevel = p.ReadInt8(); //Max level
-            Client.Info.CurrentExp = p.ReadInt64(); //Current exp
+            Client.Info.CurrentExp = p.ReadUInt64(); //Current exp
+            Client.Info.MaxEXP = Media.Data.MaxEXP[Client.Info.Level];
             p.ReadInt32(); //SP bar
             Client.Info.Gold = p.ReadUInt64(); //Gold
             Client.Info.SP = p.ReadInt32(); //Skill points
             Client.Info.StatPoints = p.ReadInt16(); //Stat points
             Client.Info.Zerk = (p.ReadInt8() == 5) ? true : false; //Berserk gauge
             p.ReadInt32(); //Zeroes
-            Client.Info.HP = p.ReadInt32(); //HP
-            Client.Info.MP = p.ReadInt32(); //MP
+            Client.Info.CurrentHP = p.ReadInt32(); //HP
+            Client.Info.CurrentMP = p.ReadInt32(); //MP
             p.ReadInt8(); //Beginner icon
             p.ReadInt8(); //Daily PK
             p.ReadInt16(); //Total PK

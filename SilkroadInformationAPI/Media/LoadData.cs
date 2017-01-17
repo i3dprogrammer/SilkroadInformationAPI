@@ -416,6 +416,52 @@ namespace SilkroadInformationAPI.Media
             }
         }
 
+        public static void LoadLevelData()
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("leveldata.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 13)
+                        {
+                            try
+                            {
+                                bool Used = (vars[0] == "1") ? true : false;
+                                if (Used)
+                                {
+                                    int level = Int32.Parse(vars[0]);
+                                    ulong maxExp = ulong.Parse(vars[1]);
+                                    Data.MaxEXP.Add(level, maxExp);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                //Console.WriteLine(ex.StackTrace);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading level data." + ex.Message);
+            }
+        }
+
         public static void LoadShops()
         {
             try

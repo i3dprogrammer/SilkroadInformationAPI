@@ -45,7 +45,18 @@ namespace SilkroadInformationAPI
             Media.LoadData.InitializeReader(MediaPath, blowfish);
         }
 
-
+        public void StartClient(string path, ushort port, byte locale)
+        {
+            if (File.Exists(path + "\\sro_client.exe"))
+            {
+                var loader = new Client.Loader.Loader();
+                loader.StartClient(path, port, locale);
+            }
+            else
+            {
+                throw new Exception("Couldn't find sro_client in the specified path.");
+            }
+        }
 
         /// <summary>
         /// Loads media data (Objects, Items, Skills, Translation, etc..)

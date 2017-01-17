@@ -71,6 +71,12 @@
     <Compile Include="Client\Information\Quests\Objective.cs" />
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Spells\Skill.cs" />
+    <Compile Include="Client\Loader\Loader.cs" />
+    <Compile Include="Client\Packets\Character\EXP_SP_Update.cs" />
+    <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\LevelUp.cs" />
+    <Compile Include="Client\Packets\Entity\SpeedUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\StateChange.cs" />
     <Compile Include="Client\Packets\Alchemy\AlchemyUtility.cs" />
     <Compile Include="Client\Packets\Alchemy\EnchantResult.cs" />
     <Compile Include="Client\Packets\Alchemy\FuseResultEventArgs.cs" />
@@ -81,12 +87,12 @@
     <Compile Include="Client\Packets\BattleArena\BattleArenaTimeEventArgs.cs" />
     <Compile Include="Client\Packets\BattleArena\Operation.cs" />
     <Compile Include="Client\Packets\Character\CharInfo.cs" />
+    <Compile Include="Client\Packets\Character\InfoUpdate.cs" />
     <Compile Include="Client\Packets\Character\ParseData.cs" />
     <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
     <Compile Include="Client\Packets\COS\COSData.cs" />
     <Compile Include="Client\Packets\COS\COSUpdate.cs" />
     <Compile Include="Client\Packets\COS\RideState.cs" />
-    <Compile Include="Client\Packets\Inventory\InventoryGoldUpdated.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperation.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperationEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryUtility.cs" />
@@ -95,8 +101,7 @@
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemyEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
-    <Compile Include="Client\Actions\MovementUtility.cs" />
-    <Compile Include="Client\Packets\Movement\PositionUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
     <Compile Include="Client\Packets\Spawn\DEBUGSingleSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\Despawn.cs" />
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />

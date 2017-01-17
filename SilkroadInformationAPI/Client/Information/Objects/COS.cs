@@ -45,6 +45,10 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// </summary>
         public byte MaxInventorySlots { get; set; }
 
+        public uint HP { get; set; }
+
+        public bool BadState { get; set; }
+
         /// <summary>
         /// Summon type (Pickup pet, Fortress pet, Guild pet..)
         /// </summary>

@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI.Client
         {
             try
             {
-                #region CHARACTER_INFO
+                #region CHARACTER
                 if (p.Opcode == 0x3013)
                 {
                     Packets.Character.CharInfo.CharInfoData(p);
@@ -26,6 +26,10 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Character.CharInfo.CharInfoEnd();
                 }
+                else if (p.Opcode == 0x304E)
+                {
+                    Packets.Character.InfoUpdate.Parse(p);
+                } 
                 #endregion
 
                 #region SPAWN
@@ -63,10 +67,6 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Inventory.ItemCountUpdated.Parse(p);
                 }
-                else if (p.Opcode == 0x304E)
-                {
-                    Packets.Inventory.InventoryGoldUpdated.Parse(p);
-                }
                 #endregion
 
                 #region STORAGE
@@ -100,6 +100,24 @@ namespace SilkroadInformationAPI.Client
                     Packets.Chat.ChatUpdated.Parse(p);
                 }
 
+                #region ENTITY
+                else if (p.Opcode == 0xB021)
+                {
+                    Packets.Entity.PositionUpdate.Parse(p);
+                }
+                else if (p.Opcode == 0x30BF)
+                {
+                    Packets.Entity.StateChange.Parse(p);
+                }
+                else if (p.Opcode == 0x30D0)
+                {
+                    Packets.Entity.SpeedUpdate.Parse(p);
+                } 
+                else if(p.Opcode == 0x3054)
+                {
+                    Packets.Entity.LevelUp.Parse(p);
+                }
+                #endregion
                 #region STALL
                 else if (p.Opcode == 0xB0B3)
                 {
