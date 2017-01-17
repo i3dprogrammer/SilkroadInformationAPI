@@ -147,4 +147,46 @@ namespace SilkroadInformationAPI
         FlagHasBeenPutAtFlagpole = 0x84,
         Unknown,
     }
+
+    public enum MotionState
+    {
+        None = 0,
+        Walking = 2,
+        Running = 3,
+        Sitting = 4,
+    }
+
+
+    /// <summary>
+    /// DaxterSoul
+    /// </summary>
+    public enum FRPVPMode
+    {
+        None = 0,
+
+        /// <summary>
+        /// Team Red Hawk
+        /// </summary>
+        Red = 1,
+
+        /// <summary>
+        /// Team Black Turtle
+        /// </summary>
+        Black = 2,
+
+        /// <summary>
+        /// Team Blue Dragon
+        /// </summary>
+        Blue = 3,
+
+        /// <summary>
+        /// Team White Tiger
+        /// </summary>
+        White = 4,
+
+        /// <summary>
+        /// Team Giraffe
+        /// </summary>
+        Yellow = 5,
+    }
 }

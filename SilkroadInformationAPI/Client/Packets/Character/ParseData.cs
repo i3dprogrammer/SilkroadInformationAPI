@@ -26,14 +26,14 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.StatPoints = p.ReadInt16(); //Stat points
             Client.Info.Zerk = (p.ReadInt8() == 5) ? true : false; //Berserk gauge
             p.ReadInt32(); //Zeroes
-            Client.Info.CurrentHP = p.ReadInt32(); //HP
-            Client.Info.CurrentMP = p.ReadInt32(); //MP
+            Client.Info.CurrentHP = p.ReadUInt32(); //HP
+            Client.Info.CurrentMP = p.ReadUInt32(); //MP
             p.ReadInt8(); //Beginner icon
             p.ReadInt8(); //Daily PK
             p.ReadInt16(); //Total PK
             p.ReadInt32(); //Total Penalty points
-            p.ReadInt8(); //Title
-            p.ReadInt8(); //Pvp state
+            p.ReadInt8(); //TitleLevel
+            Client.Info.PVPCape = (FRPVPMode) p.ReadInt8(); //Pvp state
             Client.Info.MaxInventorySlots = p.ReadInt8(); //Max inventory slots
             //Inventory
             int currentInventoryItems = Client.Info.CurrentInvItemsCount = p.ReadInt8();
@@ -172,7 +172,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             }
 
             //State
-            Client.State.LifeState = p.ReadUInt8(); //1 = Alive, 2 = Dead
+            Client.State.LifeState = (p.ReadUInt8() == 1); //1 = Alive, 2 = Dead
             p.ReadUInt8(); //unk
             Client.State.MotionState = p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
             Client.State.Status = p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible

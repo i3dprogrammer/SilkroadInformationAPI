@@ -10,14 +10,35 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
     public class StateChange
     {
         public static event Action OnMobDies;
-        public static void Parse(Packet p)
+        public static void Parse(Packet p) //TODO: Add events
         {
             uint uid = p.ReadUInt32();
             byte flag1 = p.ReadUInt8();
-            byte flag2 = p.ReadUInt8();
-            if (flag1 == 0x00 && flag2 == 0x02) //MOB DIED
+            if (flag1 == 0x00) //Object died
             {
-                OnMobDies?.Invoke();
+                if (Client.NearbyMobs.ContainsKey(uid) && p.ReadUInt8() == 2)
+                    OnMobDies?.Invoke();
+                else if (Client.Info.UniqueID == uid)
+                    Client.State.LifeState = (p.ReadUInt8() == 1);
+            } else if(flag1 == 0x01) //Motion state change
+            {
+                if (Client.NearbyCharacters.ContainsKey(uid))
+                {
+                    Client.NearbyCharacters[uid].State.MotionState = p.ReadUInt8();
+                } else if(Client.Info.UniqueID == uid)
+                {
+                    Client.State.MotionState = p.ReadUInt8();
+                }
+            } else if(flag1 == 0x04) //Status change
+            {
+                if (Client.NearbyCharacters.ContainsKey(uid))
+                {
+                    Client.NearbyCharacters[uid].State.Status = p.ReadUInt8();
+                    p.ReadUInt8(); //Zerk level
+                } else if(Client.Info.UniqueID == uid)
+                {
+                    Client.State.Status = p.ReadUInt8();
+                }
             }
         }
     }

@@ -9,7 +9,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
 {
     public class LevelUp
     {
-        public static void Parse(Packet p)
+        public static void Parse(Packet p) //TODO: Add events
         {
             uint uid = p.ReadUInt32();
             if(Client.Info.UniqueID == uid)

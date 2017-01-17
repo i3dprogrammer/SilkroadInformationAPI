@@ -9,7 +9,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
 {
     class PositionUpdate
     {
-        public static void Parse(Packet p)
+        public static void Parse(Packet p) //TODO: Add events
         {
             uint UniqueID = p.ReadUInt32();
             if (Client.NearbyCharacters.Where(x => x.Value.TransportUniqueID == UniqueID).Count() > 0)

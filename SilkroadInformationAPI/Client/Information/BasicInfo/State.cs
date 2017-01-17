@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
 {
     public class State
     {
-        public byte LifeState;
+        public bool LifeState;
         public byte MotionState;
         public byte Status;
         public float WalkSpeed;

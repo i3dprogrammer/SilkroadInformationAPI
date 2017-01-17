@@ -16,7 +16,7 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// PVP Cape Color
         /// </summary>
-        public PVP_Cape PVPCape { get; set; } = PVP_Cape.None;
+        public FRPVPMode PVPCape { get; set; } = FRPVPMode.None;
 
         /// <summary>
         /// PK State of the character
@@ -82,6 +82,11 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// Character state information
         /// </summary>
         public BasicInfo.State State = new BasicInfo.State();
+
+        /// <summary>
+        /// Character is in zerk state.
+        /// </summary>
+        public bool ZerkOn { get; set; } = false;
 
         /// <summary>
         /// PVP Cape Timeleft for wearing.

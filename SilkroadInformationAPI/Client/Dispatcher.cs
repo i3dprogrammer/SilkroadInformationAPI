@@ -117,7 +117,12 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Entity.LevelUp.Parse(p);
                 }
+                else if(p.Opcode == 0x3057)
+                {
+                    Packets.Entity.HPMPUpdate.Parse(p);
+                }
                 #endregion
+
                 #region STALL
                 else if (p.Opcode == 0xB0B3)
                 {

@@ -106,7 +106,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     }
 
                     //State
-                    surrObject.State.LifeState = p.ReadUInt8(); //1 = Alive, 2 = Dead
+                    surrObject.State.LifeState = (p.ReadUInt8() == 1); //1 = Alive, 2 = Dead
                     p.ReadUInt8(); //unk
                     surrObject.State.MotionState = p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
                     surrObject.State.Status = p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible
@@ -355,7 +355,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 character.OnTransport = (obj.TransportFlag == 1);
                 character.PKState = (PK_State)obj.PVPState;
                 character.Position = obj.Position;
-                character.PVPCape = (PVP_Cape)obj.PVPCape;
+                character.PVPCape = (FRPVPMode)obj.PVPCape;
                 character.PVPEquipCooldown = obj.PVPEquipCooldown;
                 character.Stall = obj.Stall;
                 character.State = obj.State;

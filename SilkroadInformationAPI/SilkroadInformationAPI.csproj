@@ -75,6 +75,7 @@
     <Compile Include="Client\Packets\Character\EXP_SP_Update.cs" />
     <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
     <Compile Include="Client\Packets\Entity\LevelUp.cs" />
+    <Compile Include="Client\Packets\Entity\PVPUpdate.cs" />
     <Compile Include="Client\Packets\Entity\SpeedUpdate.cs" />
     <Compile Include="Client\Packets\Entity\StateChange.cs" />
     <Compile Include="Client\Packets\Alchemy\AlchemyUtility.cs" />

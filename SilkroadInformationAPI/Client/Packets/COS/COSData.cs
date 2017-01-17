@@ -15,12 +15,12 @@ namespace SilkroadInformationAPI.Client.Packets.COS
             uint refID = p.ReadUInt32(); //Model ID, can skip since the spawn packet comes first.
             var obj = Media.Data.MediaModels[refID];
 
-            p.ReadUInt32(); // HP?
-            p.ReadUInt32(); // HP?
+            p.ReadUInt32(); // CurrHP?
+            p.ReadUInt32(); // MaxHP?
 
             if (obj.Classes.F == 1) //Normal COS
             {
-                p.ReadUInt8(); // ??
+                p.ReadUInt8(); // UNK ?? something with spawned pet count
             } else if(obj.Classes.F == 2) //Job COS
             {
                 p.ReadUInt8(); //Max transport slots
@@ -38,7 +38,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 p.ReadAscii(); //COS Name
                 p.ReadUInt8(); //??
                 p.ReadUInt32(); //Owned unique id
-                p.ReadUInt8(); //UNK
+                p.ReadUInt8(); // UNK ?? something with spawned pet count
             } else if(obj.Classes.F == 4) //Pickup COS
             {
                 Client.SpawnedPetItems.Clear();
