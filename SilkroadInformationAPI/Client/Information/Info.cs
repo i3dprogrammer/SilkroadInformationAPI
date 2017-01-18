@@ -44,6 +44,6 @@ namespace SilkroadInformationAPI.Client.Information
         public bool BadStatus { get; set; }
         public bool ZerkOn { get; set; } = false;
         public FRPVPMode PVPCape { get; set; } = FRPVPMode.None;
-        public Dictionary<uint, Objects.COS> CharacterCOS = new Dictionary<uint, Objects.COS>();
+        public Dictionary<uint, Objects.COS> CharacterCOSe = new Dictionary<uint, Objects.COS>();
     }
 }

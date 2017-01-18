@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Media.DataInfo
 {
-    class Skill : Base
+    public class Skill : Base
     {
         public long Duration;
         public long Cooldown;

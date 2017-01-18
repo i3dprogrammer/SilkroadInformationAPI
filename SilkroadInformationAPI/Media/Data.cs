@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Media
 {
-    class Data
+    public class Data
     {
         public static Dictionary<long, DataInfo.MediaModel> MediaModels = new Dictionary<long, DataInfo.MediaModel>();
         public static Dictionary<long, DataInfo.Item> MediaItems = new Dictionary<long, DataInfo.Item>();

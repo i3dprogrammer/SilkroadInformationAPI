@@ -18,11 +18,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
             if (Client.NearbyCharacters.ContainsKey(uid))
                 Client.NearbyCharacters.Remove(uid);
             if (Client.NearbyCOSs.ContainsKey(uid))
-            {
-                if (Client.Info.CharacterCOS.ContainsKey(uid))
-                    Client.Info.CharacterCOS.Remove(uid);
                 Client.NearbyCOSs.Remove(uid);
-            }
             if (Client.NearbyItems.ContainsKey(uid))
                 Client.NearbyItems.Remove(uid);
             if (Client.NearbyMobs.ContainsKey(uid))

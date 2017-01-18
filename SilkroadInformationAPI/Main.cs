@@ -92,6 +92,7 @@ namespace SilkroadInformationAPI
                 Media.LoadData.LoadRefMappingShopWithTab(); //Maps the store group to Store shop
                 Console.WriteLine("Loading shops.");
                 Media.LoadData.LoadShops(); //Loads the Store
+                Media.LoadData.LoadLevelData(); //Loads maximum exp
             }
 
             Console.WriteLine("Finished!");

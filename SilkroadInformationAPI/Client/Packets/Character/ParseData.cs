@@ -59,7 +59,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
                 var mastery = new Information.Spells.Mastery();
                 mastery.ID = p.ReadInt32();
                 mastery.Level = p.ReadInt8();
-                Client.GameMasteries.Add(mastery);
+                Client.Masteries.Add(mastery);
                 //Console.WriteLine(mastery.ID);
                 nextMastery = p.ReadInt8();
             }
@@ -72,7 +72,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
                 var skill = new Information.Spells.Skill();
                 skill.SkillID = p.ReadUInt32();
                 skill.Enabled = p.ReadInt8();
-                Client.GameSkills.Add(skill);
+                Client.Skills.Add(skill);
                 //Console.WriteLine(skill.ID);
                 nextSkill = p.ReadInt8();
             }
@@ -124,7 +124,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
                         p.ReadInt32(); //NPCs Model ID
                     }
                 }
-                Client.GameQuests.Add(quest);
+                Client.Quests.Add(quest);
             }
 
             p.ReadInt8(); //unk

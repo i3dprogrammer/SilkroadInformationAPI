@@ -33,8 +33,8 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 {
                     Client.NearbyCOSs[uid].COSName = newName;
 
-                    if (Client.Info.CharacterCOS.ContainsKey(uid))
-                        Client.Info.CharacterCOS[uid].COSName = newName;
+                    //if (Client.Info.CharacterCOS.ContainsKey(uid))
+                    //    Client.Info.CharacterCOS[uid].COSName = newName;
                 }
 
             }

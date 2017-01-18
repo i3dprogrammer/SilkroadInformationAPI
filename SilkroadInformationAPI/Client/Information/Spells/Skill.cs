@@ -21,13 +21,18 @@ namespace SilkroadInformationAPI.Client.Information.Spells
         /// <summary>
         /// If the character is the creator of the skill (Recovery division, etc..)
         /// </summary>
-        public byte isCreator { get; set; }
+        public bool isCreator { get; set; }
+
+        /// <summary>
+        /// The temporary unique id assigned to the skill.
+        /// </summary>
+        public uint TemporaryID { get; set; }
 
         public Skill(uint id, uint dur, byte creator)
         {
             SkillID = id;
-            Duration = dur;
-            isCreator = creator;
+            TemporaryID = dur;
+            isCreator = (creator == 1);
         }
 
         public Skill()

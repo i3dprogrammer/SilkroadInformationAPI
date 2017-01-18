@@ -45,9 +45,18 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// </summary>
         public byte MaxInventorySlots { get; set; }
 
+        /// <summary>
+        /// Current PET HP, this is not always available
+        /// </summary>
         public uint HP { get; set; }
 
-        public bool BadState { get; set; }
+        /// <summary>
+        /// Whether or not the COS has bad status effect.
+        /// </summary>
+        public bool BadStatus { get; set; }
+
+
+        public Dictionary<int, InventoryItem> Inventory = new Dictionary<int, InventoryItem>();
 
         /// <summary>
         /// Summon type (Pickup pet, Fortress pet, Guild pet..)

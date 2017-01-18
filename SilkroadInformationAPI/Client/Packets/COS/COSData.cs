@@ -41,7 +41,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 p.ReadUInt8(); // UNK ?? something with spawned pet count
             } else if(obj.Classes.F == 4) //Pickup COS
             {
-                Client.SpawnedPetItems.Clear();
+                Client.NearbyCOSs[uid].Inventory.Clear();
 
                 p.ReadUInt32(); //Pet settings in binary
                 p.ReadAscii(); //COS Name
@@ -50,7 +50,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 for (int i = 0; i < currCount; i++)
                 {
                     var item = Inventory.InventoryUtility.ParseItem(p);
-                    Client.SpawnedPetItems.Add(item.Slot, item);
+                    Client.NearbyCOSs[uid].Inventory.Add(item.Slot, item);
                 }
                 p.ReadUInt32(); //Owner unique id
                 p.ReadUInt8(); // UNK ?? something with spawned pet count

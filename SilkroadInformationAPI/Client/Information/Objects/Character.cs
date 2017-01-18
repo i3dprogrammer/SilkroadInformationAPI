@@ -97,6 +97,11 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public int Y; //TODO: Real Y
 
         /// <summary>
+        /// If there's a bad effect on the character stun, sleep, etc..
+        /// </summary>
+        public bool BadStatus { get; set; } = false;
+
+        /// <summary>
         /// Determines if the character is wearing job suit or no *Checks via ItemTypes*.
         /// </summary>
         /// <returns>True if the character is wearing a suit, no otherwise.</returns>

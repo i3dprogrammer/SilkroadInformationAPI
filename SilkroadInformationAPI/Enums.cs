@@ -189,4 +189,27 @@ namespace SilkroadInformationAPI
         /// </summary>
         Yellow = 5,
     }
+
+    public enum PartyRace
+    {
+        Chinese,
+        Europe,
+    }
+
+    public enum Objective
+    {
+        Hunting,
+        Quest,
+        Trade,
+        Thief,
+    }
+
+    public enum PartyType
+    {
+        ExpShare_ItemShare = 0x03,
+        ExpFreeForAll_ItemFreeForAll = 0x04,
+        ExpShare_ItemFreeForAll = 0x05,
+        ExpFreeForAll_ItemShare = 0x06,
+    }
+
 }

@@ -434,17 +434,13 @@ namespace SilkroadInformationAPI.Media
 
                         string[] vars = line.Split('\t');
 
-                        if (vars.Length >= 13)
+                        if (vars.Length >= 2)
                         {
                             try
                             {
-                                bool Used = (vars[0] == "1") ? true : false;
-                                if (Used)
-                                {
-                                    int level = Int32.Parse(vars[0]);
-                                    ulong maxExp = ulong.Parse(vars[1]);
-                                    Data.MaxEXP.Add(level, maxExp);
-                                }
+                                int level = Int32.Parse(vars[0]);
+                                ulong maxExp = ulong.Parse(vars[1]);
+                                Data.MaxEXP.Add(level, maxExp);
                             }
                             catch (Exception ex)
                             {

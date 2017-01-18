@@ -18,8 +18,10 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// </summary>
         public byte Appearance { get; set; }
 
-        public uint HP { get; set; }
+        public uint CurrentHP { get; set; }
 
-        public bool BadState { get; set; }
+        public uint MaxHP { get; set; }
+
+        public bool BadStatus { get; set; }
     }
 }

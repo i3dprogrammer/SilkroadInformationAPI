@@ -87,7 +87,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Client.InventoryItems.Remove(oldSlot);
             } else if (flag == 0x08) //Item bought from NPC
             {
-
+                //TODO: PARSE PACKET
             }
             else if (flag == 0x09) //Item sold to NPC
             {
@@ -115,7 +115,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Console.WriteLine("Sold {0} to NPCID: {1}, Registered with ID: {2}", item.MediaName, NPCID, indexInNPC - 1);
             } else if(flag == 0x18) //Item bought from Item Mall
             {
-
+                //TODO: PARSE PACKET
             }
             else if (flag == 0x22) //Item boughtback from NPC
             {
@@ -144,29 +144,29 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             } else if(flag == 0x1B) //Item moved from inventory to pet
             {
                 uint COS_uid = p.ReadUInt32();
-                if(Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
+                if(Client.NearbyCOSs.ContainsKey(COS_uid))
                 {
                     byte oldSlot = p.ReadUInt8();
                     byte newSlotInPet = p.ReadUInt8();
-                    Client.SpawnedPetItems.Add(newSlotInPet, Client.InventoryItems[oldSlot]);
+                    Client.NearbyCOSs[COS_uid].Inventory.Add(newSlotInPet, Client.InventoryItems[oldSlot]);
                     Client.InventoryItems.Remove(oldSlot);
                 }
             } else if(flag == 0x1A) //Item moved from pet to inventory
             {
                 uint COS_uid = p.ReadUInt32();
-                if (Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
+                if (Client.NearbyCOSs.ContainsKey(COS_uid))
                 {
                     byte oldSlot = p.ReadUInt8();
                     byte newSlotInPet = p.ReadUInt8();
-                    Client.InventoryItems.Add(newSlotInPet, Client.SpawnedPetItems[oldSlot]);
-                    Client.SpawnedPetItems.Remove(oldSlot);
+                    Client.InventoryItems.Add(newSlotInPet, Client.NearbyCOSs[COS_uid].Inventory[oldSlot]);
+                    Client.NearbyCOSs[COS_uid].Inventory.Remove(oldSlot);
                 }
             } else if(flag == 0x10) //Item slot changed within pet
             {
                 uint COS_uid = p.ReadUInt32();
-                if (Client.Info.CharacterCOS.ContainsKey(COS_uid) && Client.Info.CharacterCOS[COS_uid].Type == COS_Type.PickupPet)
+                if (Client.NearbyCOSs.ContainsKey(COS_uid))
                 {
-                    args = InventoryUtility.ParseSlotChangedUpdate(p, Client.SpawnedPetItems, "PetInventory");
+                    args = InventoryUtility.ParseSlotChangedUpdate(p, Client.NearbyCOSs[COS_uid].Inventory, "PetInventory");
                 }
             }
 

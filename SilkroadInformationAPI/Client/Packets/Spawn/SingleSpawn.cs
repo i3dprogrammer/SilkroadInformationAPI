@@ -119,7 +119,11 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                         uint ID = p.ReadUInt32(); //Skill ID
                         uint Duration = p.ReadUInt32(); //Duration
                         if (Media.Data.MediaSkills[ID].Params == "1701213281") //TODO: Read skill params
-                            surrObject.Buffs.Add(new Information.Spells.Skill(ID, Duration, p.ReadUInt8())); //IsBuffCreator
+                            surrObject.State.Buffs.Add(new Information.Spells.Skill(ID, Duration, p.ReadUInt8())); //IsBuffCreator
+                        else
+                        {
+                            surrObject.State.Buffs.Add(new Information.Spells.Skill(ID, Duration, 0));
+                        }
                     }
 
                     if (obj.Classes.D == 1)
@@ -408,9 +412,6 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                 cos.Type = obj.COSType;
                 cos.UniqueID = obj.UniqueID;
                 Client.NearbyCOSs.Add(cos.UniqueID, cos);
-
-                if (cos.OwnerUniqueID == Client.Info.UniqueID)
-                    Client.Info.CharacterCOS.Add(cos.UniqueID, cos);
             } else if(obj.type == 5) //Struct
             {
                 var structure = new Information.Objects.Structure();

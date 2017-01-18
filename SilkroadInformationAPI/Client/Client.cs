@@ -13,13 +13,15 @@ namespace SilkroadInformationAPI.Client
     public class Client
     {
         public static Info Info = new Info();
+        public static Information.Party.Party Party = new Information.Party.Party();
+
         public static Dictionary<int, InventoryItem> InventoryItems = new Dictionary<int, InventoryItem>();
         public static Dictionary<int, InventoryItem> StorageItems = new Dictionary<int, InventoryItem>();
-        public static Dictionary<int, InventoryItem> SpawnedPetItems = new Dictionary<int, InventoryItem>();
+
         public static List<InventoryItem> SoldItems = new List<InventoryItem>();
-        public static List<Quest> GameQuests = new List<Quest>();
-        public static List<Mastery> GameMasteries = new List<Mastery>();
-        public static List<Skill> GameSkills = new List<Skill>();
+        public static List<Quest> Quests = new List<Quest>();
+        public static List<Mastery> Masteries = new List<Mastery>();
+        public static List<Skill> Skills = new List<Skill>();
 
         public static Information.BasicInfo.Position Position = new Information.BasicInfo.Position();
         public static Information.BasicInfo.Movement Movement = new Information.BasicInfo.Movement();

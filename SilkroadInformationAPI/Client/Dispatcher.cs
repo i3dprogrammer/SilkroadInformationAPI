@@ -30,6 +30,10 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Character.InfoUpdate.Parse(p);
                 } 
+                else if (p.Opcode == 0x3056)
+                {
+                    Packets.Character.EXP_SP_Update.Parse(p);
+                }
                 #endregion
 
                 #region SPAWN
@@ -115,11 +119,15 @@ namespace SilkroadInformationAPI.Client
                 } 
                 else if(p.Opcode == 0x3054)
                 {
-                    Packets.Entity.LevelUp.Parse(p);
+                    Packets.Entity.LevelUpAnimation.Parse(p);
                 }
                 else if(p.Opcode == 0x3057)
                 {
                     Packets.Entity.HPMPUpdate.Parse(p);
+                }
+                else if(p.Opcode == 0xB516)
+                {
+                    Packets.Entity.PVPUpdate.Parse(p);
                 }
                 #endregion
 

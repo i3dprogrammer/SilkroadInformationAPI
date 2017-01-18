@@ -53,6 +53,8 @@
     <Compile Include="Client\Information\Chat\ChatMessage.cs" />
     <Compile Include="Client\Information\Objects\Base.cs" />
     <Compile Include="Client\Information\Objects\Character.cs" />
+    <Compile Include="Client\Information\Party\MatchListParty.cs" />
+    <Compile Include="Client\Information\Party\Party.cs" />
     <Compile Include="Client\Information\Stalls\Stall.cs" />
     <Compile Include="Client\Information\Objects\COS.cs" />
     <Compile Include="Client\Information\Objects\BuffArea.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Client\Loader\Loader.cs" />
     <Compile Include="Client\Packets\Character\EXP_SP_Update.cs" />
     <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
-    <Compile Include="Client\Packets\Entity\LevelUp.cs" />
+    <Compile Include="Client\Packets\Entity\LevelUpAnimation.cs" />
     <Compile Include="Client\Packets\Entity\PVPUpdate.cs" />
     <Compile Include="Client\Packets\Entity\SpeedUpdate.cs" />
     <Compile Include="Client\Packets\Entity\StateChange.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
     <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
+    <Compile Include="Client\Packets\Party\MatchingResponse.cs" />
     <Compile Include="Client\Packets\Spawn\DEBUGSingleSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\Despawn.cs" />
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Media.DataInfo.Shops
 {
-    class Shop
+    public class Shop
     {
         public string StoreName { get; set; }
         public string StoreGroupName { get; set; }
