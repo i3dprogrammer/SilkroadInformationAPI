@@ -10,9 +10,8 @@ namespace SilkroadInformationAPI.Client.Information.Party
     {
         public string PartyMaster { get; set; }
         public uint MasterUniqueID { get; set; }
-        public bool PartyMatching { get; set; } = false;
-        public bool PartyFull { get; set; } = false;
-        public byte MembersCount { get; set; } = 1;
+        public PartyMatchingEntry PartyMatching;
+        public byte MembersCount { get; set; } = 0;
         public PartyType Type { get; set; }
         public Dictionary<uint, PartyMember> PartyMembers = new Dictionary<uint, PartyMember>();
 

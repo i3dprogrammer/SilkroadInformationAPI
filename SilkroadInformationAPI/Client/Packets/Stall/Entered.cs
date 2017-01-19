@@ -7,8 +7,10 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Stall
 {
-    class Entered
+    public class Entered
     {
+        public static event System.Action OnClientEnterStall;
+
         public static void Parse(Packet p)
         {
             if(p.ReadUInt8() == 1) //Successfully entered the stall.
@@ -29,6 +31,7 @@ namespace SilkroadInformationAPI.Client.Packets.Stall
                     Client.CurrentStall.PeopleInStall.Add(uid, Actions.Mapping.GetCharNameFromUID(uid));
                 }
 
+                OnClientEnterStall?.Invoke();
             }
 
         }

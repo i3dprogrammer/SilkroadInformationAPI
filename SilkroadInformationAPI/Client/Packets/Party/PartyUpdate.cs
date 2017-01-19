@@ -9,6 +9,36 @@ namespace SilkroadInformationAPI.Client.Packets.Party
 {
     public class PartyUpdate
     {
+        /// <summary>
+        /// Event is called upon party disbanding.
+        /// </summary>
+        public static event Action OnPartyDisband;
+        
+        /// <summary>
+        /// The event is called AFTER member joins the party, with the object being the new member.
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMemberJoin;
+
+        /// <summary>
+        /// This is called BEFORE member leaving the party, with the object being member "leaving" the party.
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMemberLeave;
+
+        /// <summary>
+        /// This is called after member hp or mp update, with the object being the member getting the change.
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMemberHPMPUpdate;
+
+        /// <summary>
+        /// This is called after member position ON MAP update.
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMemberPositionUpdate;
+
+        /// <summary>
+        /// This event is called when the party master changes
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMasterUpdate;
+
         public static void Parse(Packet p)
         {
             uint uid;
@@ -17,18 +47,23 @@ namespace SilkroadInformationAPI.Client.Packets.Party
             {
                 case 0x01: //party disbanded
                     Client.Party.PartyMembers.Clear();
-                    Client.Party.MembersCount = 0;
+                    Client.Party.MembersCount = 1;
+                    OnPartyDisband?.Invoke();
                     break;
                 case 0x02: //Someone joined
                     var member = PartyUtility.ParseMember(p);
                     Client.Party.PartyMembers.Add(member.UniqueID, member);
                     Client.Party.MembersCount += 1;
+                    OnPartyMemberJoin?.Invoke(member);
                     break;
                 case 0x03: //Party member left
                     uid = p.ReadUInt32();
                     byte reason = p.ReadUInt8();
                     if (Client.Party.PartyMembers.ContainsKey(uid))
+                    {
+                        OnPartyMemberLeave(Client.Party.PartyMembers[uid]);
                         Client.Party.PartyMembers.Remove(uid);
+                    }
                     Client.Party.MembersCount -= 1;
                     break;
                 case 0x06: //Party member info update
@@ -41,6 +76,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                         byte MP = Convert.ToByte(MPHP.ToString("X2")[0].ToString(), 16);
                         Client.Party.PartyMembers[uid].HPPercentage = HP;
                         Client.Party.PartyMembers[uid].MPPercentage = MP;
+                        OnPartyMemberHPMPUpdate?.Invoke(Client.Party.PartyMembers[uid]);
                     }
                     else if (action == 0x08)
                     {
@@ -64,6 +100,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                             pos.Z = p.ReadUInt32();
                         }
                         Client.Party.PartyMembers[uid].Position = pos;
+                        OnPartyMemberPositionUpdate?.Invoke(Client.Party.PartyMembers[uid]);
                     }
                     break;
                 case 0x09: //Party master updated
@@ -73,6 +110,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                         Client.Party.MasterUniqueID = uid;
                         Client.Party.PartyMaster = Client.Party.PartyMembers[uid].Name;
                     }
+                    OnPartyMasterUpdate?.Invoke(Client.Party.PartyMembers[uid]);
                     break;
             }
         }

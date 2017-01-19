@@ -7,8 +7,9 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Stall
 {
-    class Created
+    public class Created
     {
+        public static event Action<Information.Objects.Character> OnCharacterCreateStall;
         public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
@@ -18,6 +19,10 @@ namespace SilkroadInformationAPI.Client.Packets.Stall
             if (Client.NearbyCharacters.ContainsKey(uid))
             {
                 Client.NearbyCharacters[uid].Stall.Update(title, true, dec);
+                OnCharacterCreateStall?.Invoke(Client.NearbyCharacters[uid]);
+            } else if(Client.Info.UniqueID == uid)
+            {
+                Client.CurrentStall.Message = title;
             }
         }
     }

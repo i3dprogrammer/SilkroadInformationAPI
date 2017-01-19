@@ -53,7 +53,7 @@
     <Compile Include="Client\Information\Chat\ChatMessage.cs" />
     <Compile Include="Client\Information\Objects\Base.cs" />
     <Compile Include="Client\Information\Objects\Character.cs" />
-    <Compile Include="Client\Information\Party\MatchListParty.cs" />
+    <Compile Include="Client\Information\Party\PartyMatchingEntry.cs" />
     <Compile Include="Client\Information\Party\Party.cs" />
     <Compile Include="Client\Information\Stalls\Stall.cs" />
     <Compile Include="Client\Information\Objects\COS.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
     <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
     <Compile Include="Client\Packets\Party\EnteredParty.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingRequestJoin.cs" />
     <Compile Include="Client\Packets\Party\PartyMatchingResponse.cs" />
     <Compile Include="Client\Packets\Party\PartyMatchingEntryDeleted.cs" />
     <Compile Include="Client\Packets\Party\PartyMatchingEntryFormed.cs" />

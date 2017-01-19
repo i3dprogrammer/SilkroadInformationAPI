@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Packets.Stall
 {
-    class Leave
+    public class Leave
     {
+        public static event System.Action OnClientLeaveStall;
         public static void Parse()
         {
             Client.CharacterInStall = false;
+            OnClientLeaveStall?.Invoke();
         }
     }
 }

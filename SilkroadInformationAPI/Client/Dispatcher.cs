@@ -175,6 +175,13 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Stall.NameUpdated.Parse(p);
                 }
+                else if (p.Opcode == 0xB0B1)
+                {
+                    //TODO: Client opened stall
+                } else if(p.Opcode == 0xB0B2)
+                {
+                    //TODO: Client closed stall
+                }
                 #endregion
             }
             catch (Exception ex){

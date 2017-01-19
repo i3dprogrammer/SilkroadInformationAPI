@@ -7,8 +7,10 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Stall
 {
-    class Closed
+    public class Closed
     {
+        public static event Action<Information.Objects.Character> OnCharacterCloseStall;
+
         public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
@@ -16,6 +18,7 @@ namespace SilkroadInformationAPI.Client.Packets.Stall
             if (Client.NearbyCharacters.ContainsKey(uid))
             {
                 Client.NearbyCharacters[uid].Stall.StallCreated = false;
+                OnCharacterCloseStall?.Invoke(Client.NearbyCharacters[uid]);
             }
         }
     }

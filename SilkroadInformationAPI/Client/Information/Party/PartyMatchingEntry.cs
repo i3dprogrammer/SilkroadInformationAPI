@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.Party
 {
-    public class MatchListParty
+    public class PartyMatchingEntry
     {
         public uint PartyNumber { get; set; }
-        public PartyRace Race { get; set; }
+        private PartyRace Race { get; set; }
         public string MasterName { get; set; }
         public uint MasterUniqueID { get; set; }
         public string Title { get; set; }
@@ -21,10 +21,10 @@ namespace SilkroadInformationAPI.Client.Information.Party
         public PartyType Type { get; set; }
 
 
-        public MatchListParty(uint _number, PartyRace _race, string _name, uint _uid, string _title, PartyObjective _purpose, byte _min, byte _max, byte _currMembers, PartyType _type)
+        public PartyMatchingEntry(uint _number, string _name, uint _uid, string _title, PartyObjective _purpose, byte _min, byte _max, byte _currMembers, PartyType _type)
         {
             PartyNumber = _number;
-            Race = _race;
+            //Race = _race;
             MasterName = _name;
             MasterUniqueID = _uid;
             Title = _title;

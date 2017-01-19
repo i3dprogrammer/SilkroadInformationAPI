@@ -9,11 +9,17 @@ namespace SilkroadInformationAPI.Client.Packets.Party
 {
     public class EnteredParty
     {
+
+        /// <summary>
+        /// This gets called when the client enters a party, the new party information is stored in Client.Party
+        /// </summary>
+        public static event Action OnClientEnterParty;
+
         public static void Parse(Packet p)
         {
             Client.Party = new Information.Party.Party();
             p.ReadUInt8(); //0xFF?? PVPFlag maybe?
-            p.ReadUInt32(); //TODO: What is that?
+            p.ReadUInt32(); //??
             Client.Party.MasterUniqueID = p.ReadUInt32();
             Client.Party.Type = (PartyType)p.ReadUInt8();
             Client.Party.MembersCount = p.ReadUInt8();
@@ -23,6 +29,8 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                 Client.Party.PartyMembers.Add(member.UniqueID, member);
             }
             Client.Party.PartyMaster = Client.Party.PartyMembers[Client.Party.MasterUniqueID].Name;
+
+            OnClientEnterParty?.Invoke();
         }
     }
 }

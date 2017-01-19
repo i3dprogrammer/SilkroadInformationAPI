@@ -14,11 +14,11 @@ namespace SilkroadInformationAPI.Client.Packets.Party
         /// <summary>
         /// This is called after requesting party list(0x706C)
         /// </summary>
-        public static event MatchingListPartyHandler OnMatchListReceive;
+        public static event MatchingListPartyHandler OnMatchingListReceive;
 
         public static void Parse(Packet p)
         {
-            var list = new List<MatchListParty>();
+            var list = new List<PartyMatchingEntry>();
 
             byte flag1 = p.ReadUInt8();
             byte flag2 = p.ReadUInt8();
@@ -39,19 +39,19 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                     byte MaxLevel = p.ReadUInt8();
                     string Title = p.ReadAscii();
 
-                    list.Add(new MatchListParty(number, Race, MasterName, uid, Title, Purpose, MinLevel, MaxLevel, CurrMembers, Type));
+                    list.Add(new PartyMatchingEntry(number, MasterName, uid, Title, Purpose, MinLevel, MaxLevel, CurrMembers, Type));
                 }
             }
 
-            OnMatchListReceive?.Invoke(new MatchingListEventArgs(list));
+            OnMatchingListReceive?.Invoke(new MatchingListEventArgs(list));
         }
     }
 
     public class MatchingListEventArgs : EventArgs
     {
-        List<MatchListParty> MatchingListParty;
+        List<PartyMatchingEntry> MatchingListParty;
 
-        public MatchingListEventArgs(List<MatchListParty> _match)
+        public MatchingListEventArgs(List<PartyMatchingEntry> _match)
         {
             MatchingListParty = _match;
         }
