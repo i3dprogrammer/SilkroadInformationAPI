@@ -104,6 +104,21 @@ namespace SilkroadInformationAPI.Client
                     Packets.Chat.ChatUpdated.Parse(p);
                 }
 
+                #region PARTY
+                else if (p.Opcode == 0xB06C)
+                {
+                    Packets.Party.PartyMatchingResponse.Parse(p);
+                } 
+                else if (p.Opcode == 0x3065)
+                {
+                    Packets.Party.EnteredParty.Parse(p);
+                }
+                else if (p.Opcode == 0x3864)
+                {
+                    Packets.Party.PartyUpdate.Parse(p);
+                }
+                #endregion
+
                 #region ENTITY
                 else if (p.Opcode == 0xB021)
                 {

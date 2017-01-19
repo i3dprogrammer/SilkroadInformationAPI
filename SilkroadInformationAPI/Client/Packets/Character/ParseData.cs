@@ -140,7 +140,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.UniqueID = p.ReadUInt32();
 
             //Position
-            Client.Position.ReigonID = p.ReadUInt16();
+            Client.Position.RegionID = p.ReadUInt16();
             Client.Position.X = p.ReadSingle();
             Client.Position.Y = p.ReadSingle();
             Client.Position.Z = p.ReadSingle();
@@ -152,7 +152,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             if (Client.Movement.HasDestination == 1)
             {
                 Client.Movement.DestinationRegion = p.ReadUInt16();
-                if (Client.Position.ReigonID < short.MaxValue)
+                if (Client.Position.RegionID < short.MaxValue)
                 {   //World
                     Client.Movement.DestinationOffsetX = p.ReadUInt16();
                     Client.Movement.DestinationOffsetY = p.ReadUInt16();
@@ -174,8 +174,8 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             //State
             Client.State.LifeState = (p.ReadUInt8() == 1); //1 = Alive, 2 = Dead
             p.ReadUInt8(); //unk
-            Client.State.MotionState = p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
-            Client.State.Status = p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible
+            Client.State.MotionState = (CharMotionState)p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
+            Client.State.Status = (CharStatus)p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible
             Client.State.WalkSpeed = p.ReadSingle();
             Client.State.RunSpeed = p.ReadSingle();
             Client.State.HwanSpeed = p.ReadSingle();

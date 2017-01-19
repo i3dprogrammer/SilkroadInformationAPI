@@ -8,22 +8,41 @@ namespace SilkroadInformationAPI.Client.Information.Party
 {
     public class Party
     {
-        public string PartyLeader { get; set; }
+        public string PartyMaster { get; set; }
+        public uint MasterUniqueID { get; set; }
         public bool PartyMatching { get; set; } = false;
         public bool PartyFull { get; set; } = false;
-        public byte MembersCount { get; set; } = 0;
+        public byte MembersCount { get; set; } = 1;
         public PartyType Type { get; set; }
-        public List<PartyMember> PartyMembers = new List<PartyMember>();
+        public Dictionary<uint, PartyMember> PartyMembers = new Dictionary<uint, PartyMember>();
 
-        public struct PartyMember
+        public Party()
         {
-            uint UniqueID { get; set; }
-            string Name { get; set; }
-            byte Level { get; set; }
-            byte Race { get; set; }
-            byte HPPercentage { get; set; }
-            byte MPPercentage { get; set; }
-            BasicInfo.Position Position { get; set; }
+            PartyMembers = new Dictionary<uint, PartyMember>();
+        }
+
+        public class PartyMember
+        {
+            public uint UniqueID { get; set; }
+            public string Name { get; set; }
+            public string GuildName { get; set; }
+            public byte Level { get; set; }
+            public uint RefModelID { get; set; }
+            public byte HPPercentage { get; set; }
+            public byte MPPercentage { get; set; }
+            public BasicInfo.Position Position { get; set; }
+
+            public PartyMember(uint _unique, string name, string _guildName, byte level, uint modelID, byte HP, byte MP, BasicInfo.Position pos)
+            {
+                UniqueID = _unique;
+                Name = name;
+                GuildName = _guildName;
+                Level = level;
+                RefModelID = modelID;
+                HPPercentage = HP;
+                MPPercentage = MP;
+                Position = pos;
+            }
         }
     }
 }

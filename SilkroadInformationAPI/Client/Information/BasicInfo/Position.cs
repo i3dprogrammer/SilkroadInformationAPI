@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
 {
     public class Position
     {
-        public int ReigonID;
+        public int RegionID;
         public float X;
         public float Y;
         public float Z;
@@ -22,7 +22,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
         {
             if (X > 32768)
                 X = 65536 - X;
-            byte xSec = (byte)((ushort)(ReigonID << 8) / 256);
+            byte xSec = (byte)((ushort)(RegionID << 8) / 256);
             return (int)((xSec - 135) * 192 + X / 10);
         }
 
@@ -34,7 +34,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
         {
             if (Y > 32768)
                 Y = 6556 - Y;
-            byte ySec = (byte)(ReigonID >> 8);
+            byte ySec = (byte)(RegionID >> 8);
             return (int)((ySec - 92) * 192 + Y / 10);
         }
 
@@ -45,7 +45,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
 
         public Position(int _ReigonID, float _X, float _Y, float _Z)
         {
-            ReigonID = _ReigonID;
+            RegionID = _ReigonID;
             X = _X;
             Y = _Y;
             Z = _Z;

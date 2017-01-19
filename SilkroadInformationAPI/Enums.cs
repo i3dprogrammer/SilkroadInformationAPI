@@ -115,7 +115,7 @@ namespace SilkroadInformationAPI
         Job = 3,
     }
 
-    public enum State
+    public enum ArenaState
     {
         TenMinutesLeftToStartArena,
         FiveMinutesLeftToStartArena,
@@ -148,7 +148,7 @@ namespace SilkroadInformationAPI
         Unknown,
     }
 
-    public enum MotionState
+    public enum CharMotionState
     {
         None = 0,
         Walking = 2,
@@ -156,6 +156,16 @@ namespace SilkroadInformationAPI
         Sitting = 4,
     }
 
+    public enum CharStatus
+    {
+        None = 0,
+        Hwan = 1,
+        Untouchable = 2,
+        Invincible = 3,
+        GMInvisible = 5,
+        Sealth = 6,
+        Invisible = 7,
+    }
 
     /// <summary>
     /// DaxterSoul
@@ -196,7 +206,7 @@ namespace SilkroadInformationAPI
         Europe,
     }
 
-    public enum Objective
+    public enum PartyObjective
     {
         Hunting,
         Quest,

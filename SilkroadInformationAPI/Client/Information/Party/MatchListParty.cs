@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI.Client.Information.Party
         public string MasterName { get; set; }
         public uint MasterUniqueID { get; set; }
         public string Title { get; set; }
-        public Objective Purpose { get; set; } = Objective.Hunting;
+        public PartyObjective Purpose { get; set; } = PartyObjective.Hunting;
         public byte MinLevel { get; set; }
         public byte MaxLevel { get; set; }
         public byte CurrMembers { get; set; }
@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Client.Information.Party
         public PartyType Type { get; set; }
 
 
-        public MatchListParty(uint _number, PartyRace _race, string _name, uint _uid, string _title, Objective _purpose, byte _min, byte _max, byte _currMembers, PartyType _type)
+        public MatchListParty(uint _number, PartyRace _race, string _name, uint _uid, string _title, PartyObjective _purpose, byte _min, byte _max, byte _currMembers, PartyType _type)
         {
             PartyNumber = _number;
             Race = _race;

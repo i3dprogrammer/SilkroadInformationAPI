@@ -8,7 +8,7 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Party
 {
-    public class MatchingResponse
+    public class PartyMatchingResponse
     {
         public delegate void MatchingListPartyHandler(MatchingListEventArgs e);
         /// <summary>
@@ -34,7 +34,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                     var Race = (PartyRace)p.ReadUInt8();
                     byte CurrMembers = p.ReadUInt8();
                     var Type = (PartyType)p.ReadUInt8();
-                    var Purpose = (Objective)p.ReadUInt8();
+                    var Purpose = (PartyObjective)p.ReadUInt8();
                     byte MinLevel = p.ReadUInt8();
                     byte MaxLevel = p.ReadUInt8();
                     string Title = p.ReadAscii();

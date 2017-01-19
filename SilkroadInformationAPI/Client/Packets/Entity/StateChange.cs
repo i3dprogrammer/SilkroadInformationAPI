@@ -24,20 +24,21 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
             {
                 if (Client.NearbyCharacters.ContainsKey(uid))
                 {
-                    Client.NearbyCharacters[uid].State.MotionState = p.ReadUInt8();
+                    Client.NearbyCharacters[uid].State.MotionState = (CharMotionState)p.ReadUInt8();
                 } else if(Client.Info.UniqueID == uid)
                 {
-                    Client.State.MotionState = p.ReadUInt8();
+                    Client.State.MotionState = (CharMotionState)p.ReadUInt8();
                 }
             } else if(flag1 == 0x04) //Status change
             {
                 if (Client.NearbyCharacters.ContainsKey(uid))
                 {
-                    Client.NearbyCharacters[uid].State.Status = p.ReadUInt8();
-                    p.ReadUInt8(); //Zerk level
+                    Client.NearbyCharacters[uid].State.Status = (CharStatus)p.ReadUInt8();
+                    if(Client.NearbyCharacters[uid].State.Status == CharStatus.Hwan)
+                        p.ReadUInt8(); //Zerk level
                 } else if(Client.Info.UniqueID == uid)
                 {
-                    Client.State.Status = p.ReadUInt8();
+                    Client.State.Status = (CharStatus)p.ReadUInt8();
                 }
             }
         }

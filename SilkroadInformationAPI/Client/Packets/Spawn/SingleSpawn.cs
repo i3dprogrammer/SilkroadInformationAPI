@@ -74,7 +74,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     surrObject.UniqueID = p.ReadUInt32(); //Unique ID
 
                     //Position
-                    surrObject.Position.ReigonID = p.ReadUInt16();
+                    surrObject.Position.RegionID = p.ReadUInt16();
                     surrObject.Position.X = p.ReadSingle();
                     surrObject.Position.Y = p.ReadSingle();
                     surrObject.Position.Z = p.ReadSingle();
@@ -86,7 +86,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     if (surrObject.Movement.HasDestination == 1)
                     {
                         p.ReadUInt16();
-                        if (surrObject.Position.ReigonID < short.MaxValue)
+                        if (surrObject.Position.RegionID < short.MaxValue)
                         {   //World
                             surrObject.Movement.DestinationOffsetX = p.ReadUInt16();
                             surrObject.Movement.DestinationOffsetY = p.ReadUInt16();
@@ -108,8 +108,8 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     //State
                     surrObject.State.LifeState = (p.ReadUInt8() == 1); //1 = Alive, 2 = Dead
                     p.ReadUInt8(); //unk
-                    surrObject.State.MotionState = p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
-                    surrObject.State.Status = p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible
+                    surrObject.State.MotionState = (CharMotionState)p.ReadUInt8(); //0 = None, 2 = Walking, 3 = Running, 4 = Sitting
+                    surrObject.State.Status = (CharStatus)p.ReadUInt8(); //0 = None, 1 = Hwan, 2 = Untouchable, 3 = GM Invincible, 5 = GM Invisible, 6 = Stealth, 7 = Invisible
                     surrObject.State.WalkSpeed = p.ReadSingle();
                     surrObject.State.RunSpeed = p.ReadSingle();
                     surrObject.State.HwanSpeed = p.ReadSingle();
@@ -256,7 +256,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     surrObject.UniqueID = p.ReadUInt32(); //Unique ID
 
                     //Position
-                    surrObject.Position.ReigonID = p.ReadUInt16();
+                    surrObject.Position.RegionID = p.ReadUInt16();
                     surrObject.Position.X = p.ReadSingle();
                     surrObject.Position.Y = p.ReadSingle();
                     surrObject.Position.Z = p.ReadSingle();
@@ -273,7 +273,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     surrObject.UniqueID = p.ReadUInt32(); //Unique ID
 
                     //Position
-                    surrObject.Position.ReigonID = p.ReadUInt16();
+                    surrObject.Position.RegionID = p.ReadUInt16();
                     surrObject.Position.X = p.ReadSingle();
                     surrObject.Position.Y = p.ReadSingle();
                     surrObject.Position.Z = p.ReadSingle();
@@ -311,7 +311,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     surrObject.UniqueID = p.ReadUInt32(); //Unique ID
 
                     //Position
-                    surrObject.Position.ReigonID = p.ReadUInt16();
+                    surrObject.Position.RegionID = p.ReadUInt16();
                     surrObject.Position.X = p.ReadSingle();
                     surrObject.Position.Y = p.ReadSingle();
                     surrObject.Position.Z = p.ReadSingle();

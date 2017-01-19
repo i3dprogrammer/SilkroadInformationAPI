@@ -105,7 +105,12 @@
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
     <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
-    <Compile Include="Client\Packets\Party\MatchingResponse.cs" />
+    <Compile Include="Client\Packets\Party\EnteredParty.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingResponse.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingEntryDeleted.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingEntryFormed.cs" />
+    <Compile Include="Client\Packets\Party\PartyUpdate.cs" />
+    <Compile Include="Client\Packets\Party\PartyUtility.cs" />
     <Compile Include="Client\Packets\Spawn\DEBUGSingleSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\Despawn.cs" />
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />

@@ -48,26 +48,26 @@ namespace SilkroadInformationAPI.Client.Packets.BattleArena
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
                 if(flag == 0x02)
-                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.TenMinutesLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.TenMinutesLeftToStartArena));
                 if (flag == 0x0D)
-                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.FiveMinutesLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.FiveMinutesLeftToStartArena));
                 if (flag == 0x0E)
-                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.OneMinuteLeftToStartArena));
+                    OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.OneMinuteLeftToStartArena));
             }
             else if (flag == 0x05) //Arena ended
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaEnded));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.ArenaEnded));
             }
             else if (flag == 0x04) //Arena started
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.ArenaStarted));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.ArenaStarted));
             }
             else if (flag == 0x03) //Registration closed
             {
                 byte Type = p.ReadUInt8(); //Arena type [nRegister values]
-                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, State.RegistrationClosed));
+                OnBattleArenaStateChange?.Invoke(new BattleArenaStateEventArgs((ArenaType)Type, ArenaState.RegistrationClosed));
             }
             else if (flag == 0xFF) //Registration response
             {
