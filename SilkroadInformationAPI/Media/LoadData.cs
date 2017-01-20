@@ -440,7 +440,7 @@ namespace SilkroadInformationAPI.Media
                             {
                                 int level = Int32.Parse(vars[0]);
                                 ulong maxExp = ulong.Parse(vars[1]);
-                                Data.MaxEXP.Add(level, maxExp);
+                                Data.LevelDataMaxEXP.Add(level, maxExp);
                             }
                             catch (Exception ex)
                             {

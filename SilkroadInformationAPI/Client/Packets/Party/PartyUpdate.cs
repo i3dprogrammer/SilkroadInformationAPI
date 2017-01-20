@@ -25,6 +25,12 @@ namespace SilkroadInformationAPI.Client.Packets.Party
         public static event Action<Information.Party.Party.PartyMember> OnPartyMemberLeave;
 
         /// <summary>
+        /// This is called BEFORE member get kicked from party.
+        /// </summary>
+        public static event Action<Information.Party.Party.PartyMember> OnPartyMemberKicked;
+
+
+        /// <summary>
         /// This is called after member hp or mp update, with the object being the member getting the change.
         /// </summary>
         public static event Action<Information.Party.Party.PartyMember> OnPartyMemberHPMPUpdate;
@@ -61,7 +67,10 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                     byte reason = p.ReadUInt8();
                     if (Client.Party.PartyMembers.ContainsKey(uid))
                     {
-                        OnPartyMemberLeave(Client.Party.PartyMembers[uid]);
+                        if (reason == 0x02)
+                            OnPartyMemberLeave?.Invoke(Client.Party.PartyMembers[uid]);
+                        else if (reason == 0x04)
+                            OnPartyMemberKicked?.Invoke(Client.Party.PartyMembers[uid]);
                         Client.Party.PartyMembers.Remove(uid);
                     }
                     Client.Party.MembersCount -= 1;

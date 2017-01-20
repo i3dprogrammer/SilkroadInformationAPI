@@ -7,8 +7,9 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Chat
 {
-    class ChatUpdated
+    public class ChatUpdated
     {
+        public static event Action<Information.Chat.ChatMessage> OnChatReceive;
         public static void Parse(Packet p)
         {
             uint uniqueID = 0;
@@ -38,6 +39,8 @@ namespace SilkroadInformationAPI.Client.Packets.Chat
 
             if(name == "")
                 name = Actions.Mapping.GetCharNameFromUID(uniqueID);
+
+            OnChatReceive?.Invoke(new Information.Chat.ChatMessage(message, name, uniqueID, chatType));
 
             if (Client.Chat.ContainsKey(chatType))
                 Client.Chat[chatType].Add(new Information.Chat.ChatMessage(message, name, uniqueID, chatType));

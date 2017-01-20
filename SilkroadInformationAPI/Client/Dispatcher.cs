@@ -32,7 +32,7 @@ namespace SilkroadInformationAPI.Client
                 } 
                 else if (p.Opcode == 0x3056)
                 {
-                    Packets.Character.EXP_SP_Update.Parse(p);
+                    Packets.Character.ExpSpUpdate.Parse(p);
                 }
                 #endregion
 
@@ -70,6 +70,9 @@ namespace SilkroadInformationAPI.Client
                 else if (p.Opcode == 0xB04C)
                 {
                     Packets.Inventory.ItemCountUpdated.Parse(p);
+                } else if (p.Opcode == 0x3052)
+                {
+                    Packets.Inventory.UpdateItemDurability.Parse(p);
                 }
                 #endregion
 
@@ -117,6 +120,18 @@ namespace SilkroadInformationAPI.Client
                 {
                     Packets.Party.PartyUpdate.Parse(p);
                 }
+                else if(p.Opcode == 0xB069)
+                {
+                    Packets.Party.PartyMatchingEntryFormed.Parse(p);
+                }
+                else if(p.Opcode == 0xB06B)
+                {
+                    Packets.Party.PartyMatchingEntryDeleted.Parse(p);
+                }
+                else if(p.Opcode == 0x706D)
+                {
+                    Packets.Party.PartyMatchingRequestJoin.Parse(p);
+                }
                 #endregion
 
                 #region ENTITY
@@ -143,6 +158,17 @@ namespace SilkroadInformationAPI.Client
                 else if(p.Opcode == 0xB516)
                 {
                     Packets.Entity.PVPUpdate.Parse(p);
+                }
+                else if(p.Opcode == 0x3020)
+                {
+                    Packets.Entity.CelestialPosition.Parse(p);
+                }
+                else if(p.Opcode == 0x3038)
+                {
+                    Packets.Entity.ItemEquip.Parse(p);
+                } else if(p.Opcode == 0x3039)
+                {
+                    Packets.Entity.ItemUnequip.Parse(p);
                 }
                 #endregion
 

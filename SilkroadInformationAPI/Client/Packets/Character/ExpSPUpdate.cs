@@ -7,7 +7,7 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Character
 {
-    public class EXP_SP_Update
+    public class ExpSpUpdate
     {
         /// <summary>
         /// This gets called when the client gains exp.
@@ -32,10 +32,17 @@ namespace SilkroadInformationAPI.Client.Packets.Character
                 if (Client.Info.CurrentExp + exp >= Client.Info.MaxEXP) //If current exp + gained exp is > max "current level" exp, if so then the character gained one or more levels.
                 {
                     int NewLevel = (p.ReadUInt16() / 3) + 1;
+                    Client.Info.CurrentExp += exp;
+                    for (int i = Client.Info.Level; i < NewLevel; i++)
+                    {
+                        Client.Info.CurrentExp -= Media.Data.LevelDataMaxEXP[i];
+                    }
                     OnClientLevelUp?.Invoke(new ClientLevelUpEventArgs(NewLevel, Client.Info.Level));
-                    Client.Info.CurrentExp = (Client.Info.CurrentExp + exp) - Media.Data.MaxEXP[NewLevel - 1];
                     Client.Info.Level = NewLevel;
-                    Client.Info.MaxEXP = Media.Data.MaxEXP[NewLevel];
+                    Client.Info.MaxEXP = Media.Data.LevelDataMaxEXP[NewLevel];
+                } else
+                {
+                    OnExpGained?.Invoke(exp);
                 }
             } catch { }
             

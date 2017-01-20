@@ -44,6 +44,18 @@ namespace SilkroadInformationAPI.Client.Information
         public bool BadStatus { get; set; }
         public bool ZerkOn { get; set; } = false;
         public FRPVPMode PVPCape { get; set; } = FRPVPMode.None;
-        public Dictionary<uint, Objects.COS> CharacterCOSe = new Dictionary<uint, Objects.COS>();
+        //public Dictionary<uint, Objects.COS> CharacterCOSe = new Dictionary<uint, Objects.COS>();
+
+        //STATS
+        public uint MinimumPhysicalAttack;
+        public uint MaximumPhysicalAttack;
+        public uint MinimumMagicalAttack;
+        public uint MaximumMagicalAttack;
+        public ushort PhysicalDefense;
+        public ushort MagicalDefense;
+        public ushort HitRate;
+        public ushort ParryRate;
+        public ushort STR;
+        public ushort INT;
     }
 }

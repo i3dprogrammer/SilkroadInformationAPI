@@ -49,7 +49,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
 
     public class MatchingListEventArgs : EventArgs
     {
-        List<PartyMatchingEntry> MatchingListParty;
+        public List<PartyMatchingEntry> MatchingListParty;
 
         public MatchingListEventArgs(List<PartyMatchingEntry> _match)
         {

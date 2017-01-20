@@ -74,7 +74,9 @@
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Spells\Skill.cs" />
     <Compile Include="Client\Loader\Loader.cs" />
-    <Compile Include="Client\Packets\Character\EXP_SP_Update.cs" />
+    <Compile Include="Client\Packets\Character\ExpSpUpdate.cs" />
+    <Compile Include="Client\Packets\Character\StatsUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\CelestialPosition.cs" />
     <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
     <Compile Include="Client\Packets\Entity\LevelUpAnimation.cs" />
     <Compile Include="Client\Packets\Entity\PVPUpdate.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Client\Packets\COS\COSData.cs" />
     <Compile Include="Client\Packets\COS\COSUpdate.cs" />
     <Compile Include="Client\Packets\COS\RideState.cs" />
+    <Compile Include="Client\Packets\Game\Invite.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperation.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperationEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryUtility.cs" />
@@ -103,8 +106,11 @@
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemy.cs" />
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemyEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\ItemCountUpdatedEventArgs.cs" />
+    <Compile Include="Client\Packets\Entity\ItemEquip.cs" />
+    <Compile Include="Client\Packets\Entity\ItemUnequip.cs" />
     <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
     <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
+    <Compile Include="Client\Packets\Inventory\UpdateItemDurability.cs" />
     <Compile Include="Client\Packets\Party\EnteredParty.cs" />
     <Compile Include="Client\Packets\Party\PartyMatchingRequestJoin.cs" />
     <Compile Include="Client\Packets\Party\PartyMatchingResponse.cs" />

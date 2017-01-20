@@ -19,7 +19,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.Level = p.ReadInt8(); //Current level
             Client.Info.MaxGameLevel = p.ReadInt8(); //Max level
             Client.Info.CurrentExp = p.ReadUInt64(); //Current exp
-            Client.Info.MaxEXP = Media.Data.MaxEXP[Client.Info.Level];
+            Client.Info.MaxEXP = Media.Data.LevelDataMaxEXP[Client.Info.Level];
             p.ReadInt32(); //SP bar
             Client.Info.Gold = p.ReadUInt64(); //Gold
             Client.Info.SP = p.ReadInt32(); //Skill points

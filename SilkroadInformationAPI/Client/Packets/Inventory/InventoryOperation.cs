@@ -132,6 +132,12 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
                 args = new InventoryOperationEventArgs(item);
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemBoughtbackFromNPC;
+            } else if (flag == 0x0E) //Item appeared in inventory due to dismantling
+            {
+                int invSlot = p.ReadUInt8();
+                var item = InventoryUtility.ParseItem(p);
+                item.Slot = invSlot;
+                Client.InventoryItems.Add(invSlot, item);
             }
             else if (flag == 0x0F) //Item disappeared
             {
