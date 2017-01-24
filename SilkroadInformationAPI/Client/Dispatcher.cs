@@ -16,15 +16,15 @@ namespace SilkroadInformationAPI.Client
                 #region CHARACTER
                 if (p.Opcode == 0x3013)
                 {
-                    Packets.Character.CharInfo.CharInfoData(p);
+                    Packets.Character.CharacterData.CharData(p);
                 }
                 else if(p.Opcode == 0x34A5)
                 {
-                    Packets.Character.CharInfo.CharInfoStart();
+                    Packets.Character.CharacterData.CharDataStart();
                 }
                 else if (p.Opcode == 0x34A6)
                 {
-                    Packets.Character.CharInfo.CharInfoEnd();
+                    Packets.Character.CharacterData.CharDatEnd();
                 }
                 else if (p.Opcode == 0x304E)
                 {

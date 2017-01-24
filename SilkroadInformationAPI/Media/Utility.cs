@@ -89,6 +89,33 @@ namespace SilkroadInformationAPI.Media
 
             return type;
         }
+        public static byte GetItemDegree(byte lvl) //TODO: Add degree 12, 13, 14, 15
+        {
+            byte Degree = 1;
+
+            if (lvl >= 101)
+                Degree = 11;
+            else if (lvl >= 90)
+                Degree = 10;
+            else if (lvl >= 76)
+                Degree = 9;
+            else if (lvl >= 64)
+                Degree = 8;
+            else if (lvl >= 52)
+                Degree = 7;
+            else if (lvl >= 42)
+                Degree = 6;
+            else if (lvl >= 32)
+                Degree = 5;
+            else if (lvl >= 24)
+                Degree = 4;
+            else if (lvl >= 16)
+                Degree = 3;
+            else if (lvl >= 8)
+                Degree = 2;
+
+            return Degree;
+        }
         #region Sro Enc Skills Decrypter By superkhung@vnsecurity.net
 
         static int[] Hash_Table_1 =

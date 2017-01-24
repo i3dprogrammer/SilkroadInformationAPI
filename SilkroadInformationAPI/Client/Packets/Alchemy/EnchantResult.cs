@@ -12,12 +12,14 @@ namespace SilkroadInformationAPI.Client.Packets.Alchemy
         public delegate void ReinforcementResultHandler(FuseResultEventArgs e);
         /// <summary>
         /// This event gets called whenever packet 0xB150 is received, after elixir is added on the item.
+        /// <para>NOTE: This is called AFTER 0x3040(Item count updated due to alchemy).</para>
         /// </summary>
         public static event ReinforcementResultHandler OnReinforceResult;
 
         public delegate void EnchantmentResultHandler(FuseResultEventArgs e);
         /// <summary>
         /// This event gets called whenever packet 0xB151 is received, after a stone is added on the item.
+        /// <para>NOTE: This is called AFTER 0x3040(Item count updated due to alchemy).</para>
         /// </summary>
         public static event EnchantmentResultHandler OnEnchantResult;
 

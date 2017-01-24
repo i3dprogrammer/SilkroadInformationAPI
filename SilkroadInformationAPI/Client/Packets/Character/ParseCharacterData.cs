@@ -7,7 +7,7 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Character
 {
-    class ParseData
+    class ParseCharacterData
     {   //Mostly thanks to DaxterSoul
         public static void Parse(Packet p)
         {

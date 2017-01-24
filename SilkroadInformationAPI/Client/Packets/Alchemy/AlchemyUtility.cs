@@ -10,15 +10,15 @@ namespace SilkroadInformationAPI.Client.Packets.Alchemy
 {
     class AlchemyUtility
     {
-        public static Dictionary<string, int> ParseBlues(Packet p, int count)
+        public static Dictionary<ItemBlues, int> ParseBlues(Packet p, int count)
         {
-            var Blues = new Dictionary<string, int>();
+            var Blues = new Dictionary<ItemBlues, int>();
             for(int i = 0; i < count; i++)
             {
                 int blueID = p.ReadInt32();
                 int blueValue = p.ReadInt32();
                 if (Media.Data.MediaBlues.ContainsKey(blueID))
-                    Blues.Add(Media.Data.MediaBlues[blueID], blueValue);
+                    Blues.Add((ItemBlues)Enum.Parse(typeof(ItemBlues), Media.Data.MediaBlues[blueID]), blueValue);
             }
 
             return Blues;

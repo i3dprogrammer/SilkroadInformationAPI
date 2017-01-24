@@ -160,7 +160,7 @@ namespace SilkroadInformationAPI.Media
                                             newModel.Type = ModelType.Unknown;
                                             newItem.MaxStack = Int32.Parse(vars[57]);
 
-                                            newItem.Degree = Int32.Parse(vars[61]);
+                                            newItem.Degree = Utility.GetItemDegree(byte.Parse(vars[33]));
                                             newItem.Duration = Int32.Parse(vars[118]);
 
                                             Data.MediaItems.Add(newItem.ModelID, newItem);

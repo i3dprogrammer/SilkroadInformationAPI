@@ -16,7 +16,7 @@ namespace SilkroadInformationAPI.Client.Information
         public int Slot;
         public ulong Price;
         public bool HasAdvance;
-        public Dictionary<string, int> Blues;
+        public Dictionary<ItemBlues, int> Blues;
         public Dictionary<string, int> Stats;
 
         public InventoryItem(int ID)
@@ -37,7 +37,7 @@ namespace SilkroadInformationAPI.Client.Information
             PlusValue = 0;
             Slot = 0;
             HasAdvance = false;
-            Blues = new Dictionary<string, int>();
+            Blues = new Dictionary<ItemBlues, int>();
             Stats = new Dictionary<string, int>();
         }
 

@@ -20,6 +20,8 @@ namespace SilkroadInformationAPI
     public class SroClient
     {
 
+        public static Security security;
+
         public SroClient()
         {
 

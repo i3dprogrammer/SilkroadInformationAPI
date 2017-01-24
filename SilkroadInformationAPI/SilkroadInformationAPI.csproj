@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,10 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Actions\CaptchaImage.cs" />
     <Compile Include="Client\Actions\Mapping.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\Dispatcher.cs" />
     <Compile Include="Client\Information\Chat\ChatMessage.cs" />
+    <Compile Include="Client\Information\Gateway\Shard.cs" />
     <Compile Include="Client\Information\Objects\Base.cs" />
     <Compile Include="Client\Information\Objects\Character.cs" />
     <Compile Include="Client\Information\Party\PartyMatchingEntry.cs" />
@@ -91,14 +94,26 @@
     <Compile Include="Client\Packets\BattleArena\BattleArenaStateEventArgs.cs" />
     <Compile Include="Client\Packets\BattleArena\BattleArenaTimeEventArgs.cs" />
     <Compile Include="Client\Packets\BattleArena\Operation.cs" />
-    <Compile Include="Client\Packets\Character\CharInfo.cs" />
+    <Compile Include="Client\Packets\Character\CharacterData.cs" />
     <Compile Include="Client\Packets\Character\InfoUpdate.cs" />
-    <Compile Include="Client\Packets\Character\ParseData.cs" />
+    <Compile Include="Client\Packets\Character\ParseCharacterData.cs" />
     <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
     <Compile Include="Client\Packets\COS\COSData.cs" />
     <Compile Include="Client\Packets\COS\COSUpdate.cs" />
     <Compile Include="Client\Packets\COS\RideState.cs" />
     <Compile Include="Client\Packets\Game\Invite.cs" />
+    <Compile Include="Client\Packets\Gateway\AgentAuthRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\AgentAuthResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaCodeResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaReceived.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaCodeRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\LoginRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\LoginResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\PatchRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\PatchResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\ShardRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\ShardResponse.cs" />
+    <Compile Include="Client\Packets\Global\ModuleIdentification.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperation.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryOperationEventArgs.cs" />
     <Compile Include="Client\Packets\Inventory\InventoryUtility.cs" />
@@ -134,7 +149,7 @@
     <Compile Include="Client\Packets\Utility.cs" />
     <Compile Include="Debug\DebugPacket.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="SroClient.cs" />
     <Compile Include="Media\Data.cs" />
     <Compile Include="Media\DataInfo\Shops\Shop.cs" />
     <Compile Include="Media\DataInfo\Shops\ShopGroup.cs" />
@@ -148,7 +163,9 @@
     <Compile Include="Media\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Client\Packets\CharacterSelection\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

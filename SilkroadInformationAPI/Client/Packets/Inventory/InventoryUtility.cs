@@ -22,22 +22,22 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             if (rent == 1)
             {
                 p.ReadUInt16(); //  item.RentInfo.CanDelete
-                p.ReadUInt32(); //    item.RentInfo.PeriodBeginTime
-                p.ReadUInt32(); //    item.RentInfo.PeriodEndTime        
+                p.ReadUInt32(); //  item.RentInfo.PeriodBeginTime
+                p.ReadUInt32(); //  item.RentInfo.PeriodEndTime        
             }
             else if (rent == 2)
             {
                 p.ReadUInt16(); //  item.RentInfo.CanDelete
                 p.ReadUInt16(); //  item.RentInfo.CanRecharge
-                p.ReadUInt32(); //    item.RentInfo.MeterRateTime        
+                p.ReadUInt32(); //  item.RentInfo.MeterRateTime        
             }
             else if (rent == 3)
             {
                 p.ReadUInt16(); //  item.RentInfo.CanDelete
                 p.ReadUInt16(); //  item.RentInfo.CanRecharge
-                p.ReadUInt32(); //    item.RentInfo.PeriodBeginTime
-                p.ReadUInt32(); //    item.RentInfo.PeriodEndTime   
-                p.ReadUInt32(); //    item.RentInfo.PackingTime        
+                p.ReadUInt32(); //  item.RentInfo.PeriodBeginTime
+                p.ReadUInt32(); //  item.RentInfo.PeriodEndTime   
+                p.ReadUInt32(); //  item.RentInfo.PackingTime        
             }
 
             int itemID = p.ReadInt32();
