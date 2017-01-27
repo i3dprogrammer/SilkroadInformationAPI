@@ -9,27 +9,21 @@ using PK2Reader.EntrySet;
 
 namespace SilkroadInformationAPI.Media
 {
-    class LoadData
+    class LoadData //TODO: Load files based on location+file name rather than file name only.
     {
         private static Reader reader;
 
-        public static void InitializeReader(string MediaPath, string blowfish = "169841")
+        public static void InitializeReader(string Path, string blowfish = "169841")
         {
-            if (!System.IO.File.Exists(MediaPath))
-            {
-                throw new System.IO.FileNotFoundException("Couldn't find the media path, please check it.");
-            }
-
             try
             {
-                reader = new Reader(MediaPath, blowfish);
+                reader = new Reader(Path + "\\Media.pk2", blowfish);
             }
             catch
             {
                 throw new Exception("Error during loading the media, please check the pk2 blowfish.");
             }
         }
-
         public static bool IsInitialized()
         {
             return reader is object;
@@ -416,6 +410,67 @@ namespace SilkroadInformationAPI.Media
             }
         }
 
+        public static void LoadDivisonInfo()
+        {
+            try
+            {
+                var breader = new System.IO.BinaryReader(reader.GetFileStream("divisioninfo.txt"));
+                Data.ServerInfo.Locale = breader.ReadByte();
+                byte divCount = breader.ReadByte();
+                for (int i = 0; i < divCount; i++)
+                {
+                    List<string> gateways = new List<string>();
+
+                    int divLength = breader.ReadInt32();
+                    string divName = new string(breader.ReadChars(divLength));
+                    breader.ReadByte(); //??
+
+                    byte gatewayCount = breader.ReadByte();
+                    for (int j = 0; j < gatewayCount; j++)
+                    {
+                        int gatewayLength = breader.ReadInt32();
+                        string gatewayIP = new string(breader.ReadChars(gatewayLength));
+                        breader.ReadByte(); //??
+
+                        gateways.Add(gatewayIP);
+                    }
+
+                    Data.ServerInfo.LoginDivisons.Add(new DataInfo.Division(divName, gateways));
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception("Error loading ServerInfo divisioninfo\n" + ex.Message + "\n" + ex.StackTrace);
+            }
+        }
+        public static void LoadGateport()
+        {
+            try
+            {
+                Data.ServerInfo.Port = ushort.Parse(Encoding.ASCII.GetString(reader.GetFileBytes("GATEPORT.txt")));
+            } catch(Exception ex)
+            {
+                throw new Exception("Error loading ServerInfo GATEPORT\n" + ex.Message);
+            }
+        }
+        public static void LoadServerVersion()
+        {
+            try
+            {
+                var breader = new System.IO.BinaryReader(reader.GetFileStream("SV.T"));
+                breader.ReadUInt32(); //Version length, usually 8.
+
+                var bf = new SilkroadSecurityApi.Blowfish();
+                bf.Initialize(Encoding.ASCII.GetBytes("SILKROADVERSION"), 0, 8);
+
+                byte[] version = bf.Decode(breader.ReadBytes(8));
+                Data.ServerInfo.Version = uint.Parse(Encoding.ASCII.GetString(version));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading ServerInfo Version.\n" + ex.Message);
+            }
+        }
+
         public static void LoadLevelData()
         {
             try
@@ -458,7 +513,7 @@ namespace SilkroadInformationAPI.Media
             }
         }
 
-        public static void LoadShops()
+        public static void LoadRefShop()
         {
             try
             {

@@ -18,7 +18,7 @@ namespace SilkroadInformationAPI.Client.Packets.Gateway
             p.WriteUInt8(Locale);
             p.WriteUInt32(0);
             p.WriteUInt16(0);
-            SroClient.security.Send(p);
+            SroClient.RemoteSecurity.Send(p);
         }
     }
 }

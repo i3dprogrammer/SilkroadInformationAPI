@@ -19,7 +19,6 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         public static Action<Information.Objects.COS> OnCOSBadStatus;
         public static Action<Information.Objects.COS> OnCOSBadStatusRemoved;
 
-        public static Action<Information.Objects.Character> OnCharacterHPUpdate;
         public static Action<Information.Objects.Character> OnCharacterBadStatus;
         public static Action<Information.Objects.Character> OnCharacterBadStatusRemoved;
 

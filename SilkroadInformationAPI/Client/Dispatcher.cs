@@ -33,6 +33,9 @@ namespace SilkroadInformationAPI.Client
                 else if (p.Opcode == 0x3056)
                 {
                     Packets.Character.ExpSpUpdate.Parse(p);
+                } else if (p.Opcode == 0x303D)
+                {
+                    Packets.Character.StatsUpdate.Parse(p);
                 }
                 #endregion
 
@@ -169,6 +172,9 @@ namespace SilkroadInformationAPI.Client
                 } else if(p.Opcode == 0x3039)
                 {
                     Packets.Entity.ItemUnequip.Parse(p);
+                } else if(p.Opcode == 0xB045)
+                {
+                    Packets.Entity.EntitySelected.Parse(p);
                 }
                 #endregion
 

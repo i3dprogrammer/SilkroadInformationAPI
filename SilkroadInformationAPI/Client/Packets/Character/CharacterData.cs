@@ -8,9 +8,11 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.Character
 {
-    class CharacterData
+    public class CharacterData
     {
         private static Packet CharacterDataPacket;
+
+        public static event Action OnCharacterTeleport;
 
         public static void CharDataStart()
         {
@@ -26,6 +28,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
         {
             CharacterDataPacket.Lock();
             ParseCharacterData.Parse(CharacterDataPacket);
+            OnCharacterTeleport?.Invoke();
         }
     }
 }

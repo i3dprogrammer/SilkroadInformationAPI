@@ -105,7 +105,7 @@ namespace SilkroadInformationAPI.Client.Loader
             LoadLibrary("Kernel32.dll");
         }
 
-        public void StartClient(string path, ushort port, byte local)
+        public Process StartClient(string path, ushort port, byte local)
         {
             Console.WriteLine("Starting process.");
             byte[] FileArray = File.ReadAllBytes(path + "\\sro_client.exe");
@@ -143,10 +143,10 @@ namespace SilkroadInformationAPI.Client.Loader
             RedirectIPAddress = BaseAddress + FindPattern(RedirectIPAddressPattern, FileArray, 1) - 50;
 
             #endregion
-            StartLoader(path, port, local);
+            return StartLoader(path, port, local);
         }
 
-        private void StartLoader(string path, ushort port, byte local)
+        private Process StartLoader(string path, ushort port, byte local)
         {
 
             CreateMutex(IntPtr.Zero, false, "Silkroad Online Launcher");
@@ -167,6 +167,8 @@ namespace SilkroadInformationAPI.Client.Loader
             MultiClient(SroProcessHandle);
 
             StartingTextMSG(SroProcessHandle, StartingMessageText, HexColorArray);
+
+            return pSilkroad;
         }
 
         private void Quickpatches(IntPtr SroProcessHandle)

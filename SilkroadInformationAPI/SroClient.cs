@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using PK2Reader;
 using PK2Reader.Framework;
 using System.IO;
+using System.Threading;
 using SilkroadSecurityApi;
 using SilkroadInformationAPI.Client.Information;
 using SilkroadInformationAPI.Client.Packets.Inventory;
+using System.Diagnostics;
 
 /// 
 /// HUGE Thanks to DaxterSoul to his awesome documentation and pushedx for SilkroadSecurity.
@@ -20,44 +22,61 @@ namespace SilkroadInformationAPI
     public class SroClient
     {
 
-        public static Security security;
+        public static Security RemoteSecurity;
+        public static Security LocalSecurity;
+
+        public static string GamePath = "";
 
         public SroClient()
         {
-
+            
         }
 
         /// <summary>
         /// Opens and reads Silkroad Media.pk2 to load Objects, Skills, Items, etc...
         /// </summary>
-        /// <param name="MediaPath">The full Media.pk2 path.</param>
+        /// <param name="Path">The path of the game folder.</param>
         /// <param name="blowfish">The encryption key used, leave blank for the normal 169841.</param>
-        public SroClient(string MediaPath, string blowfish = "169841")
+        public SroClient(string Path, string blowfish = "169841")
         {
-            Media.LoadData.InitializeReader(MediaPath, blowfish);
-        }
-
-        /// <summary>
-        /// Opens and reads Silkroad Media.pk2 to load Objects, Skills, Items, etc...
-        /// </summary>
-        /// <param name="MediaPath">The full Media.pk2 path.</param>
-        /// <param name="blowfish">The encryption key used, leave blank for the normal 169841.</param>
-        public void Initialize(string MediaPath, string blowfish = "169841")
-        {
-            Media.LoadData.InitializeReader(MediaPath, blowfish);
-        }
-
-        public void StartClient(string path, ushort port, byte locale)
-        {
-            if (File.Exists(path + "\\sro_client.exe"))
-            {
-                var loader = new Client.Loader.Loader();
-                loader.StartClient(path, port, locale);
-            }
+            GamePath = Path;
+            if (File.Exists(GamePath + "\\sro_client.exe") && File.Exists(GamePath + "\\Media.pk2"))
+                Media.LoadData.InitializeReader(Path, blowfish);
             else
-            {
-                throw new Exception("Couldn't find sro_client in the specified path.");
-            }
+                throw new FileNotFoundException("Couldn't find all required files in that folder!", "sro_client.exe, Media.pk2");
+        }
+
+        /// <summary>
+        /// Opens and reads Silkroad Media.pk2 to load Objects, Skills, Items, etc...
+        /// </summary>
+        /// <param name="Path">The path of the game folder.</param>
+        /// <param name="blowfish">The encryption key used, leave blank for the normal 169841.</param>
+        public void Initialize(string Path, string blowfish = "169841")
+        {
+            GamePath = Path;
+            if (File.Exists(GamePath + "\\sro_client.exe") && File.Exists(GamePath + "\\Media.pk2"))
+                Media.LoadData.InitializeReader(Path, blowfish);
+            else
+                throw new FileNotFoundException("Couldn't find all required files in that folder!", "sro_client.exe, Media.pk2");
+        }
+
+        public Process StartClient(ushort port)
+        {
+            var loader = new Client.Loader.Loader();
+            return loader.StartClient(GamePath, port, Media.Data.ServerInfo.Locale);
+        }
+
+        /// TODO: Load remote ip/port from Media.
+        /// <summary>
+        /// This waits for client to load with the redirected hosts, then starts a connection to the server and acts as a proxy.
+        /// </summary>
+        /// <param name="remote_ip">Silkroad server IP</param>
+        /// <param name="remote_port">Silkroad server Port</param>
+        /// <param name="local_port">The local port of the redirected client.</param>
+        public void StartProxyConnection(ushort local_port)
+        {
+            var thread = new Thread(() => Client.Network.ProxyClient.StartProxy(Media.Data.ServerInfo.LoginDivisons[0].IP[0], Media.Data.ServerInfo.Port, "127.0.0.1", local_port));
+            thread.Start();
         }
 
         /// <summary>
@@ -69,6 +88,10 @@ namespace SilkroadInformationAPI
                 throw new Exception("SroClient is not initialized yet!");
             else
             {
+                Media.LoadData.LoadDivisonInfo();
+                Media.LoadData.LoadGateport();
+                Media.LoadData.LoadServerVersion();
+
                 Console.WriteLine("Loading translation!");
                 Media.LoadData.LoadTranslation();
                 Console.WriteLine("Loading models!");
@@ -93,15 +116,18 @@ namespace SilkroadInformationAPI
                 Console.WriteLine("Mapping shop groups to stores.");
                 Media.LoadData.LoadRefMappingShopWithTab(); //Maps the store group to Store shop
                 Console.WriteLine("Loading shops.");
-                Media.LoadData.LoadShops(); //Loads the Store
+                Media.LoadData.LoadRefShop(); //Loads the Store
                 Media.LoadData.LoadLevelData(); //Loads maximum exp
             }
 
             Console.WriteLine("Finished!");
         }
 
+
+
         /// <summary>
         /// Routes all the packets through the packet dispatcher, all game packets should pass through here.
+        /// <para>THIS should only be used if you're using a custom conenction, not the ones provided with the API(Client.Network).</para>
         /// </summary>
         /// <param name="p">The packet to dispatch.</param>
         public void Route(Packet p)
@@ -122,7 +148,7 @@ namespace SilkroadInformationAPI
         /// <summary>
         /// #DEBUG# Prints out the current inventory items in a nice way, note that it prints the count of the item only.
         /// </summary>
-        public void PrintInventory()
+        public void PrintInventoryCount()
         {
             if (Client.Client.InventoryItems.Count == 0)
                 return;

@@ -87,7 +87,22 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 Client.InventoryItems.Remove(oldSlot);
             } else if (flag == 0x08) //Item bought from NPC
             {
-                //TODO: PARSE PACKET
+                uint RefID = Client.NearbyNPCs[Client.SelectedUniqueID].ModelID;
+                string MediaName = Media.Data.MediaModels[RefID].MediaName;
+                byte TabIndex = p.ReadUInt8();
+                byte ItemIndex = p.ReadUInt8();
+                var shopItem = Media.Data.MediaShops.First(x => x.NPCName == MediaName).GetTabFromIndex(TabIndex).TabItems.First(x => x.PackagePosition == ItemIndex); //WTF???
+                byte CountBought = p.ReadUInt8();
+                for (int i = 0; i < CountBought; i++)
+                {
+                    var item = new Information.InventoryItem(Media.Data.MediaItems.First(x => x.Value.MediaName == shopItem.ItemMediaName).Value.ModelID);
+                    Console.WriteLine("BOUGHT: " + item.MediaName);
+                    item.Slot = p.ReadUInt8();
+                    Client.InventoryItems.Add(item.Slot, item);
+                }
+
+                args = new InventoryOperationEventArgs(null);
+                args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemBought;
             }
             else if (flag == 0x09) //Item sold to NPC
             {
@@ -112,7 +127,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args = new InventoryOperationEventArgs(item);
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemSoldToNPC;
 
-                Console.WriteLine("Sold {0} to NPCID: {1}, Registered with ID: {2}", item.MediaName, NPCID, indexInNPC - 1);
+                //Console.WriteLine("Sold {0} to NPCID: {1}, Registered with ID: {2}", item.MediaName, NPCID, indexInNPC - 1);
             } else if(flag == 0x18) //Item bought from Item Mall
             {
                 //TODO: PARSE PACKET
@@ -123,7 +138,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 int indexInNPC = p.ReadInt8();
                 int returnCount = p.ReadInt16();
 
-                Console.WriteLine("Buying back ID: {0}", Client.SoldItems.Count - (1 + indexInNPC));
+                //Console.WriteLine("Buying back ID: {0}", Client.SoldItems.Count - (1 + indexInNPC));
 
                 var item = Client.SoldItems[Client.SoldItems.Count - (1 + indexInNPC)];
 

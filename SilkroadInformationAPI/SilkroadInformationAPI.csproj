@@ -77,12 +77,14 @@
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Spells\Skill.cs" />
     <Compile Include="Client\Loader\Loader.cs" />
+    <Compile Include="Client\Network\ProxyClient.cs" />
     <Compile Include="Client\Packets\Character\ExpSpUpdate.cs" />
     <Compile Include="Client\Packets\Character\StatsUpdate.cs" />
     <Compile Include="Client\Packets\Entity\CelestialPosition.cs" />
     <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
     <Compile Include="Client\Packets\Entity\LevelUpAnimation.cs" />
     <Compile Include="Client\Packets\Entity\PVPUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\EntitySelected.cs" />
     <Compile Include="Client\Packets\Entity\SpeedUpdate.cs" />
     <Compile Include="Client\Packets\Entity\StateChange.cs" />
     <Compile Include="Client\Packets\Alchemy\AlchemyUtility.cs" />
@@ -149,6 +151,9 @@
     <Compile Include="Client\Packets\Utility.cs" />
     <Compile Include="Debug\DebugPacket.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Media\DataInfo\Division.cs" />
+    <Compile Include="Media\DataInfo\ServerInfo.cs" />
+    <Compile Include="Plugins\IPluginInterface.cs" />
     <Compile Include="SroClient.cs" />
     <Compile Include="Media\Data.cs" />
     <Compile Include="Media\DataInfo\Shops\Shop.cs" />

@@ -56,6 +56,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             Inv_ItemSoldToNPC,
             Inv_ItemBoughtbackFromNPC,
             Inv_ItemDisappeared,
+            Inv_ItemBought,
             Storage_ItemSwappedWithAnotherItem,
             Storage_ItemSlotChanged,
             Storage_ItemAddedToStorage,

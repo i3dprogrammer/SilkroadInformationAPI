@@ -27,7 +27,9 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.Zerk = (p.ReadInt8() == 5) ? true : false; //Berserk gauge
             p.ReadInt32(); //Zeroes
             Client.Info.CurrentHP = p.ReadUInt32(); //HP
+            Console.WriteLine("#DATA HP: " + Client.Info.CurrentHP);
             Client.Info.CurrentMP = p.ReadUInt32(); //MP
+            Console.WriteLine("#DATA MP: " + Client.Info.CurrentMP);
             p.ReadInt8(); //Beginner icon
             p.ReadInt8(); //Daily PK
             p.ReadInt16(); //Total PK

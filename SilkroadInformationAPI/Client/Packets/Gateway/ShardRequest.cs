@@ -12,7 +12,7 @@ namespace SilkroadInformationAPI.Client.Packets.Gateway
         public static void Send()
         {
             Packet p = new Packet(0x6101, true);
-            SroClient.security.Send(p);
+            SroClient.RemoteSecurity.Send(p);
         }
     }
 }

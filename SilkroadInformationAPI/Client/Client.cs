@@ -38,6 +38,6 @@ namespace SilkroadInformationAPI.Client
         public static Dictionary<ChatType, List<Information.Chat.ChatMessage>> Chat = new Dictionary<ChatType, List<Information.Chat.ChatMessage>>();
         public static Information.Stalls.Stall CurrentStall = new Information.Stalls.Stall();
         public static bool CharacterInStall = false;
-
+        public static uint SelectedUniqueID;
     }
 }

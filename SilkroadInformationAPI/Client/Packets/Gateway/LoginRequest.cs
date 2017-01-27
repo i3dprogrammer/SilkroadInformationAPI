@@ -17,7 +17,7 @@ namespace SilkroadInformationAPI.Client.Packets.Gateway
             p.WriteAscii(username);
             p.WriteAscii(password);
             p.WriteUInt16(shardID);
-            SroClient.security.Send(p);
+            SroClient.RemoteSecurity.Send(p);
         }
     }
 }
