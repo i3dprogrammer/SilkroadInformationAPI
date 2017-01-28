@@ -78,6 +78,9 @@
     <Compile Include="Client\Information\Spells\Skill.cs" />
     <Compile Include="Client\Loader\Loader.cs" />
     <Compile Include="Client\Network\ProxyClient.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterJoinRequest.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterJoinResponse.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterListResponse.cs" />
     <Compile Include="Client\Packets\Character\ExpSpUpdate.cs" />
     <Compile Include="Client\Packets\Character\StatsUpdate.cs" />
     <Compile Include="Client\Packets\Entity\CelestialPosition.cs" />
@@ -168,9 +171,7 @@
     <Compile Include="Media\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Client\Packets\CharacterSelection\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

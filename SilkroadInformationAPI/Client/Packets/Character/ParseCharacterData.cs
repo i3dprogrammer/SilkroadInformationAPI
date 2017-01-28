@@ -101,7 +101,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
 
                 if (quest.Type != 8)
                 {
-                    quest.ObjectiveCount = p.ReadInt8();
+                    quest.ObjectiveCount = p.ReadInt8(); 
                     for (int j = 0; j < quest.ObjectiveCount; j++)
                     {
                         var objective = new Information.Quests.Objective();

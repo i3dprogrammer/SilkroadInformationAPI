@@ -12,6 +12,11 @@ namespace SilkroadInformationAPI.Client.Network
 {
     public class ProxyClient
     {
+        public static event Action OnClientlessStart;
+        public static event Action<Packet> OnServerPacketReceive;
+        public static event Action<Packet> OnClientPacketSent;
+        public static event Action OnDisconnect;
+
         class Context
         {
             public Socket Socket { get; set; }
@@ -31,12 +36,15 @@ namespace SilkroadInformationAPI.Client.Network
         static bool ConnectedToWorldwideServer = false;
         static bool AutoSwitchToClientless = true;
 
-        public static void StartProxy(string remote_ip, ushort remote_port, string local_ip, ushort local_port)
+        public static void StartProxy(string remote_ip, ushort remote_port, string local_ip, ushort local_port) //Pushedx proxy.
         {
             Context local_context = new Context();
             local_context.Security.GenerateSecurity(true, true, true);
 
             Context remote_context = new Context();
+
+            SroClient.RemoteSecurity = remote_context.Security;
+            SroClient.LocalSecurity = local_context.Security;
 
             remote_context.RelaySecurity = local_context.Security;
             local_context.RelaySecurity = remote_context.Security;
@@ -58,10 +66,9 @@ namespace SilkroadInformationAPI.Client.Network
                 using (remote_context.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {
                     remote_context.Socket.Connect(remote_ip, remote_port);
-                    SroClient.RemoteSecurity = remote_context.Security;
-                    SroClient.LocalSecurity = local_context.Security;
                     while (true)
                     {
+                        #region TransferIncoming
                         foreach (Context context in contexts) // Network input event processing
                         {
                             try
@@ -71,15 +78,24 @@ namespace SilkroadInformationAPI.Client.Network
                                     int count = context.Socket.Receive(context.Buffer.Buffer);
                                     if (count == 0)
                                     {
+                                        Console.WriteLine("Disconnected");
+                                        OnDisconnect?.Invoke();
                                         throw new Exception("The remote connection has been lost.");
                                     }
                                     context.Security.Recv(context.Buffer.Buffer, 0, count);
                                 }
                             }
-                            catch
+                            catch(Exception ex)
                             {
                                 if (context == local_context && ConnectedToWorldwideServer == true && AutoSwitchToClientless)
+                                {
                                     Clientless_Start(remote_context);
+                                    OnClientlessStart?.Invoke();
+                                } else
+                                {
+                                    Console.WriteLine("Disconnected " + ex.Message);
+                                    OnDisconnect?.Invoke();
+                                }
                                 return;
                             }
                         }
@@ -91,8 +107,8 @@ namespace SilkroadInformationAPI.Client.Network
                             {
                                 foreach (Packet packet in packets)
                                 {
-                                    Dispatcher.Process(packet);
-
+                                    Dispatcher.Process(new Packet(packet));
+                                    OnServerPacketReceive?.Invoke(new Packet(packet));
                                     if (packet.Opcode == 0x5000 || packet.Opcode == 0x9000) // ignore always
                                     {
                                     }
@@ -134,6 +150,7 @@ namespace SilkroadInformationAPI.Client.Network
                                 }
                             }
                         }
+                        #endregion
                         #region TransferOutgoing
                         foreach (Context context in contexts) // Network output event processing
                         {
@@ -145,6 +162,7 @@ namespace SilkroadInformationAPI.Client.Network
                                     foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
                                     {
                                         TransferBuffer buffer = kvp.Key;
+                                        OnClientPacketSent?.Invoke(kvp.Value);
                                         while (true)
                                         {
                                             int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
@@ -172,54 +190,66 @@ namespace SilkroadInformationAPI.Client.Network
         {
             var keepalive = new Thread(() => Clientless_Ping(context));
             keepalive.Start();
-
-            while (true)
+            try
             {
-                if (context.Socket.Poll(0, SelectMode.SelectRead))
+                while (true)
                 {
-                    int count = context.Socket.Receive(context.Buffer.Buffer);
-                    if (count == 0)
+                    if (context.Socket.Poll(0, SelectMode.SelectRead))
                     {
-                        throw new Exception("The remote connection has been lost.");
-                    }
-                    context.Security.Recv(context.Buffer.Buffer, 0, count);
-                }
-
-                List<Packet> packets = context.Security.TransferIncoming();
-                if (packets != null)
-                {
-                    foreach (Packet packet in packets)
-                    {
-                        if (packet.Opcode == 0x34B5) //Character teleport successfully
+                        int count = context.Socket.Receive(context.Buffer.Buffer);
+                        if (count == 0)
                         {
-                            Packet answer = new Packet(0x34B6); //Teleport confirmation packet
-                            SroClient.RemoteSecurity.Send(answer);
+                            Console.WriteLine("Disconnected!");
+                            OnDisconnect?.Invoke();
+                            throw new Exception("The remote connection has been lost.");
                         }
+                        context.Security.Recv(context.Buffer.Buffer, 0, count);
                     }
-                }
 
-                if (context.Socket.Poll(0, SelectMode.SelectWrite))
-                {
-                    List<KeyValuePair<TransferBuffer, Packet>> buffers = context.Security.TransferOutgoing();
-                    if (buffers != null)
+                    List<Packet> packets = context.Security.TransferIncoming();
+                    if (packets != null)
                     {
-                        foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
+                        foreach (Packet packet in packets)
                         {
-                            TransferBuffer buffer = kvp.Key;
-                            while (true)
+                            Dispatcher.Process(new Packet(packet));
+                            OnServerPacketReceive?.Invoke(packet);
+                            if (packet.Opcode == 0x34B5) //Character teleport successfully
                             {
-                                int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
-                                buffer.Offset += count;
-                                if (buffer.Offset == buffer.Size)
-                                {
-                                    break;
-                                }
-                                Thread.Sleep(1);
+                                Packet answer = new Packet(0x34B6); //Teleport confirmation packet
+                                context.Security.Send(answer);
                             }
                         }
                     }
+
+                    if (context.Socket.Poll(0, SelectMode.SelectWrite))
+                    {
+                        List<KeyValuePair<TransferBuffer, Packet>> buffers = context.Security.TransferOutgoing();
+                        if (buffers != null)
+                        {
+                            foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
+                            {
+                                TransferBuffer buffer = kvp.Key;
+                                OnClientPacketSent?.Invoke(kvp.Value);
+                                while (true)
+                                {
+                                    int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
+                                    buffer.Offset += count;
+                                    if (buffer.Offset == buffer.Size)
+                                    {
+                                        break;
+                                    }
+                                    Thread.Sleep(1);
+                                }
+                            }
+                        }
+                    }
+
                 }
 
+            } catch
+            {
+                Console.WriteLine("Disconnected!");
+                OnDisconnect?.Invoke();
             }
         }
 
@@ -227,6 +257,8 @@ namespace SilkroadInformationAPI.Client.Network
         {
             while (true)
             {
+                if (context.Socket.Connected == false)
+                    break;
                 Packet p = new Packet(0x2002);
                 context.Security.Send(p);
                 Thread.Sleep(5000);

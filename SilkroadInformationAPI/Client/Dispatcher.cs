@@ -13,8 +13,18 @@ namespace SilkroadInformationAPI.Client
         {
             try
             {
+                #region CHARACTER SELECTION
+                if(p.Opcode == 0xB001)
+                {
+                    Packets.CharacterSelection.CharacterJoinResponse.Parse(p);
+                } else if(p.Opcode == 0xB007)
+                {
+                    Packets.CharacterSelection.CharacterListResponse.Parse(p);
+                }
+                #endregion
+
                 #region CHARACTER
-                if (p.Opcode == 0x3013)
+                else if (p.Opcode == 0x3013)
                 {
                     Packets.Character.CharacterData.CharData(p);
                 }
@@ -213,6 +223,22 @@ namespace SilkroadInformationAPI.Client
                 } else if(p.Opcode == 0xB0B2)
                 {
                     //TODO: Client closed stall
+                }
+                #endregion
+
+                #region GATEWAY
+                else if (p.Opcode == 0xA101)
+                {
+                    Packets.Gateway.ShardResponse.Parse(p);
+                } else if(p.Opcode == 0xA100)
+                {
+                    Packets.Gateway.PatchResponse.Parse(p);
+                } else if(p.Opcode == 0xA102) //NEED TO FIX SHIT
+                {
+                    Packets.Gateway.LoginResponse.Parse(p);
+                } else if(p.Opcode == 0xA323)
+                {
+                    Packets.Gateway.CaptchaCodeResponse.Parse(p);
                 }
                 #endregion
             }

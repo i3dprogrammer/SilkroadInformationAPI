@@ -9,12 +9,12 @@ namespace SilkroadInformationAPI.Media.DataInfo
     public class Division
     {
         public string Name;
-        public List<string> IP;
+        public List<string> IPs;
 
         public Division(string _name, List<string> _ip)
         {
             Name = _name;
-            IP = _ip;
+            IPs = _ip;
         }
     }
 }

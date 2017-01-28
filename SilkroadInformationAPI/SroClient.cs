@@ -25,7 +25,7 @@ namespace SilkroadInformationAPI
         public static Security RemoteSecurity;
         public static Security LocalSecurity;
 
-        public static string GamePath = "";
+        private static string GamePath = "";
 
         public SroClient()
         {
@@ -73,9 +73,9 @@ namespace SilkroadInformationAPI
         /// <param name="remote_ip">Silkroad server IP</param>
         /// <param name="remote_port">Silkroad server Port</param>
         /// <param name="local_port">The local port of the redirected client.</param>
-        public void StartProxyConnection(ushort local_port)
+        public void StartProxyConnection(string IP, ushort local_port)
         {
-            var thread = new Thread(() => Client.Network.ProxyClient.StartProxy(Media.Data.ServerInfo.LoginDivisons[0].IP[0], Media.Data.ServerInfo.Port, "127.0.0.1", local_port));
+            var thread = new Thread(() => Client.Network.ProxyClient.StartProxy(IP, Media.Data.ServerInfo.Port, "127.0.0.1", local_port));
             thread.Start();
         }
 
