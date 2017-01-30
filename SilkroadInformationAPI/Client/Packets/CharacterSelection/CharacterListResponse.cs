@@ -17,11 +17,11 @@ namespace SilkroadInformationAPI.Client.Packets.CharacterSelection
             p.ReadUInt8();
             if(p.ReadUInt8() == 0x01)
             {
-                var Chars = new List<CharacterLsitEventArgs.Char>();
+                var Chars = new List<CharacterLsitEventArgs.SelectionCharacter>();
                 byte count = p.ReadUInt8();
                 for(int i = 0; i < count; i++)
                 {
-                    var Char = new CharacterLsitEventArgs.Char();
+                    var Char = new CharacterLsitEventArgs.SelectionCharacter();
                     Char.RefObjID = p.ReadUInt32();
                     Char.Name = p.ReadAscii();
                     p.ReadUInt8(); //Scale
@@ -59,9 +59,9 @@ namespace SilkroadInformationAPI.Client.Packets.CharacterSelection
 
     public class CharacterLsitEventArgs : EventArgs
     {
-        public List<Char> Characters;
+        public List<SelectionCharacter> Characters;
 
-        public class Char
+        public class SelectionCharacter
         {
             public uint RefObjID;
             public string Name;

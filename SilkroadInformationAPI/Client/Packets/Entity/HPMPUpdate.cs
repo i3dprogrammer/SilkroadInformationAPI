@@ -26,7 +26,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         public static Action<Information.Objects.Mob> OnMobBadStatus;
         public static Action<Information.Objects.Mob> OnMobBadStatusRemoved;
 
-        public static void Parse(Packet p) //TODO: Add events
+        public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
             p.ReadUInt16(); //UNK

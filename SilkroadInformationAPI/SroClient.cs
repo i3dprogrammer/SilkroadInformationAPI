@@ -9,12 +9,13 @@ using System.IO;
 using System.Threading;
 using SilkroadSecurityApi;
 using SilkroadInformationAPI.Client.Information;
+using SilkroadInformationAPI.Client.Network;
 using SilkroadInformationAPI.Client.Packets.Inventory;
 using System.Diagnostics;
 
 /// 
 /// HUGE Thanks to DaxterSoul to his awesome documentation and pushedx for SilkroadSecurity.
-/// And to everyone else I used their source, mostly are mentioed.
+/// And to everyone else I used their source, mostly are mentioned.
 /// 
 
 namespace SilkroadInformationAPI
@@ -25,6 +26,7 @@ namespace SilkroadInformationAPI
         public static Security RemoteSecurity;
         public static Security LocalSecurity;
 
+        private static ClientlessConnection con_Clientless;
         private static string GamePath = "";
 
         public SroClient()
@@ -66,17 +68,58 @@ namespace SilkroadInformationAPI
             return loader.StartClient(GamePath, port, Media.Data.ServerInfo.Locale);
         }
 
-        /// TODO: Load remote ip/port from Media.
         /// <summary>
         /// This waits for client to load with the redirected hosts, then starts a connection to the server and acts as a proxy.
+        /// <para>The last optional parameter specifies whether the connection switches to clientless automatically upon client disconnection.</para>
         /// </summary>
-        /// <param name="remote_ip">Silkroad server IP</param>
-        /// <param name="remote_port">Silkroad server Port</param>
+        /// <param name="remote_ip">Silkroad login server IP</param>
         /// <param name="local_port">The local port of the redirected client.</param>
-        public void StartProxyConnection(string IP, ushort local_port)
+        public void StartProxyConnection(string LoginServerIP, ushort local_port, bool AutomaticClientless = true)
         {
-            var thread = new Thread(() => Client.Network.ProxyClient.StartProxy(IP, Media.Data.ServerInfo.Port, "127.0.0.1", local_port));
+            Client.Network.ProxyClient.AutoSwitchToClientless = AutomaticClientless;
+            //TODO: Should check if the IP is not direct. (i.e. sro.gameserver.com)
+            var thread = new Thread(() => Client.Network.ProxyClient.StartProxy(LoginServerIP, Media.Data.ServerInfo.Port, "127.0.0.1", local_port));
             thread.Start();
+        }
+
+
+        //TODO: REMOVE USELESS CONFIGURATION!
+
+        /// <summary>
+        /// Connect clientlessly to the login server.
+        /// <para>NOTE: You MUST Configure the clientless before starting the connection, and after receving the LoginResponse</para>
+        /// </summary>
+        /// <param name="LoginServerIP">Silkroad login server IP</param>
+        public void StartClientlessConnection(string LoginServerIP)
+        {
+            con_Clientless.Start(LoginServerIP, Media.Data.ServerInfo.Port);
+        }
+
+        /// <summary>
+        /// Call this twice, once before starting the connection. And once when you receive the session id succesfully
+        /// <para>Because they are used to instaniate the agent server.</para>
+        /// </summary>
+        /// <param name="_SessionID">Received from Packets.Gateway.LoginResponse, YOU CAN LEAVE IT 0 AT FIRST TIME.</param>
+        /// <param name="_Username">User input</param>
+        /// <param name="_Password">User input</param>
+        /// <param name="_Locale">Media.Data.ServerInfo.Locale</param>
+        /// <param name="_GameVersion">Media.Data.ServerInfo.Version</param>
+        public void ConfigureClientlessSettings(uint _SessionID, string _Username, string _Password, byte _Locale, uint _GameVersion)
+        {
+            con_Clientless.cl_SessionID = _SessionID;
+            con_Clientless.cl_Username = _Username;
+            con_Clientless.cl_Password = _Password;
+            con_Clientless.cl_Locale = _Locale;
+            con_Clientless.cl_GameVersion = _GameVersion;
+        }
+
+
+        /// <summary>
+        /// Closes the connection socket.
+        /// </summary>
+        public void TerminateClientlessConnection()
+        {
+            con_Clientless.TerminateConnection();
         }
 
         /// <summary>
@@ -88,10 +131,14 @@ namespace SilkroadInformationAPI
                 throw new Exception("SroClient is not initialized yet!");
             else
             {
+                Console.WriteLine("Loading login servers!");
                 Media.LoadData.LoadDivisonInfo();
+                Console.WriteLine("Loading login server port");
                 Media.LoadData.LoadGateport();
+                Console.WriteLine("Loading server version.");
                 Media.LoadData.LoadServerVersion();
-
+                Console.WriteLine("Loading zone names!");
+                Media.LoadData.LoadTextZoneNames();
                 Console.WriteLine("Loading translation!");
                 Media.LoadData.LoadTranslation();
                 Console.WriteLine("Loading models!");

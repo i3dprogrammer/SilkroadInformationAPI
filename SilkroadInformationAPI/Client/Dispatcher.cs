@@ -233,12 +233,15 @@ namespace SilkroadInformationAPI.Client
                 } else if(p.Opcode == 0xA100)
                 {
                     Packets.Gateway.PatchResponse.Parse(p);
-                } else if(p.Opcode == 0xA102) //NEED TO FIX SHIT
+                } else if(p.Opcode == 0xA102)
                 {
                     Packets.Gateway.LoginResponse.Parse(p);
                 } else if(p.Opcode == 0xA323)
                 {
                     Packets.Gateway.CaptchaCodeResponse.Parse(p);
+                } else if(p.Opcode == 0xA103)
+                {
+                    Packets.Gateway.AgentAuthResponse.Parse(p);
                 }
                 #endregion
             }

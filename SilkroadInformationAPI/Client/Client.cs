@@ -39,5 +39,35 @@ namespace SilkroadInformationAPI.Client
         public static Information.Stalls.Stall CurrentStall = new Information.Stalls.Stall();
         public static bool CharacterInStall = false;
         public static uint SelectedUniqueID;
+
+        public static void RefreshClient()
+        {
+            Info = new Info();
+            Party = new Information.Party.Party();
+
+            InventoryItems = new Dictionary<int, InventoryItem>();
+            StorageItems = new Dictionary<int, InventoryItem>();
+
+            SoldItems = new List<InventoryItem>();
+            Quests = new List<Quest>();
+            Masteries = new List<Mastery>();
+            Skills = new List<Skill>();
+
+            Position = new Information.BasicInfo.Position();
+            Movement = new Information.BasicInfo.Movement();
+            State = new Information.BasicInfo.State();
+
+            NearbyCharacters = new Dictionary<uint, Information.Objects.Character>();
+            NearbyNPCs = new Dictionary<uint, Information.Objects.Base>();
+            NearbyMobs = new Dictionary<uint, Information.Objects.Mob>();
+            NearbyItems = new Dictionary<uint, Information.Objects.Item>();
+            NearbyBuffAreas = new Dictionary<uint, Information.Objects.BuffArea>();
+            NearbyCOSs = new Dictionary<uint, Information.Objects.COS>();
+            NearbyStructures = new Dictionary<uint, Information.Objects.Structure>();
+
+            Chat = new Dictionary<ChatType, List<Information.Chat.ChatMessage>>();
+            CurrentStall = new Information.Stalls.Stall();
+            CharacterInStall = false;
+        }
     }
 }

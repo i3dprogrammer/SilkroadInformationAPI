@@ -34,10 +34,19 @@ namespace SilkroadInformationAPI.Client.Network
         }
 
         static bool ConnectedToWorldwideServer = false;
-        static bool AutoSwitchToClientless = true;
+        public static bool AutoSwitchToClientless = true;
+
+
+        static uint SessionID;
+        static string Username;
+        static string Password;
+        static byte Locale;
 
         public static void StartProxy(string remote_ip, ushort remote_port, string local_ip, ushort local_port) //Pushedx proxy.
         {
+            Client.RefreshClient();
+            ConnectedToWorldwideServer = false;
+
             Context local_context = new Context();
             local_context.Security.GenerateSecurity(true, true, true);
 
@@ -87,7 +96,8 @@ namespace SilkroadInformationAPI.Client.Network
                             }
                             catch(Exception ex)
                             {
-                                if (context == local_context && ConnectedToWorldwideServer == true && AutoSwitchToClientless)
+                                //If local context disconnects && the account is connected to agent server > switch clientless
+                                if (context == local_context && ConnectedToWorldwideServer == true && AutoSwitchToClientless) 
                                 {
                                     Clientless_Start(remote_context);
                                     OnClientlessStart?.Invoke();
@@ -124,24 +134,33 @@ namespace SilkroadInformationAPI.Client.Network
                                         byte result = packet.ReadUInt8();
                                         if (result == 1)
                                         {
-                                            uint id = packet.ReadUInt32();
+                                            SessionID = packet.ReadUInt32();
                                             string ip = packet.ReadAscii();
                                             ushort port = packet.ReadUInt16();
 
                                             var agentThread = new Thread(()=>StartProxy(ip, ushort.Parse((port).ToString()), local_ip, local_port));
                                             agentThread.Start();
 
-                                            Thread.Sleep(500); // Should be enough time, if not, increase, but too long and C9 timeout results
+                                            Thread.Sleep(500);
 
+                                            //Fake response to redirect the client.
                                             Packet new_packet = new Packet(0xA102, true);
                                             new_packet.WriteUInt8(result);
-                                            new_packet.WriteUInt32(id);
+                                            new_packet.WriteUInt32(SessionID);
                                             new_packet.WriteAscii(local_ip);
                                             new_packet.WriteUInt16(local_port);
 
                                             context.RelaySecurity.Send(new_packet);
                                             ConnectedToWorldwideServer = true;
+                                        } else
+                                        {
+                                            context.RelaySecurity.Send(packet);
                                         }
+                                    } else if(packet.Opcode == 0x6103)
+                                    {
+                                        //If the client is sending 0x6103 agent auth packet, cancel it
+                                        //because we send our own.
+                                        Console.WriteLine(context == local_context);
                                     }
                                     else
                                     {
@@ -163,6 +182,29 @@ namespace SilkroadInformationAPI.Client.Network
                                     {
                                         TransferBuffer buffer = kvp.Key;
                                         OnClientPacketSent?.Invoke(kvp.Value);
+
+                                        //Save locale, username, password
+                                        if (kvp.Value.Opcode == 0x6102)
+                                        {
+                                            var p = new Packet(kvp.Value);
+                                            Locale = p.ReadUInt8();
+                                            Username = p.ReadAscii();
+                                            Password = p.ReadAscii();
+                                        }
+
+                                        //if the remote server signals switching to agent, send the auth packet.
+                                        else if (kvp.Value.Opcode == 0x2001)
+                                            if (kvp.Value.ReadAscii() == "AgentServer")
+                                            {
+                                                Packet p = new Packet(0x6103, true, false); //Login packet
+                                                p.WriteUInt32(SessionID); //Session ID we got from A102 Answer
+                                                p.WriteAscii(Username);
+                                                p.WriteAscii(Password);
+                                                p.WriteUInt8(Locale);
+                                                p.WriteUInt32(0); //Mac address
+                                                p.WriteUInt16(0); //Mac address
+                                                remote_context.Security.Send(p);
+                                            }
                                         while (true)
                                         {
                                             int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
@@ -188,8 +230,10 @@ namespace SilkroadInformationAPI.Client.Network
 
         static void Clientless_Start(Context context)
         {
+            //Clientless started, start the ping thread.
             var keepalive = new Thread(() => Clientless_Ping(context));
             keepalive.Start();
+
             try
             {
                 while (true)
@@ -213,6 +257,7 @@ namespace SilkroadInformationAPI.Client.Network
                         {
                             Dispatcher.Process(new Packet(packet));
                             OnServerPacketReceive?.Invoke(packet);
+
                             if (packet.Opcode == 0x34B5) //Character teleport successfully
                             {
                                 Packet answer = new Packet(0x34B6); //Teleport confirmation packet

@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Media
         public static Dictionary<int, string> MediaBlues = new Dictionary<int, string>();
         public static Dictionary<string, string> Translation = new Dictionary<string, string>();
         public static Dictionary<int, ulong> LevelDataMaxEXP = new Dictionary<int, ulong>();
-
+        public static Dictionary<int, string> TextZoneName = new Dictionary<int, string>();
         public static DataInfo.ServerInfo ServerInfo = new DataInfo.ServerInfo();
     }
 }

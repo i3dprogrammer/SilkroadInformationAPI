@@ -26,9 +26,6 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.STR = p.ReadUInt16();
             Client.Info.INT = p.ReadUInt16();
 
-            Console.WriteLine("#STATS MP:" + Client.Info.MaxMP);
-            Console.WriteLine("#STATS HP:" + Client.Info.MaxHP);
-
             if (Client.Info.CurrentHP > Client.Info.MaxHP)
                 Client.Info.CurrentHP = Client.Info.MaxHP;
             if (Client.Info.CurrentMP > Client.Info.MaxMP)

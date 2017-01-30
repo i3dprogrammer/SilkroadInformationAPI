@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         /// </summary>
         public static event Action OnClientPositionUpdate;
 
-        public static void Parse(Packet p) //TODO: Add events
+        public static void Parse(Packet p)
         {
             bool onHorse = false;
             uint UniqueID = p.ReadUInt32();
@@ -34,7 +34,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
             int moving = p.ReadInt8();
             if (moving == 1)
             {
-                ushort ReigonID = p.ReadUInt16();
+                ushort RegionID = p.ReadUInt16();
                 short xcoord = p.ReadInt16();
                 short zcoord = p.ReadInt16();
                 short ycoord = p.ReadInt16();
@@ -44,7 +44,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                     int oldX = Client.NearbyCharacters[UniqueID].Position.GetRealX();
                     int oldY = Client.NearbyCharacters[UniqueID].Position.GetRealY();
 
-                    Client.NearbyCharacters[UniqueID].Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.NearbyCharacters[UniqueID].Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
                     //Console.WriteLine("{ " + Actions.Mapping.GetCharNameFromUID(UniqueID) + " } [" + Client.NearbyCharacters[UniqueID].Position.GetRealX() + ", " +
                     //    Client.NearbyCharacters[UniqueID].Position.GetRealY() + "]");
                     OnCharacterPositionChange?.Invoke(new CharacterPositionUpdateEventArgs(oldX, oldY, Client.NearbyCharacters[UniqueID].Position.GetRealX(),
@@ -52,17 +52,17 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
 
                 }
                 if (Client.NearbyCOSs.ContainsKey(UniqueID))
-                    Client.NearbyCOSs[UniqueID].Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.NearbyCOSs[UniqueID].Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
                 if (Client.NearbyMobs.ContainsKey(UniqueID))
-                    Client.NearbyMobs[UniqueID].Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.NearbyMobs[UniqueID].Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
                 if (Client.NearbyNPCs.ContainsKey(UniqueID))
-                    Client.NearbyNPCs[UniqueID].Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.NearbyNPCs[UniqueID].Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
                 if (Client.NearbyStructures.ContainsKey(UniqueID))
-                    Client.NearbyStructures[UniqueID].Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.NearbyStructures[UniqueID].Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
 
                 if (Client.Info.UniqueID == UniqueID || Client.Info.TransportUniqueID == UniqueID)
                 {
-                    Client.Position = new Information.BasicInfo.Position(ReigonID, xcoord, ycoord, zcoord);
+                    Client.Position = new Information.BasicInfo.Position(RegionID, xcoord, ycoord, zcoord);
                     OnClientPositionUpdate?.Invoke();
 
                 }

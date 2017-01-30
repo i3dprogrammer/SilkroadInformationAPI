@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
             p.ReadUInt32(); //Mastery tree 2
             p.ReadUInt8(); //UNK
 
-            var member = PartyUtility.ParseMember(p); //TODO: Add event
+            var member = PartyUtility.ParseMember(p);
 
             OnPartyMatchingRequestJoin?.Invoke(new Party.PartyMatchingRequestJoinEventArgs(member));
         }

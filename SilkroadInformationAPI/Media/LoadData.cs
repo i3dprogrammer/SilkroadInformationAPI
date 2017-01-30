@@ -512,6 +512,50 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading level data." + ex.Message);
             }
         }
+        public static void LoadTextZoneNames()
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("textzonename.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+
+                        if (vars.Length >= 10)
+                        {
+                            try
+                            {
+                                if(vars[0] == "1")
+                                {
+                                    ushort RegionID = ushort.Parse(vars[1]);
+                                    string RegionName = vars[9];
+                                    Data.TextZoneName.Add(RegionID, RegionName);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                //Console.WriteLine(ex.StackTrace);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading text zone names." + ex.Message);
+            }
+        }
 
         public static void LoadRefShop()
         {

@@ -27,9 +27,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.Zerk = (p.ReadInt8() == 5) ? true : false; //Berserk gauge
             p.ReadInt32(); //Zeroes
             Client.Info.CurrentHP = p.ReadUInt32(); //HP
-            Console.WriteLine("#DATA HP: " + Client.Info.CurrentHP);
             Client.Info.CurrentMP = p.ReadUInt32(); //MP
-            Console.WriteLine("#DATA MP: " + Client.Info.CurrentMP);
             p.ReadInt8(); //Beginner icon
             p.ReadInt8(); //Daily PK
             p.ReadInt16(); //Total PK
@@ -186,7 +184,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             {
                 int ID = p.ReadInt32(); //Skill ID
                 p.ReadInt32(); //Duration
-                if (Media.Data.MediaSkills[ID].Params == "1701213281") //TODO: Read skill params
+                if (Media.Data.MediaSkills[ID].Params == "1701213281")
                     p.ReadInt8(); //IsBuffCreator
             }
 

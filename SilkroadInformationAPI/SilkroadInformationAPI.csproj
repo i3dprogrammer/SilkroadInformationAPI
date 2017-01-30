@@ -77,11 +77,14 @@
     <Compile Include="Client\Information\Quests\Quest.cs" />
     <Compile Include="Client\Information\Spells\Skill.cs" />
     <Compile Include="Client\Loader\Loader.cs" />
+    <Compile Include="Client\Network\ClientlessConnection.cs" />
     <Compile Include="Client\Network\ProxyClient.cs" />
     <Compile Include="Client\Packets\CharacterSelection\CharacterJoinRequest.cs" />
     <Compile Include="Client\Packets\CharacterSelection\CharacterJoinResponse.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterListRequest.cs" />
     <Compile Include="Client\Packets\CharacterSelection\CharacterListResponse.cs" />
     <Compile Include="Client\Packets\Character\ExpSpUpdate.cs" />
+    <Compile Include="Client\Packets\Character\LogOut.cs" />
     <Compile Include="Client\Packets\Character\StatsUpdate.cs" />
     <Compile Include="Client\Packets\Entity\CelestialPosition.cs" />
     <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />

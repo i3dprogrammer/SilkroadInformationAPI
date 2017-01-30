@@ -118,7 +118,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     {
                         uint ID = p.ReadUInt32(); //Skill ID
                         uint Duration = p.ReadUInt32(); //Duration
-                        if (Media.Data.MediaSkills[ID].Params == "1701213281") //TODO: Read skill params
+                        if (Media.Data.MediaSkills[ID].Params == "1701213281") 
                             surrObject.State.Buffs.Add(new Information.Spells.Skill(ID, Duration, p.ReadUInt8())); //IsBuffCreator
                         else
                         {

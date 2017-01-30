@@ -12,7 +12,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         public static Action<FRPVPMode> OnClientFreePVP;
         public static Action<FRPVPMode, Information.Objects.Character> OnCharacterFreePVP;
 
-        public static void Parse(Packet p) //TODO: Add events
+        public static void Parse(Packet p)
         {
             byte result = p.ReadUInt8();
             if(result == 0x01)
