@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Client.Information.Spells
 {
     public class Mastery
     {
-        public int ID;
-        public int Level;
+        public uint ID;
+        public byte Level;
     }
 }

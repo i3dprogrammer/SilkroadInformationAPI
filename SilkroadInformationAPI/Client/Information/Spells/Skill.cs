@@ -40,6 +40,6 @@ namespace SilkroadInformationAPI.Client.Information.Spells
 
         }
 
-        public int Enabled; //??
+        public byte Enabled; //??
     }
 }

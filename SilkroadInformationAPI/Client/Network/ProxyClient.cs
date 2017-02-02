@@ -12,10 +12,10 @@ namespace SilkroadInformationAPI.Client.Network
 {
     public class ProxyClient
     {
-        public static event Action OnClientlessStart;
-        public static event Action<Packet> OnServerPacketReceive;
-        public static event Action<Packet> OnClientPacketSent;
-        public static event Action OnDisconnect;
+        public static event Action OnProxyClientlessStart;
+        public static event Action<Packet> OnProxyServerPacketReceive;
+        public static event Action<Packet> OnProxyClientPacketSent;
+        public static event Action OnProxyDisconnect;
 
         class Context
         {
@@ -35,7 +35,6 @@ namespace SilkroadInformationAPI.Client.Network
 
         static bool ConnectedToWorldwideServer = false;
         public static bool AutoSwitchToClientless = true;
-
 
         static uint SessionID;
         static string Username;
@@ -87,8 +86,8 @@ namespace SilkroadInformationAPI.Client.Network
                                     int count = context.Socket.Receive(context.Buffer.Buffer);
                                     if (count == 0)
                                     {
-                                        Console.WriteLine("Disconnected");
-                                        OnDisconnect?.Invoke();
+                                        Console.WriteLine("Null recevied, disconnected");
+                                        OnProxyDisconnect?.Invoke();
                                         throw new Exception("The remote connection has been lost.");
                                     }
                                     context.Security.Recv(context.Buffer.Buffer, 0, count);
@@ -99,12 +98,8 @@ namespace SilkroadInformationAPI.Client.Network
                                 //If local context disconnects && the account is connected to agent server > switch clientless
                                 if (context == local_context && ConnectedToWorldwideServer == true && AutoSwitchToClientless) 
                                 {
+                                    OnProxyClientlessStart?.Invoke();
                                     Clientless_Start(remote_context);
-                                    OnClientlessStart?.Invoke();
-                                } else
-                                {
-                                    Console.WriteLine("Disconnected " + ex.Message);
-                                    OnDisconnect?.Invoke();
                                 }
                                 return;
                             }
@@ -118,7 +113,11 @@ namespace SilkroadInformationAPI.Client.Network
                                 foreach (Packet packet in packets)
                                 {
                                     Dispatcher.Process(new Packet(packet));
-                                    OnServerPacketReceive?.Invoke(new Packet(packet));
+                                    OnProxyServerPacketReceive?.Invoke(new Packet(packet));
+
+                                    if (packet.Opcode == 0xB001)
+                                        ConnectedToWorldwideServer = true;
+
                                     if (packet.Opcode == 0x5000 || packet.Opcode == 0x9000) // ignore always
                                     {
                                     }
@@ -138,7 +137,7 @@ namespace SilkroadInformationAPI.Client.Network
                                             string ip = packet.ReadAscii();
                                             ushort port = packet.ReadUInt16();
 
-                                            var agentThread = new Thread(()=>StartProxy(ip, ushort.Parse((port).ToString()), local_ip, local_port));
+                                            var agentThread = new Thread(() => StartProxy(ip, ushort.Parse((port).ToString()), local_ip, local_port));
                                             agentThread.Start();
 
                                             Thread.Sleep(500);
@@ -151,16 +150,16 @@ namespace SilkroadInformationAPI.Client.Network
                                             new_packet.WriteUInt16(local_port);
 
                                             context.RelaySecurity.Send(new_packet);
-                                            ConnectedToWorldwideServer = true;
-                                        } else
+                                        }
+                                        else
                                         {
                                             context.RelaySecurity.Send(packet);
                                         }
-                                    } else if(packet.Opcode == 0x6103)
+                                    }
+                                    else if (packet.Opcode == 0x6103)
                                     {
-                                        //If the client is sending 0x6103 agent auth packet, cancel it
+                                        //If the client is sending 0x6103 agent auth packet, don't relay it
                                         //because we send our own.
-                                        Console.WriteLine(context == local_context);
                                     }
                                     else
                                     {
@@ -181,7 +180,7 @@ namespace SilkroadInformationAPI.Client.Network
                                     foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
                                     {
                                         TransferBuffer buffer = kvp.Key;
-                                        OnClientPacketSent?.Invoke(kvp.Value);
+                                        OnProxyClientPacketSent?.Invoke(kvp.Value);
 
                                         //Save locale, username, password
                                         if (kvp.Value.Opcode == 0x6102)
@@ -243,9 +242,8 @@ namespace SilkroadInformationAPI.Client.Network
                         int count = context.Socket.Receive(context.Buffer.Buffer);
                         if (count == 0)
                         {
-                            Console.WriteLine("Disconnected!");
-                            OnDisconnect?.Invoke();
-                            throw new Exception("The remote connection has been lost.");
+                            Console.WriteLine("Null received, Disconnected!");
+                            OnProxyDisconnect?.Invoke();
                         }
                         context.Security.Recv(context.Buffer.Buffer, 0, count);
                     }
@@ -256,7 +254,7 @@ namespace SilkroadInformationAPI.Client.Network
                         foreach (Packet packet in packets)
                         {
                             Dispatcher.Process(new Packet(packet));
-                            OnServerPacketReceive?.Invoke(packet);
+                            OnProxyServerPacketReceive?.Invoke(packet);
 
                             if (packet.Opcode == 0x34B5) //Character teleport successfully
                             {
@@ -274,7 +272,7 @@ namespace SilkroadInformationAPI.Client.Network
                             foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
                             {
                                 TransferBuffer buffer = kvp.Key;
-                                OnClientPacketSent?.Invoke(kvp.Value);
+                                OnProxyClientPacketSent?.Invoke(kvp.Value);
                                 while (true)
                                 {
                                     int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
@@ -294,7 +292,7 @@ namespace SilkroadInformationAPI.Client.Network
             } catch
             {
                 Console.WriteLine("Disconnected!");
-                OnDisconnect?.Invoke();
+                OnProxyDisconnect?.Invoke();
             }
         }
 

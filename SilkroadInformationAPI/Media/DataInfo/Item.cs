@@ -14,6 +14,8 @@ namespace SilkroadInformationAPI.Media.DataInfo
         public long Duration;
         public long Cooldown;
         public string Description;
+        public bool SOX = false;
+        public bool Plusable = false;
 
         public Item()
         {

@@ -66,6 +66,9 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                     OnClientPositionUpdate?.Invoke();
 
                 }
+            } else
+            {
+                //Sky walking, spinning.
             }
         }
     }

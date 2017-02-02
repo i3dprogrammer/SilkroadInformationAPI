@@ -26,6 +26,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             associated = _associated;
             ItemChangeType = _itemChangeType;
         }
+
         /// <summary>
         /// The item with the change taking place.
         /// </summary>

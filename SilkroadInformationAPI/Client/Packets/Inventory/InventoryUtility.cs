@@ -14,7 +14,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
         {
             byte slot = p.ReadUInt8();
 
-            if (slot == byte.MaxValue)
+            if (slot == byte.MaxValue || slot == byte.MaxValue - 1)
                 return null;
 
             int rent = p.ReadInt32(); // Rent Type
@@ -49,6 +49,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
             if (item.Classes.C == 3 && item.Classes.D == 1)
             { //Armor || Jewlery || Weapon || Shield || Job suites || Devils || Flags
+                item.Plusable = true;
+
                 if (item.Classes.E == 6)
                     item.Type = ItemType.Weapon;
                 else if (item.Classes.E == 4)

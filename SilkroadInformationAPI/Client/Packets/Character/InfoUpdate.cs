@@ -11,6 +11,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
     {
         public static event Action OnGoldUpdate;
         public static event Action OnZerkActive;
+        public static event Action OnSPChange;
 
         public static void Parse(Packet p)
         {
@@ -22,7 +23,8 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             }
             else if (flag == 0x02) //SP UP
             {
-                Client.Info.SP = p.ReadInt32();
+                Client.Info.SP = p.ReadUInt32();
+                OnSPChange?.Invoke();
             }
             else if (flag == 0x03) //Zerk update
             {

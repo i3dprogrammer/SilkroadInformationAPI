@@ -104,7 +104,6 @@
     <Compile Include="Client\Packets\BattleArena\Operation.cs" />
     <Compile Include="Client\Packets\Character\CharacterData.cs" />
     <Compile Include="Client\Packets\Character\InfoUpdate.cs" />
-    <Compile Include="Client\Packets\Character\ParseCharacterData.cs" />
     <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
     <Compile Include="Client\Packets\COS\COSData.cs" />
     <Compile Include="Client\Packets\COS\COSUpdate.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="Client\Packets\Party\PartyMatchingEntryFormed.cs" />
     <Compile Include="Client\Packets\Party\PartyUpdate.cs" />
     <Compile Include="Client\Packets\Party\PartyUtility.cs" />
+    <Compile Include="Client\Packets\Quest\Update.cs" />
     <Compile Include="Client\Packets\Spawn\DEBUGSingleSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\Despawn.cs" />
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />

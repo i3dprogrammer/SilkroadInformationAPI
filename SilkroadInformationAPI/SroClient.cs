@@ -26,7 +26,7 @@ namespace SilkroadInformationAPI
         public static Security RemoteSecurity;
         public static Security LocalSecurity;
 
-        private static ClientlessConnection con_Clientless;
+        private static ClientlessConnection con_Clientless = new ClientlessConnection();
         private static string GamePath = "";
 
         public SroClient()
@@ -90,9 +90,10 @@ namespace SilkroadInformationAPI
         /// <para>NOTE: You MUST Configure the clientless before starting the connection, and after receving the LoginResponse</para>
         /// </summary>
         /// <param name="LoginServerIP">Silkroad login server IP</param>
-        public void StartClientlessConnection(string LoginServerIP)
+        public void StartClientlessConnection(string LoginServerIP, ushort ServerPort)
         {
-            con_Clientless.Start(LoginServerIP, Media.Data.ServerInfo.Port);
+            con_Clientless.TerminateConnection();
+            con_Clientless.Start(LoginServerIP, ServerPort);
         }
 
         /// <summary>
@@ -117,7 +118,7 @@ namespace SilkroadInformationAPI
         /// <summary>
         /// Closes the connection socket.
         /// </summary>
-        public void TerminateClientlessConnection()
+        private void TerminateClientlessConnection()
         {
             con_Clientless.TerminateConnection();
         }

@@ -81,7 +81,7 @@ namespace SilkroadInformationAPI.Media
                                             Data.MediaModels.Add(newModel.ModelID, newModel);
                                         }
                                     }
-                                    catch (Exception ex) {
+                                    catch (Exception) {
                                         //Console.WriteLine(ex.StackTrace);
                                     }
                                 }
@@ -155,13 +155,15 @@ namespace SilkroadInformationAPI.Media
                                             newItem.MaxStack = Int32.Parse(vars[57]);
 
                                             newItem.Degree = Utility.GetItemDegree(byte.Parse(vars[33]));
+                                            if (newItem.Degree == 0) //No required level items.
+                                                byte.Parse(vars[61]);
                                             newItem.Duration = Int32.Parse(vars[118]);
-
+                                            newItem.SOX = (Int32.Parse(vars[15]) == 2);
                                             Data.MediaItems.Add(newItem.ModelID, newItem);
                                             Data.MediaModels.Add(newModel.ModelID, newModel);
                                         }
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception)
                                     {
                                         //Console.WriteLine(ex.Message + ex.StackTrace);
                                     }
@@ -288,7 +290,7 @@ namespace SilkroadInformationAPI.Media
                                     Data.MediaModels.Add(newModel.ModelID, newModel);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.StackTrace);
                             }
@@ -333,7 +335,7 @@ namespace SilkroadInformationAPI.Media
                                     Data.MediaBlues.Add(ID, MediaName);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.StackTrace);
                             }
@@ -497,7 +499,7 @@ namespace SilkroadInformationAPI.Media
                                 ulong maxExp = ulong.Parse(vars[1]);
                                 Data.LevelDataMaxEXP.Add(level, maxExp);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.StackTrace);
                             }
@@ -541,7 +543,7 @@ namespace SilkroadInformationAPI.Media
                                     Data.TextZoneName.Add(RegionID, RegionName);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.StackTrace);
                             }
@@ -590,7 +592,7 @@ namespace SilkroadInformationAPI.Media
                                     Data.MediaShops.Add(shop);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -640,7 +642,7 @@ namespace SilkroadInformationAPI.Media
                                         Data.refmappingshopwithtab[StoreName].Add(shopgroup);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -691,7 +693,7 @@ namespace SilkroadInformationAPI.Media
                                         Data.refshoptab[GroupName].Add(shoptab);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -742,7 +744,7 @@ namespace SilkroadInformationAPI.Media
                                         Data.refshopgoods[TabName].Add(item);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -788,7 +790,7 @@ namespace SilkroadInformationAPI.Media
                                     //Console.WriteLine(PackageName + " : " + ItemName + " : " + Data.refscrapofpackageitem.Count);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -833,7 +835,7 @@ namespace SilkroadInformationAPI.Media
                                     Data.refshopgroup.Add(GroupName, NPCName);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }
@@ -878,7 +880,7 @@ namespace SilkroadInformationAPI.Media
                                     //Console.WriteLine(PackageName + " : " + ItemName + " : " + Data.refscrapofpackageitem.Count);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 //Console.WriteLine(ex.Message);
                             }

@@ -9,25 +9,41 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
 {
     public class StateChange
     {
-        public static event Action OnMobDies;
-        public static void Parse(Packet p) //TODO: Add events
+        public static event Action<uint> OnMobDie;
+        public static event Action<uint> OnCharacterLifeStateChange;
+        public static event Action OnClientLifeStateChange;
+        public static event Action<uint> OnCharacterMotionStateChange;
+        public static event Action OnClientMotionStateChange;
+        public static event Action<uint> OnCharacterStatusChange;
+        public static event Action OnClientStatusChange;
+        public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
             byte flag1 = p.ReadUInt8();
             if (flag1 == 0x00) //Object died
             {
-                if (Client.NearbyMobs.ContainsKey(uid) && p.ReadUInt8() == 2)
-                    OnMobDies?.Invoke();
+                byte idr = p.ReadUInt8();
+                if (Client.NearbyMobs.ContainsKey(uid) && idr == 2)
+                    OnMobDie?.Invoke(uid);
                 else if (Client.Info.UniqueID == uid)
-                    Client.State.LifeState = (p.ReadUInt8() == 1);
+                {
+                    Client.State.LifeState = (idr == 1);
+                    OnClientLifeStateChange?.Invoke();
+                } else if(Client.NearbyCharacters.ContainsKey(uid))
+                {
+                    Client.NearbyCharacters[uid].State.LifeState = (idr == 1);
+                    OnCharacterLifeStateChange?.Invoke(uid);
+                }
             } else if(flag1 == 0x01) //Motion state change
             {
                 if (Client.NearbyCharacters.ContainsKey(uid))
                 {
                     Client.NearbyCharacters[uid].State.MotionState = (CharMotionState)p.ReadUInt8();
+                    OnCharacterMotionStateChange?.Invoke(uid);
                 } else if(Client.Info.UniqueID == uid)
                 {
                     Client.State.MotionState = (CharMotionState)p.ReadUInt8();
+                    OnClientMotionStateChange?.Invoke();
                 }
             } else if(flag1 == 0x04) //Status change
             {
@@ -36,9 +52,11 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                     Client.NearbyCharacters[uid].State.Status = (CharStatus)p.ReadUInt8();
                     if(Client.NearbyCharacters[uid].State.Status == CharStatus.Hwan)
                         p.ReadUInt8(); //Zerk level
+                    OnCharacterStatusChange?.Invoke(uid);
                 } else if(Client.Info.UniqueID == uid)
                 {
                     Client.State.Status = (CharStatus)p.ReadUInt8();
+                    OnClientStatusChange?.Invoke();
                 }
             }
         }

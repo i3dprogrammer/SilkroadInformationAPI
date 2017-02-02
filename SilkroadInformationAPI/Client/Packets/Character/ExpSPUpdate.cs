@@ -13,7 +13,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
         /// This gets called when the client gains exp.
         /// <para>The returned object represents the amount of exp gained, you can still get the current total EXP from Client.Info.CurrentExp</para>
         /// </summary>
-        public static event Action OnExpGained;
+        public static event Action<ulong> OnExpGained;
         public static event Action OnClientLevelUp;
         //public delegate void ClientLevelUpHandler(ClientLevelUpEventArgs e);
         ///// <summary>
@@ -26,6 +26,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             uint source_uid = p.ReadUInt32();
             ulong exp = p.ReadUInt64();
             ulong SP = p.ReadUInt64(); //TODO: Configure SP
+            Client.Info.SP += (uint)(SP / 400.0);
             p.ReadUInt8(); //??
             try {
                 
@@ -48,7 +49,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
                 }
             } catch { }
 
-            OnExpGained?.Invoke();
+            OnExpGained?.Invoke(exp);
 
         }
     }

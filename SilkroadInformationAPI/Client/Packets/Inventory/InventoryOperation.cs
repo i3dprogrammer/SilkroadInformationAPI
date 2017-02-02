@@ -10,8 +10,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 {
     public class InventoryOperation
     {
-        public delegate void ItemSlotUpdatedHandler(InventoryOperationEventArgs e);
-        public static event ItemSlotUpdatedHandler OnItemSlotUpdated;
+        public delegate void ItemSlotUpdatedHandler(InventoryOperationEventArgs InvOperationArgs);
+        public static event ItemSlotUpdatedHandler OnInventoryOperation;
 
         public static void Parse(Packet p)
         {
@@ -31,7 +31,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             if (flag == 0x00) //Item update in inventory
             {
                 args = InventoryUtility.ParseSlotChangedUpdate(p, Client.InventoryItems, "Inv");
-            } else if(flag == 0x01) //Item slot changed in storage
+            }
+            else if (flag == 0x01) //Item slot changed in storage
             {
                 args = InventoryUtility.ParseSlotChangedUpdate(p, Client.StorageItems, "Storage");
             }
@@ -63,7 +64,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args = new InventoryOperationEventArgs(Client.InventoryItems[newSlotInInventory]);
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Storage_ItemTakenFromStorage;
 
-            } else if(flag == 0x06) //Item picked from the ground
+            }
+            else if (flag == 0x06) //Item picked from the ground
             {
                 int itemSlot = p.ReadInt8();
 
@@ -85,7 +87,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemThrown;
 
                 Client.InventoryItems.Remove(oldSlot);
-            } else if (flag == 0x08) //Item bought from NPC
+            }
+            else if (flag == 0x08) //Item bought from NPC
             {
                 uint RefID = Client.NearbyNPCs[Client.SelectedUniqueID].ModelID;
                 string MediaName = Media.Data.MediaModels[RefID].MediaName;
@@ -128,7 +131,13 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemSoldToNPC;
 
                 //Console.WriteLine("Sold {0} to NPCID: {1}, Registered with ID: {2}", item.MediaName, NPCID, indexInNPC - 1);
-            } else if(flag == 0x18) //Item bought from Item Mall
+            }
+            else if (flag == 0x0A)
+            {
+                //Gold thrown to ground, we also get sent godl change packet
+                //so this is useless.
+            }
+            else if (flag == 0x18) //Item bought from Item Mall
             {
                 //TODO: PARSE PACKET
             }
@@ -147,7 +156,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
 
                 args = new InventoryOperationEventArgs(item);
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemBoughtbackFromNPC;
-            } else if (flag == 0x0E) //Item appeared in inventory due to dismantling
+            }
+            else if (flag == 0x0E) //Item appeared in inventory
             {
                 int invSlot = p.ReadUInt8();
                 var item = InventoryUtility.ParseItem(p);
@@ -162,17 +172,19 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 args.ItemChangeType = InventoryOperationEventArgs.ChangeType.Inv_ItemDisappeared;
 
                 Client.InventoryItems.Remove(oldSlot);
-            } else if(flag == 0x1B) //Item moved from inventory to pet
+            }
+            else if (flag == 0x1B) //Item moved from inventory to pet
             {
                 uint COS_uid = p.ReadUInt32();
-                if(Client.NearbyCOSs.ContainsKey(COS_uid))
+                if (Client.NearbyCOSs.ContainsKey(COS_uid))
                 {
                     byte oldSlot = p.ReadUInt8();
                     byte newSlotInPet = p.ReadUInt8();
                     Client.NearbyCOSs[COS_uid].Inventory.Add(newSlotInPet, Client.InventoryItems[oldSlot]);
                     Client.InventoryItems.Remove(oldSlot);
                 }
-            } else if(flag == 0x1A) //Item moved from pet to inventory
+            }
+            else if (flag == 0x1A) //Item moved from pet to inventory
             {
                 uint COS_uid = p.ReadUInt32();
                 if (Client.NearbyCOSs.ContainsKey(COS_uid))
@@ -182,7 +194,8 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                     Client.InventoryItems.Add(newSlotInPet, Client.NearbyCOSs[COS_uid].Inventory[oldSlot]);
                     Client.NearbyCOSs[COS_uid].Inventory.Remove(oldSlot);
                 }
-            } else if(flag == 0x10) //Item slot changed within pet
+            }
+            else if (flag == 0x10) //Item slot changed within pet
             {
                 uint COS_uid = p.ReadUInt32();
                 if (Client.NearbyCOSs.ContainsKey(COS_uid))
@@ -192,7 +205,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             }
 
             if(args != null)
-                OnItemSlotUpdated?.Invoke(args);
+                OnInventoryOperation?.Invoke(args);
         }
 
         

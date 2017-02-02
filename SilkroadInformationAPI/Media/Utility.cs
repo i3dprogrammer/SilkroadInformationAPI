@@ -91,7 +91,7 @@ namespace SilkroadInformationAPI.Media
         }
         public static byte GetItemDegree(byte lvl) //TODO: Add degree 12, 13, 14, 15
         {
-            byte Degree = 1;
+            byte Degree = 0;
 
             if (lvl >= 101)
                 Degree = 11;
@@ -113,6 +113,8 @@ namespace SilkroadInformationAPI.Media
                 Degree = 3;
             else if (lvl >= 8)
                 Degree = 2;
+            else if (lvl >= 1)
+                Degree = 1;
 
             return Degree;
         }

@@ -17,7 +17,7 @@ namespace SilkroadInformationAPI.Client.Information
         public ulong CurrentExp { get; set; }
         public int SPLoadingBar { get; set; }
         public ulong Gold { get; set; }
-        public int SP { get; set; }
+        public uint SP { get; set; }
         public short StatPoints { get; set; }
         public bool Zerk { get; set; }
         public uint MaxHP { get; set; }

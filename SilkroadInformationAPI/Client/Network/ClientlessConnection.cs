@@ -12,7 +12,9 @@ namespace SilkroadInformationAPI.Client.Network
 {
     public class ClientlessConnection
     {
-        public static event Action OnDisconnect;
+        public static event Action OnClientlessDisconnect;
+        public static event Action<Packet> OnClientlessServerPacketReceive;
+        public static event Action<Packet> OnClientlessClientPacketSent;
 
         private Security cl_security;
         private TransferBuffer cl_recv_buffer;
@@ -41,6 +43,8 @@ namespace SilkroadInformationAPI.Client.Network
             cl_packets = new List<Packet>();
 
             SroClient.RemoteSecurity = cl_security;
+            //cl_socket.ReceiveTimeout = 5000;
+            //cl_socket.SendTimeout = 5000;
 
             cl_socket.Connect(IP, Port);
             cl_socket.NoDelay = true;
@@ -51,7 +55,7 @@ namespace SilkroadInformationAPI.Client.Network
 
             if (!PingThread.IsAlive)
                 PingThread.Start();
-            
+
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace SilkroadInformationAPI.Client.Network
                         if (success != SocketError.WouldBlock)
                         {
                             Console.WriteLine("Disconnected!");
-                            OnDisconnect?.Invoke();
+                            OnClientlessDisconnect?.Invoke();
                             return;
                         }
                     }
@@ -98,7 +102,7 @@ namespace SilkroadInformationAPI.Client.Network
                     else
                     {
                         Console.WriteLine("Disconnected!!");
-                        OnDisconnect?.Invoke();
+                        OnClientlessDisconnect?.Invoke();
                         return;
                     }
 
@@ -117,8 +121,7 @@ namespace SilkroadInformationAPI.Client.Network
                             {
                                 current = enumerator.Current;
                                 Dispatcher.Process(current);
-
-                                Console.WriteLine(current.Opcode.ToString("X4"));
+                                OnClientlessServerPacketReceive?.Invoke(current);
 
                                 if (current.Opcode == 0x2001)
                                 {
@@ -161,24 +164,25 @@ namespace SilkroadInformationAPI.Client.Network
                     List<KeyValuePair<TransferBuffer, Packet>> tmp2 = cl_security.TransferOutgoing();
                     if (tmp2 != null)
                     {
-                        foreach (KeyValuePair<TransferBuffer, Packet> pair in tmp2)
+                        foreach (KeyValuePair<TransferBuffer, Packet> kvp in tmp2)
                         {
-                            TransferBuffer key = pair.Key;
+                            TransferBuffer key = kvp.Key;
+                            OnClientlessClientPacketSent?.Invoke(kvp.Value);
                             success = SocketError.Success;
                             while (key.Offset != key.Size)
                             {
                                 int num = cl_socket.Send(key.Buffer, key.Offset, key.Size - key.Offset, SocketFlags.None, out success);
-                                //if ((success != SocketError.Success) && (success != SocketError.WouldBlock))
-                                //{
-                                //    break;
-                                //}
+                                if ((success != SocketError.Success) && (success != SocketError.WouldBlock))
+                                {
+                                    break;
+                                }
                                 key.Offset += num;
                                 Thread.Sleep(1);
                             }
-                            //if (success != SocketError.Success)
-                            //{
-                            //    break;
-                            //}
+                            if (success != SocketError.Success)
+                            {
+                                break;
+                            }
                         }
                     }
                     #endregion
@@ -187,8 +191,8 @@ namespace SilkroadInformationAPI.Client.Network
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                OnDisconnect?.Invoke();
+                Console.WriteLine(ex.Message + ex.StackTrace);
+                OnClientlessDisconnect?.Invoke();
             }
         }
 
@@ -204,6 +208,92 @@ namespace SilkroadInformationAPI.Client.Network
             }
         }
 
+        class Context
+        {
+            public Socket Socket { get; set; }
+            public Security Security { get; set; }
+            public TransferBuffer Buffer { get; set; }
+            public Security RelaySecurity { get; set; }
+
+            public Context()
+            {
+                Socket = null;
+                Security = new Security();
+                RelaySecurity = null;
+                Buffer = new TransferBuffer(8192);
+            }
+        }
+
+        //private void ClientlessThreadV2(Context context)
+        //{
+        //    var keepalive = new Thread(() => Clientless_Ping(context));
+        //    keepalive.Start();
+
+        //    try
+        //    {
+        //        while (true)
+        //        {
+        //            if (context.Socket.Poll(0, SelectMode.SelectRead))
+        //            {
+        //                int count = context.Socket.Receive(context.Buffer.Buffer);
+        //                if (count == 0)
+        //                {
+        //                    Console.WriteLine("Disconnected!");
+        //                    OnClientlessDisconnect?.Invoke();
+        //                    throw new Exception("The remote connection has been lost.");
+        //                }
+        //                context.Security.Recv(context.Buffer.Buffer, 0, count);
+        //            }
+
+        //            List<Packet> packets = context.Security.TransferIncoming();
+        //            if (packets != null)
+        //            {
+        //                foreach (Packet packet in packets)
+        //                {
+        //                    Dispatcher.Process(new Packet(packet));
+        //                    OnClientlessServerPacketReceive?.Invoke(packet);
+
+        //                    if (packet.Opcode == 0x34B5) //Character teleport successfully
+        //                    {
+        //                        Packet answer = new Packet(0x34B6); //Teleport confirmation packet
+        //                        context.Security.Send(answer);
+        //                    }
+        //                }
+        //            }
+
+        //            if (context.Socket.Poll(0, SelectMode.SelectWrite))
+        //            {
+        //                List<KeyValuePair<TransferBuffer, Packet>> buffers = context.Security.TransferOutgoing();
+        //                if (buffers != null)
+        //                {
+        //                    foreach (KeyValuePair<TransferBuffer, Packet> kvp in buffers)
+        //                    {
+        //                        TransferBuffer buffer = kvp.Key;
+        //                        OnClientlessClientPacketSent?.Invoke(kvp.Value);
+        //                        while (true)
+        //                        {
+        //                            int count = context.Socket.Send(buffer.Buffer, buffer.Offset, buffer.Size, SocketFlags.None);
+        //                            buffer.Offset += count;
+        //                            if (buffer.Offset == buffer.Size)
+        //                            {
+        //                                break;
+        //                            }
+        //                            Thread.Sleep(1);
+        //                        }
+        //                    }
+        //                }
+        //            }
+
+        //        }
+
+        //    }
+        //    catch
+        //    {
+        //        Console.WriteLine("Disconnected!");
+        //        OnClientlessDisconnect?.Invoke();
+        //    }
+        //}
+
         public void TerminateConnection()
         {
             try
@@ -212,12 +302,7 @@ namespace SilkroadInformationAPI.Client.Network
             }
             catch { }
 
-            try
-            {
-                ServerStatus = PingStatus.None;
-                PingThread.Abort();
-            }
-            catch { }
+            ServerStatus = PingStatus.None;
         }
 
         enum PingStatus
