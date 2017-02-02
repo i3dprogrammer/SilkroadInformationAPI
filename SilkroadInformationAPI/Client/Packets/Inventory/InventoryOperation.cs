@@ -91,10 +91,10 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             else if (flag == 0x08) //Item bought from NPC
             {
                 uint RefID = Client.NearbyNPCs[Client.SelectedUniqueID].ModelID;
-                string MediaName = Media.Data.MediaModels[RefID].MediaName;
+                string NPCMediaName = Media.Data.MediaModels[RefID].MediaName;
                 byte TabIndex = p.ReadUInt8();
                 byte ItemIndex = p.ReadUInt8();
-                var shopItem = Media.Data.MediaShops.First(x => x.NPCName == MediaName).GetTabFromIndex(TabIndex).TabItems.First(x => x.PackagePosition == ItemIndex); //WTF???
+                var shopItem = Media.Data.MediaShops.First(x => x.NPCName == NPCMediaName).GetTabFromIndex(TabIndex).TabItems.First(x => x.PackagePosition == ItemIndex); //WTF???
                 byte CountBought = p.ReadUInt8();
                 for (int i = 0; i < CountBought; i++)
                 {

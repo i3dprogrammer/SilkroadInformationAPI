@@ -9,22 +9,22 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
 {
     public class HPMPUpdate
     {
-        public static Action OnClientBadStatus;
-        public static Action OnClientBadStatusRemoved;
-        public static Action OnClientHPUpdate;
-        public static Action OnClientMPUpdate;
-        public static Action OnClientHPMPUpdate;
+        public static event Action OnClientBadStatus;
+        public static event Action OnClientBadStatusRemoved;
+        public static event Action OnClientHPUpdate;
+        public static event Action OnClientMPUpdate;
+        public static event Action OnClientHPMPUpdate;
 
-        public static Action<Information.Objects.COS> OnCOSHPUpdate;
-        public static Action<Information.Objects.COS> OnCOSBadStatus;
-        public static Action<Information.Objects.COS> OnCOSBadStatusRemoved;
+        public static event Action<Information.Objects.COS> OnCOSHPUpdate;
+        public static event Action<Information.Objects.COS> OnCOSBadStatus;
+        public static event Action<Information.Objects.COS> OnCOSBadStatusRemoved;
 
-        public static Action<Information.Objects.Character> OnCharacterBadStatus;
-        public static Action<Information.Objects.Character> OnCharacterBadStatusRemoved;
+        public static event Action<Information.Objects.Character> OnCharacterBadStatus;
+        public static event Action<Information.Objects.Character> OnCharacterBadStatusRemoved;
 
-        public static Action<Information.Objects.Mob> OnMobHPUpdate;
-        public static Action<Information.Objects.Mob> OnMobBadStatus;
-        public static Action<Information.Objects.Mob> OnMobBadStatusRemoved;
+        public static event Action<Information.Objects.Mob> OnMobHPUpdate;
+        public static event Action<Information.Objects.Mob> OnMobBadStatus;
+        public static event Action<Information.Objects.Mob> OnMobBadStatusRemoved;
 
         public static void Parse(Packet p)
         {
@@ -49,7 +49,8 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                         OnClientHPMPUpdate?.Invoke();
                         break;
                     case 0x04: //Bad status update
-                        if (p.ReadUInt32() == 0)
+                        Client.Info.BadStatusID = p.ReadUInt32();
+                        if (Client.Info.BadStatusID == 0)
                         {
                             Client.Info.BadStatus = false;
                             OnClientBadStatusRemoved?.Invoke();

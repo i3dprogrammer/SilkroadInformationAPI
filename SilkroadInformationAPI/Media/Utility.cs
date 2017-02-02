@@ -84,6 +84,22 @@ namespace SilkroadInformationAPI.Media
                 type = ItemType.ItemExchangeCoupon;
             else if (seq.StartsWith("0 3 3 11"))
                 type = ItemType.Stones;
+            else if (seq == "0 3 3 1 1")
+                type = ItemType.HpPotion;
+            else if (seq == "0 3 3 1 2")
+                type = ItemType.MpPotion;
+            else if (seq == "0 3 3 1 3")
+                type = ItemType.VigorPotion;
+            else if (seq == "0 3 3 4 1")
+                type = ItemType.Arrows;
+            else if (seq == "0 3 3 4 2")
+                type = ItemType.Bolts;
+            else if (seq == "0 3 3 2 6")
+                type = ItemType.UniversalPills;
+            else if (seq == "0 3 3 2 1")
+                type = ItemType.PurificationPills;
+            else if (seq == "0 3 3 3 1" && item.MediaName.Contains("THIEF") == false)
+                type = ItemType.ReturnScroll;
             else
                 type = ItemType.None;
 

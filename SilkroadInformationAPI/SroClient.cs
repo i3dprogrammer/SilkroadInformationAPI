@@ -316,5 +316,34 @@ namespace SilkroadInformationAPI
             });
             return list;
         }
+
+        public static void UseItem(int slot)
+        {
+            var p = new Packet(0x704C, true);
+            p.WriteInt8(slot);
+            p.WriteInt16(0x08EC);
+            RemoteSecurity?.Send(p);
+        }
+
+        public static void UseSpellOnTarget(uint spellRefID, uint targetUID)
+        {
+            var p = new Packet(0x7074);
+            p.WriteUInt8(0x01);
+            p.WriteUInt8(0x04);
+            p.WriteUInt32(spellRefID);
+            p.WriteUInt8(0x01);
+            p.WriteUInt32(targetUID);
+            RemoteSecurity?.Send(p);
+        }
+
+        public static void UseSpell(uint spellRefID)
+        {
+            var p = new Packet(0x7074);
+            p.WriteUInt8(0x01);
+            p.WriteUInt8(0x04);
+            p.WriteUInt32(spellRefID);
+            p.WriteUInt8(0x00);
+            RemoteSecurity?.Send(p);
+        }
     }
 }

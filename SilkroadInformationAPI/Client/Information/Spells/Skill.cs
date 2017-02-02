@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SilkroadInformationAPI.Client.Information.Spells
 {
-    public class Skill
+    public class Skill : Media.DataInfo.Base
     {
         /// <summary>
         /// Skill reference id in (skilldata).
         /// </summary>
-        public uint SkillID { get; set; }
+        // public uint SkillID { get; set; }
 
         /// <summary>
         /// Skill time duration left.
@@ -28,9 +28,15 @@ namespace SilkroadInformationAPI.Client.Information.Spells
         /// </summary>
         public uint TemporaryID { get; set; }
 
+        public Skill(uint id, byte _enabled)
+        {
+            ModelID = id;
+            Enabled = _enabled;
+        }
+
         public Skill(uint id, uint dur, byte creator)
         {
-            SkillID = id;
+            ModelID = id;
             TemporaryID = dur;
             isCreator = (creator == 1);
         }

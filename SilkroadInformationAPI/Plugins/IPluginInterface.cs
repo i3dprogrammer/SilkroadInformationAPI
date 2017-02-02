@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SilkroadInformationAPI;
-
-namespace SilkroadInformationAPI
+using System.Windows.Forms;
+namespace SilkroadInformationAPI.PluginInterface
 {
     public interface IPluginInterface
     {
         string PluginName { get; }
 
-        void Initialize();
+        TabPage Initialize(Dictionary<string, int> SharedVariables);
     }
 }

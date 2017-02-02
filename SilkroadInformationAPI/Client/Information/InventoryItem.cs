@@ -19,7 +19,7 @@ namespace SilkroadInformationAPI.Client.Information
         public Dictionary<ItemBlues, int> Blues;
         public Dictionary<string, int> Stats;
 
-        public InventoryItem(int ID)
+        public InventoryItem(uint ID)
         {
             var mediaItem = Media.Data.MediaItems[ID];
 

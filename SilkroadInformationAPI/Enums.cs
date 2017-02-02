@@ -52,10 +52,17 @@ namespace SilkroadInformationAPI
         AttackPet,
         ItemExchangeCoupon,
         Stones,
-        Stones100,
         MagicCube,
         MonsterMask,
         Tablets,
+        HpPotion,
+        MpPotion,
+        VigorPotion,
+        Arrows,
+        Bolts,
+        UniversalPills,
+        PurificationPills,
+        ReturnScroll,
         None
     }
     public enum COS_Type

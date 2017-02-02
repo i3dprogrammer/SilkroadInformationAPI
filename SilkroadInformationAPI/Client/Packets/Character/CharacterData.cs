@@ -89,7 +89,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             int nextSkill = p.ReadInt8();
             while (nextSkill == 1)
             {
-                Client.Skills.Add(new Information.Spells.Skill() { SkillID = p.ReadUInt32(), Enabled = p.ReadUInt8() });
+                Client.Skills.Add(new Information.Spells.Skill(p.ReadUInt32(), p.ReadUInt8()));
                 nextSkill = p.ReadInt8();
             }
 
@@ -198,7 +198,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.State.BuffCount = p.ReadUInt8();
             for (int i = 0; i < Client.State.BuffCount; i++)
             {
-                int ID = p.ReadInt32(); //Skill ID
+                uint ID = p.ReadUInt32(); //Skill ID
                 p.ReadInt32(); //Duration
                 if (Media.Data.MediaSkills[ID].Params == "1701213281")
                     p.ReadInt8(); //IsBuffCreator

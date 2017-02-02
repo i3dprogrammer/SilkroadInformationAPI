@@ -40,7 +40,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 p.ReadUInt32(); //  item.RentInfo.PackingTime        
             }
 
-            int itemID = p.ReadInt32();
+            uint itemID = p.ReadUInt32();
             Information.InventoryItem item = new Information.InventoryItem(itemID);
             item.Slot = slot;
 

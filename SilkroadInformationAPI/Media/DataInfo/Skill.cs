@@ -13,5 +13,8 @@ namespace SilkroadInformationAPI.Media.DataInfo
         public bool Buff;
         public string Description;
         public string Params;
+        public bool UseOnAlly;
+        public bool UseOnSelf;
+        public bool UseOnUnknown;
     }
 }

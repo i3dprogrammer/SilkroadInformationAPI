@@ -66,7 +66,7 @@ namespace SilkroadInformationAPI.Media
                                         if (Used)
                                         {
                                             DataInfo.MediaModel newModel = new DataInfo.MediaModel();
-                                            newModel.ModelID = Int32.Parse(vars[1]);
+                                            newModel.ModelID = UInt32.Parse(vars[1]);
                                             newModel.MediaName = vars[2];
                                             string SN = vars[5];
                                             if(Data.Translation.ContainsKey(SN))
@@ -136,7 +136,7 @@ namespace SilkroadInformationAPI.Media
                                         {
                                             var newItem = new DataInfo.Item();
                                             var newModel = new DataInfo.MediaModel();
-                                            newItem.ModelID = newModel.ModelID = Int32.Parse(vars[1]);
+                                            newItem.ModelID = newModel.ModelID = UInt32.Parse(vars[1]);
                                             newItem.MediaName = newModel.MediaName = vars[2];
                                             string SN = vars[5];
                                             if (Data.Translation.ContainsKey(SN))
@@ -218,7 +218,7 @@ namespace SilkroadInformationAPI.Media
                                         if (Used)
                                         {
                                             var newModel = new DataInfo.Skill();
-                                            newModel.ModelID = Int32.Parse(vars[1]);
+                                            newModel.ModelID = UInt32.Parse(vars[1]);
                                             newModel.MediaName = vars[3];
                                             string SN = vars[62];
                                             if (Data.Translation.ContainsKey(SN))
@@ -227,6 +227,14 @@ namespace SilkroadInformationAPI.Media
                                             if (Data.Translation.ContainsKey(SN))
                                                 newModel.Description = Data.Translation[SN];
                                             newModel.Params = vars[69];
+
+                                            newModel.UseOnSelf = (Int32.Parse(vars[26]) == 1);
+                                            newModel.UseOnAlly = (Int32.Parse(vars[27]) == 1);
+                                            newModel.UseOnUnknown = (Int32.Parse(vars[28]) == 1);
+
+                                            if(newModel.UseOnSelf == true && newModel.UseOnAlly == false)
+                                                Console.WriteLine(newModel.MediaName);
+
                                             Data.MediaSkills.Add(newModel.ModelID, newModel);
                                         }
                                     }
@@ -275,7 +283,7 @@ namespace SilkroadInformationAPI.Media
                                 if (Used)
                                 {
                                     DataInfo.MediaModel newModel = new DataInfo.MediaModel();
-                                    newModel.ModelID = Int32.Parse(vars[1]);
+                                    newModel.ModelID = UInt32.Parse(vars[1]);
                                     newModel.MediaName = vars[2];
                                     string SN = vars[5];
                                     if (Data.Translation.ContainsKey(SN))
