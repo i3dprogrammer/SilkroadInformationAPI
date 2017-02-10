@@ -29,11 +29,16 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             CharacterDataPacket.Lock();
             Parse(CharacterDataPacket);
             OnCharacterTeleport?.Invoke();
+            Client.ClientReturning = false;
         }
 
         private static void Parse(Packet p)
         {
             Client.InventoryItems.Clear();
+            Client.Skills.Clear();
+            Client.State.Buffs.Clear();
+            Client.Masteries.Clear();
+            Client.Quests.Clear();
 
             Client.Info.RegionID = p.ReadInt32(); //Region ID
             Client.Info.ModelID = p.ReadInt32(); //Model ID
@@ -46,7 +51,7 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             Client.Info.Gold = p.ReadUInt64(); //Gold
             Client.Info.SP = p.ReadUInt32(); //Skill points
             Client.Info.StatPoints = p.ReadInt16(); //Stat points
-            Client.Info.Zerk = (p.ReadInt8() == 5) ? true : false; //Berserk gauge
+            Client.Info.Zerk = (p.ReadInt8() == 5); //Berserk gauge
             p.ReadInt32(); //Zeroes
             Client.Info.CurrentHP = p.ReadUInt32(); //HP
             Client.Info.CurrentMP = p.ReadUInt32(); //MP
@@ -89,7 +94,8 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             int nextSkill = p.ReadInt8();
             while (nextSkill == 1)
             {
-                Client.Skills.Add(new Information.Spells.Skill(p.ReadUInt32(), p.ReadUInt8()));
+                Client.Skills.Add(Media.Data.MediaSkills[p.ReadUInt32()]);
+                p.ReadUInt8(); //Enabled??
                 nextSkill = p.ReadInt8();
             }
 
@@ -199,9 +205,10 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             for (int i = 0; i < Client.State.BuffCount; i++)
             {
                 uint ID = p.ReadUInt32(); //Skill ID
-                p.ReadInt32(); //Duration
+                uint tempID = p.ReadUInt32(); //Duration
                 if (Media.Data.MediaSkills[ID].Params == "1701213281")
                     p.ReadInt8(); //IsBuffCreator
+                Client.State.Buffs.Add(tempID, new Information.Spells.Skill(ID, tempID, (Media.Data.MediaSkills[ID].Params == "1701213281")));
             }
 
             Client.Info.CharacterName = p.ReadAscii();

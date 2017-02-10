@@ -15,7 +15,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
             uint refID = p.ReadUInt32(); //Model ID, can skip since the spawn packet comes first.
             var obj = Media.Data.MediaModels[refID];
 
-            p.ReadUInt32(); // CurrHP?
+            Client.NearbyCOSs[uid].MaxHP = p.ReadUInt32(); // MaxHP?
             p.ReadUInt32(); // MaxHP?
 
             if (obj.Classes.F == 1) //Normal COS
@@ -33,7 +33,7 @@ namespace SilkroadInformationAPI.Client.Packets.COS
             {
                 p.ReadUInt64(); //Pet EXP
                 p.ReadUInt8(); //Level?
-                p.ReadUInt16(); //HGP Points
+                Client.NearbyCOSs[uid].CurrentHGP = p.ReadUInt16(); //HGP Points
                 p.ReadUInt32(); //??
                 p.ReadAscii(); //COS Name
                 p.ReadUInt8(); //??

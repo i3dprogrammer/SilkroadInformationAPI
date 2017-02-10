@@ -98,7 +98,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
                 byte CountBought = p.ReadUInt8();
                 for (int i = 0; i < CountBought; i++)
                 {
-                    var item = new Information.InventoryItem(Media.Data.MediaItems.First(x => x.Value.MediaName == shopItem.ItemMediaName).Value.ModelID);
+                    var item = new Information.InventoryItem(Media.Data.MediaItems.First(x => x.Value.MediaName == shopItem.ItemMediaName).Value.ObjRefID);
                     Console.WriteLine("BOUGHT: " + item.MediaName);
                     item.Slot = p.ReadUInt8();
                     Client.InventoryItems.Add(item.Slot, item);

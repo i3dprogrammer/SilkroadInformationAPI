@@ -74,11 +74,6 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public List<CharacterInfo.CharacterItem> AvatarInventory = new List<CharacterInfo.CharacterItem>();
 
         /// <summary>
-        /// The buffs on the character.
-        /// </summary>
-        public List<Spells.Skill> Buffs = new List<Spells.Skill>();
-
-        /// <summary>
         /// Character state information
         /// </summary>
         public BasicInfo.State State = new BasicInfo.State();

@@ -21,7 +21,7 @@ namespace SilkroadInformationAPI.Client
         public static List<InventoryItem> SoldItems = new List<InventoryItem>();
         public static List<Quest> Quests = new List<Quest>();
         public static List<Mastery> Masteries = new List<Mastery>();
-        public static List<Skill> Skills = new List<Skill>();
+        public static List<Media.DataInfo.Skill> Skills = new List<Media.DataInfo.Skill>();
 
         public static Information.BasicInfo.Position Position = new Information.BasicInfo.Position();
         public static Information.BasicInfo.Movement Movement = new Information.BasicInfo.Movement();
@@ -39,6 +39,7 @@ namespace SilkroadInformationAPI.Client
         public static Information.Stalls.Stall CurrentStall = new Information.Stalls.Stall();
         public static bool CharacterInStall = false;
         public static uint SelectedUniqueID;
+        public static bool ClientReturning = false;
 
         public static void RefreshClient()
         {
@@ -51,7 +52,7 @@ namespace SilkroadInformationAPI.Client
             SoldItems = new List<InventoryItem>();
             Quests = new List<Quest>();
             Masteries = new List<Mastery>();
-            Skills = new List<Skill>();
+            Skills = new List<Media.DataInfo.Skill>();
 
             Position = new Information.BasicInfo.Position();
             Movement = new Information.BasicInfo.Movement();

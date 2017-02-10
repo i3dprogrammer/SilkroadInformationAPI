@@ -63,7 +63,19 @@ namespace SilkroadInformationAPI
         UniversalPills,
         PurificationPills,
         ReturnScroll,
-        None
+        None,
+        PetRecoveryKit,
+        PetRevival,
+        PetHGP,
+        PetASRP,
+        RidePet,
+        TradeRidePet
+    }
+    public enum SkillType
+    {
+        Passive,
+        Unk,
+        Active,
     }
     public enum COS_Type
     {
@@ -74,6 +86,14 @@ namespace SilkroadInformationAPI
         PickupPet,
         Guild,
         Fortress,
+    }
+    public enum Mob_Type
+    {
+        Normal = 0,
+        Champion = 1,
+        Giant = 4,
+        Party = 16,
+        GiantParty = 20,
     }
     public enum PVP_Cape
     {
@@ -207,7 +227,7 @@ namespace SilkroadInformationAPI
         Yellow = 5,
     }
 
-    public enum PartyRace
+    public enum CharacterRace
     {
         Chinese,
         Europe,

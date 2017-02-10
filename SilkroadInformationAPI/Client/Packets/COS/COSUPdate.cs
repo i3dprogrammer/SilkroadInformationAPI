@@ -7,8 +7,9 @@ using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Packets.COS
 {
-    class COSUpdate
+    public class COSUpdate
     {
+        public static event Action<Information.Objects.COS> OnCOSHGPUpdate;
         public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
@@ -24,7 +25,8 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 //}
             } else if(changeFlag == 0x04) //HGP Update??
             {
-                //PASS
+                //TODO: ADD HGP
+                OnCOSHGPUpdate?.Invoke(Client.NearbyCOSs[uid]);
             }
             else if(changeFlag == 0x05) //Name changed
             {
@@ -32,9 +34,6 @@ namespace SilkroadInformationAPI.Client.Packets.COS
                 if (Client.NearbyCOSs.ContainsKey(uid))
                 {
                     Client.NearbyCOSs[uid].COSName = newName;
-
-                    //if (Client.Info.CharacterCOS.ContainsKey(uid))
-                    //    Client.Info.CharacterCOS[uid].COSName = newName;
                 }
 
             }

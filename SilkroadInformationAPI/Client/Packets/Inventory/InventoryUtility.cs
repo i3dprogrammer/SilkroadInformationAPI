@@ -215,7 +215,7 @@ namespace SilkroadInformationAPI.Client.Packets.Inventory
             else if (!SpecificInventory.ContainsKey(newSlot) && count != SpecificInventory[oldSlot].Stack)
             {
                 SpecificInventory[oldSlot].Stack -= count;
-                Information.InventoryItem item = new Information.InventoryItem(SpecificInventory[oldSlot].ModelID);
+                Information.InventoryItem item = new Information.InventoryItem(SpecificInventory[oldSlot].ObjRefID);
                 item.Blues = SpecificInventory[oldSlot].Blues;
                 item.Stack = count;
                 item.Slot = newSlot;

@@ -25,7 +25,6 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         public Guilds.Guild Guild = new Guilds.Guild();
         public List<CharacterInfo.CharacterItem> Inventory = new List<CharacterInfo.CharacterItem>();
         public List<CharacterInfo.CharacterItem> AvatarInventory = new List<CharacterInfo.CharacterItem>();
-        public List<Spells.Skill> Buffs = new List<Spells.Skill>();
         public BasicInfo.Movement Movement = new BasicInfo.Movement();
         public BasicInfo.State State = new BasicInfo.State();
         public byte PVPEquipCooldown { get; set; }

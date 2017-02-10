@@ -120,6 +120,31 @@ namespace SilkroadInformationAPI.Client
                     Packets.Chat.ChatUpdated.Parse(p);
                 }
 
+                #region Spells
+                else if (p.Opcode == 0xB0A1)
+                {
+                    Packets.Spells.ClientSkillLearn.Parse(p);
+                }
+                else if(p.Opcode == 0xB202)
+                {
+                    Packets.Spells.ClientSkillWithdraw.Parse(p);
+                }
+                else if(p.Opcode == 0xB070)
+                {
+                    Packets.Spells.SpellUsed.Parse(p);
+                } else if(p.Opcode == 0xB072)
+                {
+                    Packets.Spells.BuffEnded.Parse(p);
+                } else if(p.Opcode == 0xB0BD)
+                {
+                    Packets.Spells.BuffStart.Parse(p);
+                }
+                else if(p.Opcode == 0xB074)
+                {
+                    Packets.Spells.ClientSkillChannel.Parse(p);
+                }
+                #endregion
+
                 #region PARTY
                 else if (p.Opcode == 0xB06C)
                 {

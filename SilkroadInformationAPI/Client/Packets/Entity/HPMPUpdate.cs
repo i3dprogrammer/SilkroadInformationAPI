@@ -110,7 +110,7 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                 switch (flag)
                 {
                     case 0x05: //HP
-                        Client.NearbyCOSs[uid].HP = p.ReadUInt32();
+                        Client.NearbyCOSs[uid].CurrentHP = p.ReadUInt32();
                         OnCOSHPUpdate?.Invoke(Client.NearbyCOSs[uid]);
                         break;
                     case 0x04: //Bad status update

@@ -8,7 +8,7 @@ namespace SilkroadInformationAPI.Media.DataInfo
 {
     public class Base
     {
-        public uint ModelID;
+        public uint ObjRefID;
         public string MediaName;
         public string TranslationName;
         public Types Classes;

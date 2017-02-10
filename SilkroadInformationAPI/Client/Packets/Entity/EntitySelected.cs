@@ -13,7 +13,13 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         {
             byte success = p.ReadUInt8();
             if (success == 1)
+            {
                 Client.SelectedUniqueID = p.ReadUInt32();
+                if (Client.NearbyMobs.ContainsKey(Client.SelectedUniqueID))
+                {
+                    Console.WriteLine(Client.SelectedUniqueID + " : "  + Client.NearbyMobs[Client.SelectedUniqueID].Rarity);
+                }
+            }
             Console.WriteLine("ENTITY SELECTED!");
         }
     }

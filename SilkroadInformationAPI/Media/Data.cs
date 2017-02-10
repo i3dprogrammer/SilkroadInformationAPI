@@ -12,6 +12,7 @@ namespace SilkroadInformationAPI.Media
         public static Dictionary<uint, DataInfo.Item> MediaItems = new Dictionary<uint, DataInfo.Item>();
         public static Dictionary<uint, DataInfo.Skill> MediaSkills = new Dictionary<uint, DataInfo.Skill>();
         public static List<DataInfo.Shops.Shop> MediaShops = new List<DataInfo.Shops.Shop>();
+        public static Dictionary<uint, DataInfo.Region> MediaRegions = new Dictionary<uint, DataInfo.Region>();
         public static Dictionary<string, List<DataInfo.Shops.ShopTab>> refshoptab = new Dictionary<string, List<DataInfo.Shops.ShopTab>>();
         public static Dictionary<string, List<DataInfo.Shops.ShopItemPackage>> refshopgoods = new Dictionary<string, List<DataInfo.Shops.ShopItemPackage>>();
         public static Dictionary<string, string> refscrapofpackageitem = new Dictionary<string, string>();

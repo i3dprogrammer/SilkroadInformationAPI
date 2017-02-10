@@ -9,7 +9,7 @@ namespace SilkroadInformationAPI.Client.Information.Party
     public class PartyMatchingEntry
     {
         public uint PartyNumber { get; set; }
-        private PartyRace Race { get; set; }
+        private CharacterRace Race { get; set; }
         public string MasterName { get; set; }
         public uint MasterUniqueID { get; set; }
         public string Title { get; set; }

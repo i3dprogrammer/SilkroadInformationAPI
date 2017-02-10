@@ -140,6 +140,8 @@ namespace SilkroadInformationAPI
                 Media.LoadData.LoadServerVersion();
                 Console.WriteLine("Loading zone names!");
                 Media.LoadData.LoadTextZoneNames();
+                Console.WriteLine("Loading region info.");
+                Media.LoadData.LoadRefRegion();
                 Console.WriteLine("Loading translation!");
                 Media.LoadData.LoadTranslation();
                 Console.WriteLine("Loading models!");
@@ -153,7 +155,6 @@ namespace SilkroadInformationAPI
                 Console.WriteLine("Loading blue options.");
                 Media.LoadData.LoadMagicOptions();
                 Console.WriteLine("Loading NPC's");
-                Media.LoadData.LoadRefShopGroup(); //Maps the Store Group Name to NPC Media Name
                 Media.LoadData.LoadRefMappingShopGroup(); //Maps the Store Group Name to Store Name
                 Console.WriteLine("Mapping package items to item data.");
                 Media.LoadData.LoadRefScrapOfPackageItem(); //Maps the shop package name to item media name
@@ -164,7 +165,8 @@ namespace SilkroadInformationAPI
                 Console.WriteLine("Mapping shop groups to stores.");
                 Media.LoadData.LoadRefMappingShopWithTab(); //Maps the store group to Store shop
                 Console.WriteLine("Loading shops.");
-                Media.LoadData.LoadRefShop(); //Loads the Store
+                //Media.LoadData.LoadRefShop(); //Loads the Store
+                Media.LoadData.LoadRefShopGroup(); //Maps the Store Group Name to NPC Media Name
                 Media.LoadData.LoadLevelData(); //Loads maximum exp
             }
 
@@ -321,7 +323,25 @@ namespace SilkroadInformationAPI
         {
             var p = new Packet(0x704C, true);
             p.WriteInt8(slot);
-            p.WriteInt16(0x08EC);
+            p.WriteInt16(Client.Actions.Utility.GenerateItemType(Client.Client.InventoryItems[slot].ObjRefID));
+            RemoteSecurity?.Send(p);
+        }
+
+        public static void UseItem(int slot, uint TargetUID)
+        {
+            var p = new Packet(0x704C, true);
+            p.WriteInt8(slot);
+            p.WriteInt16(Client.Actions.Utility.GenerateItemType(Client.Client.InventoryItems[slot].ObjRefID));
+            p.WriteUInt32(TargetUID);
+            RemoteSecurity?.Send(p);
+        }
+
+        public static void UseItem(int slot, byte OtherItemSlot)
+        {
+            var p = new Packet(0x704C, true);
+            p.WriteInt8(slot);
+            p.WriteInt16(Client.Actions.Utility.GenerateItemType(Client.Client.InventoryItems[slot].ObjRefID));
+            p.WriteUInt8(OtherItemSlot);
             RemoteSecurity?.Send(p);
         }
 
@@ -344,6 +364,21 @@ namespace SilkroadInformationAPI
             p.WriteUInt32(spellRefID);
             p.WriteUInt8(0x00);
             RemoteSecurity?.Send(p);
+        }
+
+        public static void AutoAttack(uint targetUID)
+        {
+            var p = new Packet(0x7074);
+            p.WriteUInt8(0x01);
+            p.WriteUInt8(0x01);
+            p.WriteUInt8(0x01);
+            p.WriteUInt32(targetUID);
+            RemoteSecurity?.Send(p);
+        }
+
+        public static void WalkTo(int X, int Y)
+        {
+            Client.Actions.Utility.WalkTo(X, Y);
         }
     }
 }

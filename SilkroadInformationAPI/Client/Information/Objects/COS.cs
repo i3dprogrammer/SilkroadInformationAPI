@@ -48,13 +48,20 @@ namespace SilkroadInformationAPI.Client.Information.Objects
         /// <summary>
         /// Current PET HP, this is not always available
         /// </summary>
-        public uint HP { get; set; }
+        public uint CurrentHP { get; set; }
 
         /// <summary>
         /// Whether or not the COS has bad status effect.
         /// </summary>
         public bool BadStatus { get; set; }
 
+        /// <summary>
+        /// COS Max Hp
+        /// </summary>
+        public uint MaxHP { get; set; }
+
+        public ushort MaxHGP { get; set; } = 10000;
+        public ushort CurrentHGP { get; set; }
 
         public Dictionary<int, InventoryItem> Inventory = new Dictionary<int, InventoryItem>();
 

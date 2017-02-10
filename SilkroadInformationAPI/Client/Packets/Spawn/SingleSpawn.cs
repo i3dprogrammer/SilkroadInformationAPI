@@ -117,13 +117,10 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
                     for (int i = 0; i < surrObject.State.BuffCount; i++)
                     {
                         uint ID = p.ReadUInt32(); //Skill ID
-                        uint Duration = p.ReadUInt32(); //Duration
-                        if (Media.Data.MediaSkills[ID].Params == "1701213281") 
-                            surrObject.State.Buffs.Add(new Information.Spells.Skill(ID, Duration, p.ReadUInt8())); //IsBuffCreator
-                        else
-                        {
-                            surrObject.State.Buffs.Add(new Information.Spells.Skill(ID, Duration, 0));
-                        }
+                        uint temp = p.ReadUInt32(); //Temp ID
+                        if (Media.Data.MediaSkills[ID].Params == "1701213281")
+                            p.ReadUInt8();
+                        surrObject.State.Buffs.Add(temp, new Information.Spells.Skill(ID, temp, (Media.Data.MediaSkills[ID].Params == "1701213281")));
                     }
 
                     if (obj.Classes.D == 1)
@@ -349,7 +346,7 @@ namespace SilkroadInformationAPI.Client.Packets.Spawn
             {
                 var character = new Information.Objects.Character();
                 character.AvatarInventory = obj.AvatarInventory;
-                character.Buffs = obj.Buffs;
+                character.State.Buffs = obj.State.Buffs;
                 character.Guild = obj.Guild;
                 character.Inventory = obj.Inventory;
                 character.JobLevel = obj.JobLevel;

@@ -35,7 +35,7 @@ namespace SilkroadInformationAPI.Client.Information
         public uint JobReward { get; set; }
         public byte PVPState { get; set; }
         public byte TransportFlag { get; set; }
-        public uint TransportUniqueID { get; set; }
+        public uint TransportUniqueID { get; set; } = 0;
         public byte InCombat { get; set; }
         public byte PVPFlag { get; set; }
         public ulong GuideFlag { get; set; }
@@ -45,6 +45,7 @@ namespace SilkroadInformationAPI.Client.Information
         public uint BadStatusID { get; set; }
         public bool ZerkOn { get; set; } = false;
         public FRPVPMode PVPCape { get; set; } = FRPVPMode.None;
+        public CharacterRace Race { get; set; }
         //public Dictionary<uint, Objects.COS> CharacterCOSe = new Dictionary<uint, Objects.COS>();
 
         //STATS

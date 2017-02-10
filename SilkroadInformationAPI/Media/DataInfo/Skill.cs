@@ -16,5 +16,14 @@ namespace SilkroadInformationAPI.Media.DataInfo
         public bool UseOnAlly;
         public bool UseOnSelf;
         public bool UseOnUnknown;
+        public bool RequireTarget;
+        public bool UseOnEnemy;
+        public SkillType Type;
+        public string Position;
+
+        public Skill()
+        {
+
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace SilkroadInformationAPI.Client.Information
 
             MediaName = mediaItem.MediaName;
             TranslationName = mediaItem.TranslationName;
-            ModelID = ID;
+            ObjRefID = ID;
             Type = mediaItem.Type;
             Classes = mediaItem.Classes;
             Degree = mediaItem.Degree;

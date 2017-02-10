@@ -66,7 +66,7 @@ namespace SilkroadInformationAPI.Media
                                         if (Used)
                                         {
                                             DataInfo.MediaModel newModel = new DataInfo.MediaModel();
-                                            newModel.ModelID = UInt32.Parse(vars[1]);
+                                            newModel.ObjRefID = UInt32.Parse(vars[1]);
                                             newModel.MediaName = vars[2];
                                             string SN = vars[5];
                                             if(Data.Translation.ContainsKey(SN))
@@ -78,7 +78,7 @@ namespace SilkroadInformationAPI.Media
                                             newModel.Classes.E = Int32.Parse(vars[11]);
                                             newModel.Classes.F = Int32.Parse(vars[12]);
                                             newModel.Type = Utility.GetModelType(newModel);
-                                            Data.MediaModels.Add(newModel.ModelID, newModel);
+                                            Data.MediaModels.Add(newModel.ObjRefID, newModel);
                                         }
                                     }
                                     catch (Exception) {
@@ -136,7 +136,7 @@ namespace SilkroadInformationAPI.Media
                                         {
                                             var newItem = new DataInfo.Item();
                                             var newModel = new DataInfo.MediaModel();
-                                            newItem.ModelID = newModel.ModelID = UInt32.Parse(vars[1]);
+                                            newItem.ObjRefID = newModel.ObjRefID = UInt32.Parse(vars[1]);
                                             newItem.MediaName = newModel.MediaName = vars[2];
                                             string SN = vars[5];
                                             if (Data.Translation.ContainsKey(SN))
@@ -159,8 +159,13 @@ namespace SilkroadInformationAPI.Media
                                                 byte.Parse(vars[61]);
                                             newItem.Duration = Int32.Parse(vars[118]);
                                             newItem.SOX = (Int32.Parse(vars[15]) == 2);
-                                            Data.MediaItems.Add(newItem.ModelID, newItem);
-                                            Data.MediaModels.Add(newModel.ModelID, newModel);
+                                            if (newItem.Type == ItemType.RidePet) 
+                                            {
+                                                if (Int32.Parse(vars[61]) == 5)
+                                                    newItem.Type = ItemType.TradeRidePet;
+                                            }
+                                            Data.MediaItems.Add(newItem.ObjRefID, newItem);
+                                            Data.MediaModels.Add(newModel.ObjRefID, newModel);
                                         }
                                     }
                                     catch (Exception)
@@ -217,25 +222,33 @@ namespace SilkroadInformationAPI.Media
                                         bool Used = (vars[0] == "1") ? true : false;
                                         if (Used)
                                         {
-                                            var newModel = new DataInfo.Skill();
-                                            newModel.ModelID = UInt32.Parse(vars[1]);
-                                            newModel.MediaName = vars[3];
+                                            var skill = new DataInfo.Skill();
+                                            skill.ObjRefID = UInt32.Parse(vars[1]);
+                                            skill.MediaName = vars[3];
                                             string SN = vars[62];
                                             if (Data.Translation.ContainsKey(SN))
-                                                newModel.TranslationName = Data.Translation[SN];
+                                                skill.TranslationName = Data.Translation[SN];
                                             SN = vars[64];
                                             if (Data.Translation.ContainsKey(SN))
-                                                newModel.Description = Data.Translation[SN];
-                                            newModel.Params = vars[69];
+                                                skill.Description = Data.Translation[SN];
+                                            skill.Params = vars[69];
+                                            skill.Cooldown = Int32.Parse(vars[14]) / 1000;
+                                            skill.Type = (SkillType)(Int32.Parse(vars[8]));
+                                            skill.RequireTarget = (Int32.Parse(vars[22]) == 1);
 
-                                            newModel.UseOnSelf = (Int32.Parse(vars[26]) == 1);
-                                            newModel.UseOnAlly = (Int32.Parse(vars[27]) == 1);
-                                            newModel.UseOnUnknown = (Int32.Parse(vars[28]) == 1);
+                                            skill.UseOnSelf = (Int32.Parse(vars[26]) == 1);
+                                            skill.UseOnAlly = (Int32.Parse(vars[27]) == 1);
+                                            skill.UseOnUnknown = (Int32.Parse(vars[28]) == 1);
 
-                                            if(newModel.UseOnSelf == true && newModel.UseOnAlly == false)
-                                                Console.WriteLine(newModel.MediaName);
+                                            //if(!skill.UseOnSelf && skill.UseOnAlly && skill.UseOnUnknown)
+                                            //    Console.WriteLine(skill.MediaName + "\t" + skill.TranslationName);
+                                            if (skill.Type == SkillType.Unk && !skill.RequireTarget && vars[34] == "518")
+                                                Console.WriteLine(skill.MediaName + "\t" + skill.TranslationName + "\t" + skill.Type.ToString());
 
-                                            Data.MediaSkills.Add(newModel.ModelID, newModel);
+
+                                            skill.Position = vars[34] + " " + vars[57] + " " + vars[58] + " " + vars[59] + " " + vars[60]; //vars[2] + vars[34] should be enough, but w/e.
+
+                                            Data.MediaSkills.Add(skill.ObjRefID, skill);
                                         }
                                     }
                                     catch (Exception ex)
@@ -283,7 +296,7 @@ namespace SilkroadInformationAPI.Media
                                 if (Used)
                                 {
                                     DataInfo.MediaModel newModel = new DataInfo.MediaModel();
-                                    newModel.ModelID = UInt32.Parse(vars[1]);
+                                    newModel.ObjRefID = UInt32.Parse(vars[1]);
                                     newModel.MediaName = vars[2];
                                     string SN = vars[5];
                                     if (Data.Translation.ContainsKey(SN))
@@ -295,7 +308,7 @@ namespace SilkroadInformationAPI.Media
                                     newModel.Classes.E = Int32.Parse(vars[11]);
                                     newModel.Classes.F = Int32.Parse(vars[12]);
                                     newModel.Type = Utility.GetModelType(newModel);
-                                    Data.MediaModels.Add(newModel.ModelID, newModel);
+                                    Data.MediaModels.Add(newModel.ObjRefID, newModel);
                                 }
                             }
                             catch (Exception)
@@ -566,6 +579,51 @@ namespace SilkroadInformationAPI.Media
                 throw new Exception("Error loading text zone names." + ex.Message);
             }
         }
+        public static void LoadRefRegion()
+        {
+            try
+            {
+                using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refregion.txt")))
+                {
+                    string line = streamReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (line == "" || line.Contains('\t') == false)
+                        {
+                            line = streamReader.ReadLine();
+                            continue;
+                        }
+
+                        string[] vars = line.Split('\t');
+                        if (vars.Length >= 6)
+                        {
+                            try
+                            {
+                                ushort rID = ushort.Parse(vars[0]);
+                                string rMediaName = vars[3];
+                                string rTranslation = "DEPTH OF HELL";
+                                if (Data.TextZoneName.ContainsKey(rID))
+                                    rTranslation = Data.TextZoneName[rID];
+                                bool safeZone = (byte.Parse(vars[5]) == 0);
+                                Data.MediaRegions.Add(rID, new DataInfo.Region() { RegionID = rID, RegionMediaName = rMediaName, RegionTranslationName = rTranslation, SafeZone = safeZone });
+
+                            }
+                            catch (Exception)
+                            {
+                                //Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        line = streamReader.ReadLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading NPC Shops." + ex.Message);
+            }
+        }
 
         public static void LoadRefShop()
         {
@@ -594,15 +652,16 @@ namespace SilkroadInformationAPI.Media
                                     int ID = Int32.Parse(vars[2]);
                                     string StoreName = vars[3];
                                     var shop = new DataInfo.Shops.Shop(StoreName);
-                                    shop.ShopGroups.AddRange(Data.refmappingshopwithtab[StoreName]);
+                                    
+
                                     shop.StoreGroupName = Data.refmappingshopgroup[StoreName];
                                     shop.NPCName = Data.refshopgroup[shop.StoreGroupName];
-                                    Data.MediaShops.Add(shop);
+                                    
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                //Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message + ex.StackTrace);
                             }
                         }
 
@@ -650,9 +709,9 @@ namespace SilkroadInformationAPI.Media
                                         Data.refmappingshopwithtab[StoreName].Add(shopgroup);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                //Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message + ex.StackTrace);
                             }
                         }
 
@@ -701,9 +760,9 @@ namespace SilkroadInformationAPI.Media
                                         Data.refshoptab[GroupName].Add(shoptab);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                //Console.WriteLine(ex.Message);
+                                //Console.WriteLine(ex.Message + ex.StackTrace);
                             }
                         }
 
@@ -820,7 +879,6 @@ namespace SilkroadInformationAPI.Media
                 using (System.IO.TextReader streamReader = new System.IO.StringReader(reader.GetFileText("refshopgroup.txt")))
                 {
                     string line = streamReader.ReadLine();
-
                     while (line != null)
                     {
                         if (line == "" || line.Contains('\t') == false)
@@ -833,19 +891,30 @@ namespace SilkroadInformationAPI.Media
 
                         if (vars.Length >= 5)
                         {
+                            string StoreName = "";
+                            string GroupName = "";
                             try
                             {
                                 bool Used = (vars[0] == "1") ? true : false;
                                 if (Used)
                                 {
-                                    string GroupName = vars[3];
+                                    GroupName = vars[3];
                                     string NPCName = vars[4];
-                                    Data.refshopgroup.Add(GroupName, NPCName);
+                                    StoreName = Data.refmappingshopgroup[GroupName];
+                                    var shop = new DataInfo.Shops.Shop(StoreName);
+                                    shop.StoreGroupName = GroupName;
+                                    shop.NPCName = NPCName;
+                                    shop.ShopGroups.AddRange(Data.refmappingshopwithtab[StoreName]);
+                                    Data.MediaShops.Add(shop);
+                                    //Data.refshopgroup.Add(NPCName, GroupName);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                //Console.WriteLine(ex.Message);
+                                //Console.WriteLine("#########");
+                                //Console.WriteLine(StoreName);
+                                //Console.WriteLine(GroupName);
+                                //Console.WriteLine("#########");
                             }
                         }
 
@@ -854,6 +923,7 @@ namespace SilkroadInformationAPI.Media
                 }
             }
             catch (Exception ex)
+
             {
                 throw new Exception("Error mapping package items to items." + ex.Message);
             }
@@ -884,11 +954,11 @@ namespace SilkroadInformationAPI.Media
                                 {
                                     string GroupName = vars[2];
                                     string StoreName = vars[3];
-                                    Data.refmappingshopgroup.Add(StoreName, GroupName);
+                                    Data.refmappingshopgroup.Add(GroupName, StoreName);
                                     //Console.WriteLine(PackageName + " : " + ItemName + " : " + Data.refscrapofpackageitem.Count);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 //Console.WriteLine(ex.Message);
                             }

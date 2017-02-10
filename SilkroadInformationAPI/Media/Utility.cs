@@ -76,11 +76,13 @@ namespace SilkroadInformationAPI.Media
                 type = ItemType.PickupPet;
             else if (seq == "0 3 2 1 1")
                 type = ItemType.AttackPet;
+            else if (seq == "0 3 3 3 2") //This could be Trade or normal pet.
+                type = ItemType.RidePet;
             else if (seq.StartsWith("0 3 2 2"))
                 type = ItemType.MonsterMask;
             else if (seq.StartsWith("0 3 2 3"))
                 type = ItemType.MagicCube;
-            else if (seq == "0 3 3 14") //Not sure whether to add another class? {1, 2}
+            else if (seq.StartsWith("0 3 3 14")) //Not sure whether to add another class? {1, 2}
                 type = ItemType.ItemExchangeCoupon;
             else if (seq.StartsWith("0 3 3 11"))
                 type = ItemType.Stones;
@@ -90,12 +92,20 @@ namespace SilkroadInformationAPI.Media
                 type = ItemType.MpPotion;
             else if (seq == "0 3 3 1 3")
                 type = ItemType.VigorPotion;
+            else if (seq == "0 3 3 1 4")
+                type = ItemType.PetRecoveryKit;
+            else if (seq == "0 3 3 1 6")
+                type = ItemType.PetRevival;
+            else if (seq == "0 3 3 1 9")
+                type = ItemType.PetHGP;
             else if (seq == "0 3 3 4 1")
                 type = ItemType.Arrows;
             else if (seq == "0 3 3 4 2")
                 type = ItemType.Bolts;
             else if (seq == "0 3 3 2 6")
                 type = ItemType.UniversalPills;
+            else if (seq == "0 3 3 2 7")
+                type = ItemType.PetASRP;
             else if (seq == "0 3 3 2 1")
                 type = ItemType.PurificationPills;
             else if (seq == "0 3 3 3 1" && item.MediaName.Contains("THIEF") == false)

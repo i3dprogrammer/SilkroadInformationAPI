@@ -16,6 +16,6 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
         public float HwanSpeed;
         public byte BuffCount;
 
-        public List<Spells.Skill> Buffs = new List<Spells.Skill>();
+        public Dictionary<uint, Spells.Skill> Buffs = new Dictionary<uint, Spells.Skill>();
     }
 }

@@ -147,6 +147,12 @@
     <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />
     <Compile Include="Client\Packets\Spawn\SingleSpawn.cs" />
     <Compile Include="Client\Actions\Utility.cs" />
+    <Compile Include="Client\Packets\Spells\BuffEnded.cs" />
+    <Compile Include="Client\Packets\Spells\BuffStart.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillLearn.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillWithdraw.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillChannel.cs" />
+    <Compile Include="Client\Packets\Spells\SpellUsed.cs" />
     <Compile Include="Client\Packets\Stall\Action.cs" />
     <Compile Include="Client\Packets\Stall\Closed.cs" />
     <Compile Include="Client\Packets\Stall\Created.cs" />
@@ -159,8 +165,10 @@
     <Compile Include="Debug\DebugPacket.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Media\DataInfo\Division.cs" />
+    <Compile Include="Media\DataInfo\Region.cs" />
     <Compile Include="Media\DataInfo\ServerInfo.cs" />
     <Compile Include="Plugins\IPluginInterface.cs" />
+    <Compile Include="Plugins\Signal.cs" />
     <Compile Include="SroClient.cs" />
     <Compile Include="Media\Data.cs" />
     <Compile Include="Media\DataInfo\Shops\Shop.cs" />

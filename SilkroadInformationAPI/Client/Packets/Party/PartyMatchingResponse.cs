@@ -31,7 +31,7 @@ namespace SilkroadInformationAPI.Client.Packets.Party
                     uint number = p.ReadUInt32();
                     uint uid = p.ReadUInt32();
                     string MasterName = p.ReadAscii();
-                    var Race = (PartyRace)p.ReadUInt8();
+                    var Race = (CharacterRace)p.ReadUInt8();
                     byte CurrMembers = p.ReadUInt8();
                     var Type = (PartyType)p.ReadUInt8();
                     var Purpose = (PartyObjective)p.ReadUInt8();

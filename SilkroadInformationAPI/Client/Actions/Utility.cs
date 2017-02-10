@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SilkroadSecurityApi;
 
 namespace SilkroadInformationAPI.Client.Actions
 {
-    class Utility
+    public class Utility
     {
         public static Dictionary<string, int> CalculateWhiteStats(ulong variance, ItemType type) //By stratii
         {
@@ -63,6 +64,89 @@ namespace SilkroadInformationAPI.Client.Actions
             return whiteStats;
 
         }
-       
+        public static void WalkTo(int X, int Y)
+        {
+            uint xPos = 0;
+            uint yPos = 0;
+
+            if (X > 0 && Y > 0)
+            {
+                xPos = (uint)((X % 192) * 10);
+                yPos = (uint)((Y % 192) * 10);
+            }
+            else
+            {
+                if (X < 0 && Y > 0)
+                {
+                    xPos = (uint)((192 + (X % 192)) * 10);
+                    yPos = (uint)((Y % 192) * 10);
+                }
+                else
+                {
+                    if (X > 0 && Y < 0)
+                    {
+                        xPos = (uint)((X % 192) * 10);
+                        yPos = (uint)((192 + (Y % 192)) * 10);
+                    }
+                }
+            }
+
+            byte xSector = (byte)((X - (int)(xPos / 10)) / 192 + 135);
+            byte ySector = (byte)((Y - (int)(yPos / 10)) / 192 + 92);
+            ushort xPosition = (ushort)((X - (int)((xSector - 135) * 192)) * 10);
+            ushort yPosition = (ushort)((Y - (int)((ySector - 92) * 192)) * 10);
+
+            var p = new Packet(0x0);
+
+            if(Client.Info.TransportUniqueID == 0)
+            {
+                p = new Packet(0x7021);
+            } else
+            {
+                p = new Packet(0x70C5);
+                p.WriteUInt32(Client.Info.TransportUniqueID);
+                p.WriteUInt8(0x01);
+            }
+            p.WriteUInt8(0x01);
+            p.WriteUInt8(xSector);
+            p.WriteUInt8(ySector);
+            p.WriteUInt16(xPosition);
+            p.WriteUInt16(0x0000);
+            p.WriteUInt16(yPosition);
+            SroClient.RemoteSecurity?.Send(p);
+        }
+
+        public static void UseReturn()
+        {
+            if (Client.ClientReturning == false)
+            {
+                if (UseItemType(ItemType.ReturnScroll))
+                    Client.ClientReturning = true;
+                else
+                    Console.WriteLine("No return scroll is found!");
+            } else
+            {
+                Console.WriteLine("Client is already returning!");
+            }
+        }
+
+        public static bool UseItemType(ItemType type)
+        {
+            if (Client.InventoryItems.Where(x => x.Value.Type == type).Count() > 0)
+            {
+                SroClient.UseItem(Client.InventoryItems.First(x => x.Value.Type == type).Key);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static ushort GenerateItemType(uint itemID)
+        {
+            var item = Media.Data.MediaItems[itemID];
+            return (ushort)(1 * item.Classes.A + 2 * item.Classes.B + 4 * item.Classes.C + 32 * item.Classes.D + 128 * item.Classes.E + 2048 * item.Classes.F);
+        }
     }
 }
