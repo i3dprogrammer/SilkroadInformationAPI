@@ -118,11 +118,9 @@ namespace SilkroadInformationAPI.Client.Actions
 
         public static void UseReturn()
         {
-            if (Client.ClientReturning == false)
+            if (Client.State.Returning == false)
             {
-                if (UseItemType(ItemType.ReturnScroll))
-                    Client.ClientReturning = true;
-                else
+                if (!UseItemType(ItemType.ReturnScroll))
                     Console.WriteLine("No return scroll is found!");
             } else
             {
@@ -142,6 +140,56 @@ namespace SilkroadInformationAPI.Client.Actions
                 return false;
             }
         }
+
+        public static bool UseItemType(ItemType type, byte otherItemSlot)
+        {
+            if (Client.InventoryItems.Where(x => x.Value.Type == type).Count() > 0)
+            {
+                SroClient.UseItem(Client.InventoryItems.First(x => x.Value.Type == type).Key, otherItemSlot);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool UseItemType(ItemType type, uint targetUID)
+        {
+            if (Client.InventoryItems.Where(x => x.Value.Type == type).Count() > 0)
+            {
+                SroClient.UseItem(Client.InventoryItems.First(x => x.Value.Type == type).Key, targetUID);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public static bool UseSkillName(string name)
+        {
+            if (Client.Skills.Where(x => x.TranslationName == name).Count() > 0)
+            {
+                SroClient.UseSpell(Client.Skills.Single(x => x.TranslationName == name).ObjRefID);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static bool UseSkillName(string name, uint target)
+        {
+            if (Client.Skills.Where(x => x.TranslationName == name).Count() > 0)
+            {
+                SroClient.UseSpell(Client.Skills.Single(x => x.TranslationName == name).ObjRefID, target);
+                return true;
+            }
+            else
+                return false;
+        }
+
 
         public static ushort GenerateItemType(uint itemID)
         {

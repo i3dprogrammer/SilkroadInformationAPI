@@ -15,6 +15,7 @@ namespace SilkroadInformationAPI.Client.Information.BasicInfo
         public float RunSpeed;
         public float HwanSpeed;
         public byte BuffCount;
+        public bool Returning = false;
 
         public Dictionary<uint, Spells.Skill> Buffs = new Dictionary<uint, Spells.Skill>();
     }

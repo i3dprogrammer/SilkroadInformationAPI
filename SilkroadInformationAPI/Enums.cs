@@ -231,6 +231,7 @@ namespace SilkroadInformationAPI
     {
         Chinese,
         Europe,
+        None,
     }
 
     public enum PartyObjective

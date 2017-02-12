@@ -16,6 +16,8 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
         public static event Action OnClientMotionStateChange;
         public static event Action<uint> OnCharacterStatusChange;
         public static event Action OnClientStatusChange;
+        public static event Action<uint> OnCharacterReturnStateChange;
+        public static event Action OnClientReturnStateChange;
         public static void Parse(Packet p)
         {
             uint uid = p.ReadUInt32();
@@ -57,6 +59,18 @@ namespace SilkroadInformationAPI.Client.Packets.Entity
                 {
                     Client.State.Status = (CharStatus)p.ReadUInt8();
                     OnClientStatusChange?.Invoke();
+                }
+            } else if(flag1 == 0x0B)
+            {
+                bool returning = (p.ReadUInt8() == 1);
+                if(Client.Info.UniqueID == uid)
+                {
+                    Client.State.Returning = returning;
+                    OnClientReturnStateChange?.Invoke();
+                } else if(Client.NearbyCharacters.ContainsKey(uid))
+                {
+                    Client.NearbyCharacters[uid].State.Returning = returning;
+                    OnCharacterReturnStateChange?.Invoke(uid);
                 }
             }
         }

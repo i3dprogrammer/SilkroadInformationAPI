@@ -29,16 +29,20 @@ namespace SilkroadInformationAPI.Client.Packets.Character
             CharacterDataPacket.Lock();
             Parse(CharacterDataPacket);
             OnCharacterTeleport?.Invoke();
-            Client.ClientReturning = false;
+            Client.State.Returning = false;
         }
 
         private static void Parse(Packet p)
         {
             Client.InventoryItems.Clear();
+            Client.StorageItems.Clear();
             Client.Skills.Clear();
             Client.State.Buffs.Clear();
             Client.Masteries.Clear();
             Client.Quests.Clear();
+            Client.State = new Information.BasicInfo.State();
+            Client.Position = new Information.BasicInfo.Position();
+            Client.Movement = new Information.BasicInfo.Movement();
 
             Client.Info.RegionID = p.ReadInt32(); //Region ID
             Client.Info.ModelID = p.ReadInt32(); //Model ID

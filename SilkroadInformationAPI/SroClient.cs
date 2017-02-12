@@ -345,8 +345,11 @@ namespace SilkroadInformationAPI
             RemoteSecurity?.Send(p);
         }
 
-        public static void UseSpellOnTarget(uint spellRefID, uint targetUID)
+        public static void UseSpell(uint spellRefID, uint targetUID)
         {
+            if (!Media.Data.MediaSkills[spellRefID].RequireTarget)
+                throw new Exception("WTF?");
+
             var p = new Packet(0x7074);
             p.WriteUInt8(0x01);
             p.WriteUInt8(0x04);
@@ -358,11 +361,16 @@ namespace SilkroadInformationAPI
 
         public static void UseSpell(uint spellRefID)
         {
+            if (!Media.Data.MediaSkills[spellRefID].UseOnSelf && Media.Data.MediaSkills[spellRefID].RequireTarget)
+                throw new Exception("WTF??");
             var p = new Packet(0x7074);
             p.WriteUInt8(0x01);
             p.WriteUInt8(0x04);
             p.WriteUInt32(spellRefID);
             p.WriteUInt8(0x00);
+
+            if (Media.Data.MediaSkills[spellRefID].UseOnSelf && Media.Data.MediaSkills[spellRefID].RequireTarget)
+                p.WriteUInt32(Client.Client.Info.UniqueID);
             RemoteSecurity?.Send(p);
         }
 

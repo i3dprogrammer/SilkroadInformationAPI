@@ -137,7 +137,7 @@ namespace SilkroadInformationAPI.Client
                     Packets.Spells.BuffEnded.Parse(p);
                 } else if(p.Opcode == 0xB0BD)
                 {
-                    Packets.Spells.BuffStart.Parse(p);
+                    Packets.Spells.BuffStarted.Parse(p);
                 }
                 else if(p.Opcode == 0xB074)
                 {

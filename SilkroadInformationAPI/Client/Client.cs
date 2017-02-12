@@ -39,7 +39,6 @@ namespace SilkroadInformationAPI.Client
         public static Information.Stalls.Stall CurrentStall = new Information.Stalls.Stall();
         public static bool CharacterInStall = false;
         public static uint SelectedUniqueID;
-        public static bool ClientReturning = false;
 
         public static void RefreshClient()
         {
