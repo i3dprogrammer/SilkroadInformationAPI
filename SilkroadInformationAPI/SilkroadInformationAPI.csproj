@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B70A0FAF-D077-493E-907A-592B44A040C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SilkroadInformationAPI</RootNamespace>
+    <AssemblyName>SilkroadInformationAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PK2Reader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Programming\Character\Parse items\AutoBot\UPTODATE AutoBot\AutoBot\AutoBot\bin\Debug\PK2Reader.dll</HintPath>
+    </Reference>
+    <Reference Include="SilkroadSecurityApi">
+      <HintPath>..\..\..\..\Visual Studio 2015\Projects\MultipleClients\MultipleClients\bin\Debug\SilkroadSecurityApi.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client\Actions\CaptchaImage.cs" />
+    <Compile Include="Client\Actions\Mapping.cs" />
+    <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\Dispatcher.cs" />
+    <Compile Include="Client\Information\Chat\ChatMessage.cs" />
+    <Compile Include="Client\Information\Gateway\Shard.cs" />
+    <Compile Include="Client\Information\Objects\Base.cs" />
+    <Compile Include="Client\Information\Objects\Character.cs" />
+    <Compile Include="Client\Information\Party\PartyMatchingEntry.cs" />
+    <Compile Include="Client\Information\Party\Party.cs" />
+    <Compile Include="Client\Information\Stalls\Stall.cs" />
+    <Compile Include="Client\Information\Objects\COS.cs" />
+    <Compile Include="Client\Information\Objects\BuffArea.cs" />
+    <Compile Include="Client\Information\Objects\Item.cs" />
+    <Compile Include="Client\Information\Objects\Mob.cs" />
+    <Compile Include="Client\Information\Objects\Object.cs" />
+    <Compile Include="Client\Information\BasicInfo\State.cs" />
+    <Compile Include="Client\Information\Info.cs" />
+    <Compile Include="Client\Information\BasicInfo\Movement.cs" />
+    <Compile Include="Client\Information\BasicInfo\Position.cs" />
+    <Compile Include="Client\Information\InventoryItem.cs" />
+    <Compile Include="Client\Information\Spells\Mastery.cs" />
+    <Compile Include="Client\Information\Guilds\Guild.cs" />
+    <Compile Include="Client\Information\Objects\CharacterInfo\CharacterItem.cs" />
+    <Compile Include="Client\Information\Objects\Structure.cs" />
+    <Compile Include="Client\Information\Quests\Objective.cs" />
+    <Compile Include="Client\Information\Quests\Quest.cs" />
+    <Compile Include="Client\Information\Spells\Skill.cs" />
+    <Compile Include="Client\Loader\Loader.cs" />
+    <Compile Include="Client\Network\ClientlessConnection.cs" />
+    <Compile Include="Client\Network\ProxyClient.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterJoinRequest.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterJoinResponse.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterListRequest.cs" />
+    <Compile Include="Client\Packets\CharacterSelection\CharacterListResponse.cs" />
+    <Compile Include="Client\Packets\Character\ExpSpUpdate.cs" />
+    <Compile Include="Client\Packets\Character\LogOut.cs" />
+    <Compile Include="Client\Packets\Character\StatsUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\CelestialPosition.cs" />
+    <Compile Include="Client\Packets\Entity\HPMPUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\LevelUpAnimation.cs" />
+    <Compile Include="Client\Packets\Entity\PVPUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\EntitySelected.cs" />
+    <Compile Include="Client\Packets\Entity\SpeedUpdate.cs" />
+    <Compile Include="Client\Packets\Entity\StateChange.cs" />
+    <Compile Include="Client\Packets\Alchemy\AlchemyUtility.cs" />
+    <Compile Include="Client\Packets\Alchemy\EnchantResult.cs" />
+    <Compile Include="Client\Packets\Alchemy\FuseResultEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\BattleArenaResponseEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\BattleArenaResultEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\BattleArenaScoreEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\BattleArenaStateEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\BattleArenaTimeEventArgs.cs" />
+    <Compile Include="Client\Packets\BattleArena\Operation.cs" />
+    <Compile Include="Client\Packets\Character\CharacterData.cs" />
+    <Compile Include="Client\Packets\Character\InfoUpdate.cs" />
+    <Compile Include="Client\Packets\Chat\ChatUpdated.cs" />
+    <Compile Include="Client\Packets\COS\COSData.cs" />
+    <Compile Include="Client\Packets\COS\COSUpdate.cs" />
+    <Compile Include="Client\Packets\COS\RideState.cs" />
+    <Compile Include="Client\Packets\Game\Invite.cs" />
+    <Compile Include="Client\Packets\Gateway\AgentAuthRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\AgentAuthResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaCodeResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaReceived.cs" />
+    <Compile Include="Client\Packets\Gateway\CaptchaCodeRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\LoginRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\LoginResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\PatchRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\PatchResponse.cs" />
+    <Compile Include="Client\Packets\Gateway\ShardRequest.cs" />
+    <Compile Include="Client\Packets\Gateway\ShardResponse.cs" />
+    <Compile Include="Client\Packets\Global\ModuleIdentification.cs" />
+    <Compile Include="Client\Packets\Inventory\InventoryOperation.cs" />
+    <Compile Include="Client\Packets\Inventory\InventoryOperationEventArgs.cs" />
+    <Compile Include="Client\Packets\Inventory\InventoryUtility.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdated.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemy.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdatedDueAlchemyEventArgs.cs" />
+    <Compile Include="Client\Packets\Inventory\ItemCountUpdatedEventArgs.cs" />
+    <Compile Include="Client\Packets\Entity\ItemEquip.cs" />
+    <Compile Include="Client\Packets\Entity\ItemUnequip.cs" />
+    <Compile Include="Client\Packets\Inventory\StorageInfoResponse.cs" />
+    <Compile Include="Client\Packets\Entity\PositionUpdate.cs" />
+    <Compile Include="Client\Packets\Inventory\UpdateItemDurability.cs" />
+    <Compile Include="Client\Packets\Party\EnteredParty.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingRequestJoin.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingResponse.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingEntryDeleted.cs" />
+    <Compile Include="Client\Packets\Party\PartyMatchingEntryFormed.cs" />
+    <Compile Include="Client\Packets\Party\PartyUpdate.cs" />
+    <Compile Include="Client\Packets\Party\PartyUtility.cs" />
+    <Compile Include="Client\Packets\Quest\Update.cs" />
+    <Compile Include="Client\Packets\Spawn\DEBUGSingleSpawn.cs" />
+    <Compile Include="Client\Packets\Spawn\Despawn.cs" />
+    <Compile Include="Client\Packets\Spawn\GroupSpawn.cs" />
+    <Compile Include="Client\Packets\Spawn\SingleSpawn.cs" />
+    <Compile Include="Client\Actions\Utility.cs" />
+    <Compile Include="Client\Packets\Spells\BuffEnded.cs" />
+    <Compile Include="Client\Packets\Spells\BuffStart.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillLearn.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillWithdraw.cs" />
+    <Compile Include="Client\Packets\Spells\ClientSkillChannel.cs" />
+    <Compile Include="Client\Packets\Spells\SpellUsed.cs" />
+    <Compile Include="Client\Packets\Stall\Action.cs" />
+    <Compile Include="Client\Packets\Stall\Closed.cs" />
+    <Compile Include="Client\Packets\Stall\Created.cs" />
+    <Compile Include="Client\Packets\Stall\Entered.cs" />
+    <Compile Include="Client\Packets\Stall\Leave.cs" />
+    <Compile Include="Client\Packets\Stall\NameUpdated.cs" />
+    <Compile Include="Client\Packets\Stall\Updated.cs" />
+    <Compile Include="Client\Packets\Stall\StallUtility.cs" />
+    <Compile Include="Client\Packets\Utility.cs" />
+    <Compile Include="Debug\DebugPacket.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Media\DataInfo\Division.cs" />
+    <Compile Include="Media\DataInfo\Region.cs" />
+    <Compile Include="Media\DataInfo\ServerInfo.cs" />
+    <Compile Include="Plugins\IPluginInterface.cs" />
+    <Compile Include="Plugins\Signal.cs" />
+    <Compile Include="SroClient.cs" />
+    <Compile Include="Media\Data.cs" />
+    <Compile Include="Media\DataInfo\Shops\Shop.cs" />
+    <Compile Include="Media\DataInfo\Shops\ShopGroup.cs" />
+    <Compile Include="Media\DataInfo\Shops\ShopItemPackage.cs" />
+    <Compile Include="Media\DataInfo\Shops\ShopTab.cs" />
+    <Compile Include="Media\DataInfo\Skill.cs" />
+    <Compile Include="Media\LoadData.cs" />
+    <Compile Include="Media\DataInfo\Base.cs" />
+    <Compile Include="Media\DataInfo\Item.cs" />
+    <Compile Include="Media\DataInfo\MediaModel.cs" />
+    <Compile Include="Media\Utility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
